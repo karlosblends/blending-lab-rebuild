@@ -1,5 +1,18 @@
 const img = (name) => `/public/assets/images/${name}`;
 const vid = (name) => `/public/assets/videos/${name}`;
+const projectSrcsets = {
+  "Xcelerate-Auto-Cover.jpg":
+    "Xcelerate-Auto-Cover-p-800.jpg 800w, Xcelerate-Auto-Cover-p-1600.jpg 1600w, Xcelerate-Auto-Cover-p-2600.jpg 2600w, Xcelerate-Auto-Cover-p-3200.jpg 3200w",
+  "Project-Showcase-1.png":
+    "Project-Showcase-1-p-800.png 800w, Project-Showcase-1-p-1600.png 1600w, Project-Showcase-1-p-2600.png 2600w",
+  "Project-Showcase-2.png":
+    "Project-Showcase-2-p-800.png 800w, Project-Showcase-2-p-1600.png 1600w, Project-Showcase-2-p-2600.png 2600w",
+  "Project-Showcase-3.png":
+    "Project-Showcase-3-p-800.png 800w, Project-Showcase-3-p-1600.png 1600w, Project-Showcase-3-p-2600.png 2600w",
+  "Project-Showcase-4.png":
+    "Project-Showcase-4-p-800.png 800w, Project-Showcase-4-p-1600.png 1600w, Project-Showcase-4-p-2600.png 2600w",
+};
+const imgSrcset = (name) => (projectSrcsets[name] ? projectSrcsets[name].split(", ").map((entry) => `${img(entry.split(" ")[0])} ${entry.split(" ")[1]}`).join(", ") : "");
 const meta = {
   "index.html": {
     title: "Product Design Partner for Fast-Moving SaaS Teams | Blending Lab",
@@ -84,9 +97,7 @@ const projects = [
     href: "xcelerate-auto-admin-portal.html",
     description:
       "Designed an internal claims management platform for XCelerate Auto that helps admin teams manage EV warranty claims, communication, approvals, and operational workflows more efficiently.",
-    video: "admin-tool-video_mp4.mp4",
-    poster: "admin-tool-video_poster.0000000.jpg",
-    fallback: "Project-Showcase-1.png",
+    image: "Project-Showcase-1.png",
   },
   {
     title: "XCelerate Auto",
@@ -169,11 +180,13 @@ function upsertMeta(name, content, key = "name") {
 }
 
 function nav(active) {
+  const pricingHref = active === "index.html" ? "#work-ways" : "index.html#work-ways";
   const links = [
     ["projects.html", "Projects"],
-    ["#", "Pricing"],
+    [pricingHref, "Pricing"],
     ["design.html", "Design"],
   ];
+  const mobileLinks = [...links, ["contact.html", "Contact"]];
   return `
     <nav class="nav" data-nav>
       <div class="nav__bar">
@@ -188,7 +201,12 @@ function nav(active) {
           <a class="nav__link ${active === "design.html" ? "active" : ""}" href="design.html">Design</a>
           <a class="button" href="contact.html">Contact</a>
         </div>
-        <button class="nav__toggle" type="button" aria-label="Open menu" data-nav-toggle><span></span></button>
+        <button class="nav__toggle" type="button" aria-label="Open menu" aria-expanded="false" data-nav-toggle><span></span></button>
+        <div class="nav__mobile-menu">
+          ${mobileLinks
+            .map(([href, label]) => `<a class="nav__link ${active === href ? "active" : ""}" href="${href}">${label}</a>`)
+            .join("")}
+        </div>
       </div>
     </nav>`;
 }
@@ -253,7 +271,7 @@ function largeText() {
 function projectCard(project) {
   const media = project.video
     ? `<video autoplay muted loop playsinline poster="${project.poster ? vid(project.poster) : img(project.fallback)}"><source src="${vid(project.video)}" type="video/mp4"></video>`
-    : `<img src="${img(project.image)}" alt="">`;
+    : `<img src="${img(project.image)}" ${imgSrcset(project.image) ? `srcset="${imgSrcset(project.image)}" sizes="(max-width: 767px) calc(100vw - 2.5rem), calc(100vw - 5rem)"` : ""} alt="" loading="lazy" decoding="async">`;
   return `
     <a class="project-card reveal" href="${project.href}">
       <div class="project-card__media">${media}</div>
@@ -265,7 +283,7 @@ function projectCard(project) {
 }
 
 function projectsSection({ all = false, heading = "Projects", intro = "Projects built to work as good as they look. Designed to grow with your business." } = {}) {
-  const list = all ? projects : projects.slice(0, 2);
+  const list = all ? projects : projects;
   return `
     <section class="section section-projects">
       <div class="container">
@@ -301,7 +319,7 @@ function howItWorks() {
 
 function workWays() {
   return `
-    <section class="section">
+    <section class="section" id="work-ways">
       <div class="container">
         <h2 class="reveal">Two ways to <em>work together</em></h2>
         <div class="split-cards" style="margin-top:2rem">
@@ -387,15 +405,6 @@ function footer() {
           </div>
           <div class="footer__links"><span class="footer__muted">Pages</span><a href="index.html">Home</a><a href="projects.html">Projects</a><a href="contact.html">Contact</a></div>
           <div class="footer__links"><span class="footer__muted">Legal</span><a href="privacy-policy.html">Privacy policy</a><a href="privacy-policy.html">Tems and Conditions</a></div>
-          <div class="footer__links">
-            ${[
-              ["Grow your product with", "UX/UI Design"],
-              ["Show it to the world with", "Webflow Development"],
-              ["Raise funds with", "Presentation Design"],
-            ]
-              .map((s) => `<div class="footer__service"><span>${s[0]}</span><strong>${s[1]}</strong></div>`)
-              .join("")}
-          </div>
         </div>
         <div class="footer__bottom">2026 Blending Lab. All rights reserved.</div>
       </div>
@@ -747,12 +756,25 @@ function attachBehavior() {
   document.addEventListener("click", (event) => {
     const toggle = event.target.closest("[data-nav-toggle]");
     if (toggle) {
-      toggle.closest("[data-nav]").classList.toggle("open");
+      const nav = toggle.closest("[data-nav]");
+      const isOpen = nav.classList.toggle("open");
+      toggle.setAttribute("aria-expanded", String(isOpen));
     }
 
     const faqButton = event.target.closest(".faq-question");
     if (faqButton) {
       faqButton.closest(".faq-item").classList.toggle("open");
+    }
+
+    const anchorLink = event.target.closest('a[href^="#"]');
+    if (anchorLink) {
+      const targetId = anchorLink.getAttribute("href").slice(1);
+      const target = targetId ? document.getElementById(targetId) : null;
+      if (target) {
+        event.preventDefault();
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+        history.pushState(null, "", `#${targetId}`);
+      }
     }
   });
 
