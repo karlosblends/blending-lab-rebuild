@@ -1,18 +1,8 @@
+import { projects, projectImageSrcsets } from "./data/projects.js";
+
 const img = (name) => `/public/assets/images/${name}`;
 const vid = (name) => `/public/assets/videos/${name}`;
-const projectSrcsets = {
-  "Xcelerate-Auto-Cover.jpg":
-    "Xcelerate-Auto-Cover-p-800.jpg 800w, Xcelerate-Auto-Cover-p-1600.jpg 1600w, Xcelerate-Auto-Cover-p-2600.jpg 2600w, Xcelerate-Auto-Cover-p-3200.jpg 3200w",
-  "Project-Showcase-1.png":
-    "Project-Showcase-1-p-800.png 800w, Project-Showcase-1-p-1600.png 1600w, Project-Showcase-1-p-2600.png 2600w",
-  "Project-Showcase-2.png":
-    "Project-Showcase-2-p-800.png 800w, Project-Showcase-2-p-1600.png 1600w, Project-Showcase-2-p-2600.png 2600w",
-  "Project-Showcase-3.png":
-    "Project-Showcase-3-p-800.png 800w, Project-Showcase-3-p-1600.png 1600w, Project-Showcase-3-p-2600.png 2600w",
-  "Project-Showcase-4.png":
-    "Project-Showcase-4-p-800.png 800w, Project-Showcase-4-p-1600.png 1600w, Project-Showcase-4-p-2600.png 2600w",
-};
-const imgSrcset = (name) => (projectSrcsets[name] ? projectSrcsets[name].split(", ").map((entry) => `${img(entry.split(" ")[0])} ${entry.split(" ")[1]}`).join(", ") : "");
+const imgSrcset = (name) => (projectImageSrcsets[name] ? projectImageSrcsets[name].split(", ").map((entry) => `${img(entry.split(" ")[0])} ${entry.split(" ")[1]}`).join(", ") : "");
 const meta = {
   "index.html": {
     title: "Product Design Partner for Fast-Moving SaaS Teams | Blending Lab",
@@ -91,37 +81,6 @@ const meta = {
   "user-account.html": { title: "Blending Lab" },
 };
 
-const projects = [
-  {
-    title: "XCelerate Portal",
-    href: "xcelerate-auto-admin-portal.html",
-    description:
-      "Designed an internal claims management platform for XCelerate Auto that helps admin teams manage EV warranty claims, communication, approvals, and operational workflows more efficiently.",
-    image: "Project-Showcase-1.png",
-  },
-  {
-    title: "XCelerate Auto",
-    href: "xcelerate-auto-case-study.html",
-    description:
-      "Redesigned Xcelerate Auto’s EV warranty platform to help drivers easily compare coverage, while giving the brand a modern interface and flexible design system to grow on.",
-    image: "Xcelerate-Auto-Cover.jpg",
-  },
-  {
-    title: "Refinance Digital website",
-    href: "projects.html",
-    description:
-      "A fintech startup that utilizes Webflow for website design to make quick changes and craft polished elements.",
-    image: "Coming-soon-cover-RD_1.webp",
-  },
-  {
-    title: "XCelerate Auto UX",
-    href: "xcelerate-auto-case-study.html",
-    description:
-      "Project aimed at enhancing UX to boost conversion rate and assist users in making informed decisions.",
-    image: "Coming-soon-cover-XCare_1.webp",
-  },
-];
-
 const faqs = [
   [
     "Why work with a dedicated design partner instead of an agency?",
@@ -150,9 +109,8 @@ function ensureHeadAssets() {
     document.head.append(link);
   };
 
-  // Ensure a valid icon path (the old Webflow export icon files aren't present in this repo).
-  ensureLink("icon", img("blending-lab-logo.svg"));
-  ensureLink("apple-touch-icon", img("blending-lab-logo.svg"));
+  ensureLink("icon", img("favicon.png"));
+  ensureLink("apple-touch-icon", img("webclip.png"));
 }
 
 function setMeta(page) {
@@ -269,21 +227,25 @@ function largeText() {
 }
 
 function projectCard(project) {
-  const media = project.video
-    ? `<video autoplay muted loop playsinline poster="${project.poster ? vid(project.poster) : img(project.fallback)}"><source src="${vid(project.video)}" type="video/mp4"></video>`
-    : `<img src="${img(project.image)}" ${imgSrcset(project.image) ? `srcset="${imgSrcset(project.image)}" sizes="(max-width: 767px) calc(100vw - 2.5rem), calc(100vw - 5rem)"` : ""} alt="" loading="lazy" decoding="async">`;
+  const href = project.caseStudyUrl || "projects.html";
+  const image = project.thumbnail || project.heroImage;
+  const media = image
+    ? `<img src="${img(image)}" ${imgSrcset(image) ? `srcset="${imgSrcset(image)}" sizes="(max-width: 767px) calc(100vw - 2.5rem), calc(100vw - 5rem)"` : ""} alt="" loading="lazy" decoding="async">`
+    : `<div class="project-card__placeholder"><span>${project.comingSoon ? "Coming soon" : "Project"}</span></div>`;
   return `
-    <a class="project-card reveal" href="${project.href}">
+    <a class="project-card reveal ${project.comingSoon ? "project-card--coming-soon" : ""}" href="${href}">
       <div class="project-card__media">${media}</div>
       <div class="project-card__text">
         <h3 class="project-card__title">${project.title}</h3>
-        <p>${project.description}</p>
+        <p>${project.summary}</p>
       </div>
     </a>`;
 }
 
 function projectsSection({ all = false, heading = "Projects", intro = "Projects built to work as good as they look. Designed to grow with your business." } = {}) {
-  const list = all ? projects : projects;
+  const list = all
+    ? projects.filter((project) => !project.archived && !project.comingSoon)
+    : projects.filter((project) => project.featured && !project.comingSoon && !project.archived);
   return `
     <section class="section section-projects">
       <div class="container">
@@ -375,13 +337,13 @@ function contactSection({ croatian = false } = {}) {
           </div>
           <div class="form-card reveal">
             <h2>${croatian ? "Spremni za ozbiljniju online prisutnost?" : "Build something great"}</h2>
-            <form data-contact-form style="margin-top:2rem">
+            <form data-contact-form data-form-provider="formspree-or-web3forms" method="POST" style="margin-top:2rem">
               <div class="form-grid">
-                <div><label>${croatian ? "Ime i prezime" : "First and last name"}</label><input required placeholder="${croatian ? "Ivan Horvat" : "John Doe"}"></div>
-                <div><label>${croatian ? "E-mail adresa" : "Email Address"}</label><input type="email" required placeholder="${croatian ? "ivan.horvat@gmail.com" : "john.doe@acme.com"}"></div>
-                <div class="field--full"><label>${croatian ? "Poruka" : "Message"}</label><textarea required placeholder="${croatian ? "Podijelite što vam je na umu..." : "Share the idea, product, or challenge you’re working on…"}"></textarea></div>
+                <div><label>${croatian ? "Ime i prezime" : "First and last name"}</label><input name="name" required placeholder="${croatian ? "Ivan Horvat" : "John Doe"}"></div>
+                <div><label>${croatian ? "E-mail adresa" : "Email Address"}</label><input name="email" type="email" required placeholder="${croatian ? "ivan.horvat@gmail.com" : "john.doe@acme.com"}"></div>
+                <div class="field--full"><label>${croatian ? "Poruka" : "Message"}</label><textarea name="message" required placeholder="${croatian ? "Podijelite što vam je na umu..." : "Share the idea, product, or challenge you’re working on…"}"></textarea></div>
               </div>
-              <div class="recaptcha-mock" aria-hidden="true"><span></span><strong>I'm not a robot</strong><small>reCAPTCHA</small></div>
+              <p class="form-note" data-form-note>Contact form endpoint is not connected yet. Use hello@blending-lab.com for now.</p>
               <div class="button-row" style="justify-content:flex-start"><button class="button" type="submit">Submit</button></div>
             </form>
           </div>
@@ -780,8 +742,10 @@ function attachBehavior() {
 
   document.querySelectorAll("[data-contact-form]").forEach((form) => {
     form.addEventListener("submit", (event) => {
+      if (form.getAttribute("action")) return;
       event.preventDefault();
-      form.innerHTML = `<p>Thank you! Your submission has been received.</p>`;
+      const note = form.querySelector("[data-form-note]");
+      if (note) note.textContent = "This form is not connected yet. Please email hello@blending-lab.com.";
     });
   });
 

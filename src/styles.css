@@ -541,6 +541,14 @@ p {
   backface-visibility: hidden;
 }
 
+.project-card__placeholder {
+  min-height: inherit;
+  display: grid;
+  place-items: center;
+  color: var(--gray);
+  background: linear-gradient(180deg, #171616, #121212);
+}
+
 .project-card__text {
   margin-top: 1rem;
   display: grid;
@@ -883,38 +891,10 @@ textarea {
   resize: vertical;
 }
 
-.recaptcha-mock {
-  width: 322px;
-  height: 82px;
-  margin-top: 2rem;
-  border: 1px solid #d7d7d7;
-  border-radius: 3px;
-  background: #f9f9f9;
-  color: #111;
-  display: grid;
-  grid-template-columns: 32px 1fr auto;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 14px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.12);
-}
-
-.recaptcha-mock span {
-  width: 28px;
-  height: 28px;
-  border: 2px solid #6f6f6f;
-  background: white;
-}
-
-.recaptcha-mock strong {
-  font-size: 15px;
-  font-weight: 600;
-}
-
-.recaptcha-mock small {
-  color: #555;
-  align-self: end;
-  font-size: 10px;
+.form-note {
+  margin-top: 1rem;
+  color: var(--gray);
+  font-size: 0.95rem;
 }
 
 .form-card .button-row {
@@ -1381,10 +1361,6 @@ textarea {
 
   .faq-answer > div {
     padding-inline: 1rem;
-  }
-
-  .recaptcha-mock {
-    width: min(100%, 322px);
   }
 
   .footer__inner {
