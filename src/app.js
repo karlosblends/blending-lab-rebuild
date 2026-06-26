@@ -228,24 +228,24 @@ function largeText() {
 
 function projectCard(project) {
   const href = project.caseStudyUrl || "projects.html";
-  const image = project.thumbnail || project.heroImage;
+  const image = project.thumbnail || project.coverImage;
   const media = image
     ? `<img src="${img(image)}" ${imgSrcset(image) ? `srcset="${imgSrcset(image)}" sizes="(max-width: 767px) calc(100vw - 2.5rem), calc(100vw - 5rem)"` : ""} alt="" loading="lazy" decoding="async">`
-    : `<div class="project-card__placeholder"><span>${project.comingSoon ? "Coming soon" : "Project"}</span></div>`;
+    : `<div class="project-card__placeholder"><span>${project.service || "Project"}</span></div>`;
   return `
-    <a class="project-card reveal ${project.comingSoon ? "project-card--coming-soon" : ""}" href="${href}">
+    <a class="project-card reveal" href="${href}">
       <div class="project-card__media">${media}</div>
       <div class="project-card__text">
         <h3 class="project-card__title">${project.title}</h3>
-        <p>${project.summary}</p>
+        <p>${project.description}</p>
       </div>
     </a>`;
 }
 
 function projectsSection({ all = false, heading = "Projects", intro = "Projects built to work as good as they look. Designed to grow with your business." } = {}) {
   const list = all
-    ? projects.filter((project) => !project.archived && !project.comingSoon)
-    : projects.filter((project) => project.featured && !project.comingSoon && !project.archived);
+    ? projects.filter((project) => !project.archived)
+    : projects.filter((project) => project.featured && !project.archived);
   return `
     <section class="section section-projects">
       <div class="container">
@@ -639,6 +639,44 @@ function caseStudy({ admin = false } = {}) {
     ${footer()}`;
 }
 
+function standardProjectPage(project) {
+  if (!project) return placeholderPage("projects.html");
+  const cover = project.coverImage
+    ? `<div class="case-cover reveal" style="background-image:url('${img(project.coverImage)}')"></div>`
+    : `<div class="case-cover case-cover--empty reveal"><span>Cover image coming soon</span></div>`;
+  const gallery = project.gallery && project.gallery.length
+    ? `<div class="image-grid" style="margin-top:2rem">${project.gallery.map((g) => `<img class="reveal" src="${img(g)}" alt="">`).join("")}</div>`
+    : "";
+  return `
+    ${nav("projects.html")}
+    <main class="case-hero section">
+      <div class="container">
+        <div class="hero__content reveal">
+          <h2>${project.title}</h2>
+          <p class="hero__lead">${project.description}</p>
+        </div>
+        ${cover}
+        <div class="case-meta-grid case-meta-grid--two reveal">
+          <div class="case-meta"><span class="muted">Service</span><h4>${project.service}</h4></div>
+          <div class="case-meta"><span class="muted">Industry</span><h4>${project.industry}</h4></div>
+        </div>
+      </div>
+    </main>
+    <section class="section">
+      <div class="container">
+        <div class="rich-text reveal">
+          <h2>About the project</h2>
+          <p>${project.about}</p>
+          <h2>The company</h2>
+          <p>${project.company}</p>
+        </div>
+        ${gallery}
+      </div>
+    </section>
+    ${contactSection()}
+    ${footer()}`;
+}
+
 function privacyPage() {
   return `
     ${nav("privacy-policy.html")}
@@ -685,6 +723,7 @@ function placeholderPage(page) {
 }
 
 function renderPage(page) {
+  const warrantyProject = projects.find((project) => project.slug === "xcelerate-auto-warranty-purchase-process");
   const routes = {
     "index.html": homePage,
     "": homePage,
@@ -698,7 +737,7 @@ function renderPage(page) {
     "try-for-free.html": tryFreePage,
     "home.html": croHomePage,
     "web-stranice-ads.html": webStraniceAdsPage,
-    "xcelerate-auto-case-study.html": () => caseStudy(),
+    "xcelerate-auto-case-study.html": () => standardProjectPage(warrantyProject),
     "xcelerate-auto-admin-portal.html": () => caseStudy({ admin: true }),
     "privacy-policy.html": privacyPage,
     "style-guide.html": styleGuidePage,

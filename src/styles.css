@@ -1031,11 +1031,22 @@ textarea {
   margin-top: 2rem;
 }
 
+.case-cover--empty {
+  display: grid;
+  place-items: center;
+  color: var(--gray);
+  background: linear-gradient(180deg, #171616, #121212);
+}
+
 .case-meta-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
   margin-top: 1.5rem;
+}
+
+.case-meta-grid--two {
+  grid-template-columns: repeat(2, 1fr);
 }
 
 .case-meta {
