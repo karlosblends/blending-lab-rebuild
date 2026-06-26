@@ -337,13 +337,16 @@ function contactSection({ croatian = false } = {}) {
           </div>
           <div class="form-card reveal">
             <h2>${croatian ? "Spremni za ozbiljniju online prisutnost?" : "Build something great"}</h2>
-            <form data-contact-form data-form-provider="formspree-or-web3forms" method="POST" style="margin-top:2rem">
+            <form data-contact-form action="https://formspree.io/f/xpqgddeg" method="POST" style="margin-top:2rem">
+              <input type="hidden" name="_subject" value="New Blending Lab website inquiry">
               <div class="form-grid">
                 <div><label>${croatian ? "Ime i prezime" : "First and last name"}</label><input name="name" required placeholder="${croatian ? "Ivan Horvat" : "John Doe"}"></div>
                 <div><label>${croatian ? "E-mail adresa" : "Email Address"}</label><input name="email" type="email" required placeholder="${croatian ? "ivan.horvat@gmail.com" : "john.doe@acme.com"}"></div>
+                <div><label>${croatian ? "Tvrtka" : "Company"}</label><input name="company" placeholder="${croatian ? "Naziv tvrtke" : "Company name"}"></div>
+                <div><label>${croatian ? "Budžet" : "Budget"}</label><input name="budget" placeholder="${croatian ? "Okvirni budžet" : "Estimated budget"}"></div>
                 <div class="field--full"><label>${croatian ? "Poruka" : "Message"}</label><textarea name="message" required placeholder="${croatian ? "Podijelite što vam je na umu..." : "Share the idea, product, or challenge you’re working on…"}"></textarea></div>
               </div>
-              <p class="form-note" data-form-note>Contact form endpoint is not connected yet. Use hello@blending-lab.com for now.</p>
+              <p class="form-note" data-form-status role="status" aria-live="polite"></p>
               <div class="button-row" style="justify-content:flex-start"><button class="button" type="submit">Submit</button></div>
             </form>
           </div>
@@ -780,11 +783,48 @@ function attachBehavior() {
   });
 
   document.querySelectorAll("[data-contact-form]").forEach((form) => {
-    form.addEventListener("submit", (event) => {
-      if (form.getAttribute("action")) return;
+    form.addEventListener("submit", async (event) => {
       event.preventDefault();
-      const note = form.querySelector("[data-form-note]");
-      if (note) note.textContent = "This form is not connected yet. Please email hello@blending-lab.com.";
+      const status = form.querySelector("[data-form-status]");
+      const submit = form.querySelector('button[type="submit"]');
+      const endpoint = form.getAttribute("action");
+      if (!endpoint) return;
+
+      const originalLabel = submit ? submit.textContent : "";
+      if (status) {
+        status.textContent = "";
+        status.classList.remove("is-error", "is-success");
+      }
+      if (submit) {
+        submit.disabled = true;
+        submit.textContent = "Sending...";
+      }
+
+      try {
+        const response = await fetch(endpoint, {
+          method: "POST",
+          body: new FormData(form),
+          headers: { Accept: "application/json" },
+        });
+
+        if (!response.ok) throw new Error("Form submission failed");
+
+        form.reset();
+        if (status) {
+          status.textContent = "Thanks! Your message has been sent.";
+          status.classList.add("is-success");
+        }
+      } catch (error) {
+        if (status) {
+          status.textContent = "Something went wrong. Please try again or email hello@blending-lab.com.";
+          status.classList.add("is-error");
+        }
+      } finally {
+        if (submit) {
+          submit.disabled = false;
+          submit.textContent = originalLabel;
+        }
+      }
     });
   });
 

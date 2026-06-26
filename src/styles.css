@@ -895,6 +895,22 @@ textarea {
   margin-top: 1rem;
   color: var(--gray);
   font-size: 0.95rem;
+  min-height: 1.5rem;
+}
+
+.form-note.is-success {
+  color: var(--alabaster);
+}
+
+.form-note.is-error {
+  color: var(--flamingo);
+}
+
+.button:disabled {
+  cursor: wait;
+  opacity: 0.7;
+  transform: none;
+  box-shadow: none;
 }
 
 .form-card .button-row {
