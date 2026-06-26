@@ -1,0 +1,6 @@
+{
+  "scripts": {
+    "build": "rm -rf dist && mkdir dist && cp -R *.html src public dist/"
+  },
+  "devDependencies": {}
+}
