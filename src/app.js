@@ -1,4 +1,4 @@
-import { projects, projectImageSrcsets } from "./data/projects.js?v=project-assets-4";
+import { projects, projectImageSrcsets } from "./data/projects.js?v=project-assets-5";
 
 const img = (name) => {
   if (!name) return "";
@@ -728,7 +728,14 @@ function placeholderPage(page) {
     ${footer()}`;
 }
 
+function normalizePage(page) {
+  if (!page) return "index.html";
+  if (page.includes(".")) return page;
+  return `${page}.html`;
+}
+
 function renderPage(page) {
+  page = normalizePage(page);
   const projectForPage = projects.find((project) => project.caseStudyUrl === page || project.legacyUrls?.includes(page));
   const routes = {
     "index.html": homePage,
@@ -880,7 +887,7 @@ function attachBehavior() {
   }
 }
 
-const page = window.location.pathname.split("/").pop() || "index.html";
+const page = normalizePage(window.location.pathname.split("/").pop() || "index.html");
 ensureHeadAssets();
 setMeta(page);
 renderPage(page);
