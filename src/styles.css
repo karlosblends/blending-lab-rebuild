@@ -299,6 +299,7 @@ p {
   color: var(--cod-gray);
   background: var(--alabaster);
   padding: 0.75rem 2rem;
+  font-family: "Satoshi Variable", system-ui, sans-serif;
   font-weight: 600;
   display: inline-flex;
   align-items: center;
@@ -518,7 +519,7 @@ p {
   position: relative;
   border: 1px solid var(--onyx);
   border-radius: var(--radius-m);
-  min-height: clamp(20rem, 48vw, 46rem);
+  min-height: clamp(26rem, 54vw, 43rem);
   background: var(--cod-gray) center / cover no-repeat;
   overflow: hidden;
   isolation: isolate;
@@ -1346,7 +1347,7 @@ textarea {
   }
 
   .project-card__media {
-    min-height: 18rem;
+    min-height: 24rem;
   }
 
   .bento .card,

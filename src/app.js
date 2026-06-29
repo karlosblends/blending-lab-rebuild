@@ -1,6 +1,10 @@
-import { projects, projectImageSrcsets } from "./data/projects.js";
+import { projects, projectImageSrcsets } from "./data/projects.js?v=project-assets-4";
 
-const img = (name) => `/public/assets/images/${name}`;
+const img = (name) => {
+  if (!name) return "";
+  if (/^(https?:)?\/\//.test(name) || name.startsWith("data:") || name.startsWith("/")) return name;
+  return name.includes("/") ? `/public/assets/${name}` : `/public/assets/images/${name}`;
+};
 const vid = (name) => `/public/assets/videos/${name}`;
 const imgSrcset = (name) => (projectImageSrcsets[name] ? projectImageSrcsets[name].split(", ").map((entry) => `${img(entry.split(" ")[0])} ${entry.split(" ")[1]}`).join(", ") : "");
 const meta = {
@@ -343,7 +347,6 @@ function contactSection({ croatian = false } = {}) {
                 <div><label>${croatian ? "Ime i prezime" : "First and last name"}</label><input name="name" required placeholder="${croatian ? "Ivan Horvat" : "John Doe"}"></div>
                 <div><label>${croatian ? "E-mail adresa" : "Email Address"}</label><input name="email" type="email" required placeholder="${croatian ? "ivan.horvat@gmail.com" : "john.doe@acme.com"}"></div>
                 <div><label>${croatian ? "Tvrtka" : "Company"}</label><input name="company" placeholder="${croatian ? "Naziv tvrtke" : "Company name"}"></div>
-                <div><label>${croatian ? "Budžet" : "Budget"}</label><input name="budget" placeholder="${croatian ? "Okvirni budžet" : "Estimated budget"}"></div>
                 <div class="field--full"><label>${croatian ? "Poruka" : "Message"}</label><textarea name="message" required placeholder="${croatian ? "Podijelite što vam je na umu..." : "Share the idea, product, or challenge you’re working on…"}"></textarea></div>
               </div>
               <p class="form-note" data-form-status role="status" aria-live="polite"></p>
@@ -613,15 +616,17 @@ function webStraniceAdsPage() {
     ${footer()}`;
 }
 
-function caseStudy({ admin = false } = {}) {
+function caseStudy({ admin = false, project } = {}) {
   const title = admin ? "XCelerate Claims Admin Portal" : "XCelerate Auto Product Redesign Case Study";
   const subtitle = admin
     ? "Claims Management Admin Portal"
     : "Warranty Purchase Process";
-  const cover = admin ? "Project-Showcase-1.png" : "Xcelerate-Auto-Cover.jpg";
-  const gallery = admin
-    ? ["Project-Showcase-1.png", "Project-Showcase-2.png", "Project-Showcase-3.png"]
-    : ["Project-Showcase-1.png", "Project-Showcase-2.png", "Project-Showcase-3.png", "Project-Showcase-4.png"];
+  const cover = project?.coverImage || (admin ? "Project-Showcase-1.png" : "Xcelerate-Auto-Cover.jpg");
+  const gallery = project?.gallery?.length
+    ? project.gallery
+    : admin
+      ? ["Project-Showcase-1.png", "Project-Showcase-2.png", "Project-Showcase-3.png"]
+      : ["Project-Showcase-1.png", "Project-Showcase-2.png", "Project-Showcase-3.png", "Project-Showcase-4.png"];
   return `
     ${nav("projects.html")}
     <main class="case-hero section">
@@ -724,7 +729,7 @@ function placeholderPage(page) {
 }
 
 function renderPage(page) {
-  const warrantyProject = projects.find((project) => project.slug === "xcelerate-auto-warranty-purchase-process");
+  const projectForPage = projects.find((project) => project.caseStudyUrl === page || project.legacyUrls?.includes(page));
   const routes = {
     "index.html": homePage,
     "": homePage,
@@ -738,8 +743,6 @@ function renderPage(page) {
     "try-for-free.html": tryFreePage,
     "home.html": croHomePage,
     "web-stranice-ads.html": webStraniceAdsPage,
-    "xcelerate-auto-case-study.html": () => standardProjectPage(warrantyProject),
-    "xcelerate-auto-admin-portal.html": () => caseStudy({ admin: true }),
     "privacy-policy.html": privacyPage,
     "style-guide.html": styleGuidePage,
     "components.html": styleGuidePage,
@@ -750,7 +753,11 @@ function renderPage(page) {
     "access-denied.html": () => utilityPage("access-denied.html"),
     "user-account.html": () => utilityPage("user-account.html"),
   };
-  const renderer = routes[page] || (() => placeholderPage(page));
+  const renderer =
+    routes[page] ||
+    (projectForPage
+      ? () => (projectForPage.template === "custom" ? caseStudy({ admin: true, project: projectForPage }) : standardProjectPage(projectForPage))
+      : () => placeholderPage(page));
   document.getElementById("app").innerHTML = `<div class="page">${renderer()}</div>`;
 }
 
