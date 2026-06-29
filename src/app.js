@@ -389,10 +389,8 @@ function homePage() {
     ${brands()}
     ${largeText()}
     ${projectsSection()}
-    ${howItWorks()}
     ${workWays()}
     ${faqSection()}
-    ${blogPreview()}
     ${contactSection()}
     ${footer()}`;
 }
