@@ -1,0 +1,13 @@
+---
+import { img } from "../lib/assets.js";
+
+const { images = [] } = Astro.props;
+---
+
+{
+  images.length > 0 && (
+    <div class="image-grid" style="margin-top:2rem">
+      {images.map((image) => <img class="reveal" src={img(image)} alt="" loading="lazy" decoding="async" />)}
+    </div>
+  )
+}

@@ -1,0 +1,21 @@
+---
+const { items, title = "Frequently asked questions" } = Astro.props;
+---
+
+<section class="section">
+  <div class="container">
+    <div class="faq-layout">
+      <h2 class="reveal">{title}</h2>
+      <div class="faq-list reveal">
+        {
+          items.map(([question, answer]) => (
+            <div class="faq-item">
+              <button class="faq-question" type="button"><span>{question}</span><span class="faq-icon">+</span></button>
+              <div class="faq-answer"><div><p>{answer}</p></div></div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,163 @@
+---
+import "../styles.css";
+import { getSeo } from "../data/seo.js";
+import { img } from "../lib/assets.js";
+
+const { page = "index.html", project } = Astro.props;
+const meta = getSeo(page, project);
+const title = meta.title || "Blending Lab";
+const description = meta.description || "";
+const socialTitle = meta.ogTitle || title;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={socialTitle} />
+    {description && <meta property="og:description" content={description} />}
+    {meta.ogImage && <meta property="og:image" content={meta.ogImage} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={socialTitle} />
+    {description && <meta name="twitter:description" content={description} />}
+    {meta.ogImage && <meta name="twitter:image" content={meta.ogImage} />}
+    <link rel="icon" href={img("favicon.png")} />
+    <link rel="apple-touch-icon" href={img("webclip.png")} />
+  </head>
+  <body>
+    <div class="page">
+      <slot />
+    </div>
+    <script>
+      document.addEventListener("click", (event) => {
+        const target = event.target;
+        if (!(target instanceof Element)) return;
+
+        const toggle = target.closest("[data-nav-toggle]");
+        if (toggle) {
+          const nav = toggle.closest("[data-nav]");
+          const isOpen = nav?.classList.toggle("open") || false;
+          toggle.setAttribute("aria-expanded", String(isOpen));
+        }
+
+        const faqButton = target.closest(".faq-question");
+        if (faqButton) {
+          faqButton.closest(".faq-item")?.classList.toggle("open");
+        }
+
+        const anchorLink = target.closest('a[href^="#"]');
+        if (anchorLink) {
+          const href = anchorLink.getAttribute("href") || "";
+          const targetId = href.slice(1);
+          const section = targetId ? document.getElementById(targetId) : null;
+          if (section) {
+            event.preventDefault();
+            section.scrollIntoView({ behavior: "smooth", block: "start" });
+            history.pushState(null, "", `#${targetId}`);
+          }
+        }
+      });
+
+      document.querySelectorAll("[data-contact-form]").forEach((form) => {
+        form.addEventListener("submit", async (event) => {
+          event.preventDefault();
+          const status = form.querySelector("[data-form-status]");
+          const submit = form.querySelector('button[type="submit"]');
+          const endpoint = form.getAttribute("action");
+          if (!endpoint) return;
+
+          const originalLabel = submit ? submit.textContent : "";
+          if (status) {
+            status.textContent = "";
+            status.classList.remove("is-error", "is-success");
+          }
+          if (submit) {
+            submit.disabled = true;
+            submit.textContent = "Sending...";
+          }
+
+          try {
+            const response = await fetch(endpoint, {
+              method: "POST",
+              body: new FormData(form),
+              headers: { Accept: "application/json" },
+            });
+
+            if (!response.ok) throw new Error("Form submission failed");
+
+            form.reset();
+            if (status) {
+              status.textContent = "Thanks! Your message has been sent.";
+              status.classList.add("is-success");
+            }
+          } catch (error) {
+            if (status) {
+              status.textContent = "Something went wrong. Please try again or email hello@blending-lab.com.";
+              status.classList.add("is-error");
+            }
+          } finally {
+            if (submit) {
+              submit.disabled = false;
+              submit.textContent = originalLabel;
+            }
+          }
+        });
+      });
+
+      document.querySelectorAll("[data-before-after]").forEach((slider) => {
+        const input = slider.querySelector("input");
+        const update = () => slider.style.setProperty("--split", `${input.value}%`);
+        input?.addEventListener("input", update);
+        update();
+      });
+
+      const revealElements = document.querySelectorAll(".reveal");
+      if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("in");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.12 }
+        );
+        revealElements.forEach((el) => observer.observe(el));
+      } else {
+        revealElements.forEach((el) => el.classList.add("in"));
+      }
+
+      const heroMedia = document.querySelector(".hero__media");
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+      if (heroMedia && !reduceMotion.matches) {
+        let ticking = false;
+        const updateHeroMediaScale = () => {
+          const scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+          const travel = Math.max(1, heroMedia.offsetTop * 0.72);
+          const progress = Math.min(1, Math.max(0, scrollY / travel));
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const scale = 0.8 + eased * 0.2;
+          heroMedia.style.setProperty("--hero-media-scale", scale.toFixed(4));
+          ticking = false;
+        };
+        const requestHeroMediaScale = () => {
+          if (!ticking) {
+            ticking = true;
+            requestAnimationFrame(updateHeroMediaScale);
+          }
+        };
+        updateHeroMediaScale();
+        window.addEventListener("scroll", requestHeroMediaScale, { passive: true });
+        window.addEventListener("resize", requestHeroMediaScale);
+      } else if (heroMedia) {
+        heroMedia.style.setProperty("--hero-media-scale", "1");
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,41 @@
+---
+import { img } from "../lib/assets.js";
+import Header from "./Header.astro";
+import Footer from "./Footer.astro";
+import ContactForm from "./ContactForm.astro";
+import Gallery from "./Gallery.astro";
+
+const { project, admin = false } = Astro.props;
+const title = admin ? "XCelerate Claims Admin Portal" : "XCelerate Auto Product Redesign Case Study";
+const subtitle = admin ? "Claims Management Admin Portal" : "Warranty Purchase Process";
+const cover = project?.coverImage || (admin ? "Project-Showcase-1.png" : "Xcelerate-Auto-Cover.jpg");
+const gallery = project?.gallery?.length
+  ? project.gallery
+  : admin
+    ? ["Project-Showcase-1.png", "Project-Showcase-2.png", "Project-Showcase-3.png"]
+    : ["Project-Showcase-1.png", "Project-Showcase-2.png", "Project-Showcase-3.png", "Project-Showcase-4.png"];
+---
+
+<Header active="projects.html" />
+<main class="case-hero section">
+  <div class="container">
+    <div class="hero__content reveal"><h2>{title}</h2><h3 class="muted">{subtitle}</h3></div>
+    <div class="case-cover reveal" style={`background-image:url('${img(cover)}')`}></div>
+    <div class="case-meta-grid reveal">
+      <div class="case-meta"><span class="muted">Client</span><h4>XCelerate Auto</h4></div>
+      <div class="case-meta"><span class="muted">Work</span><h4>UX/UI Design</h4></div>
+      <div class="case-meta"><span class="muted">Focus</span><h4>{admin ? "Admin workflows" : "Product redesign"}</h4></div>
+    </div>
+  </div>
+</main>
+<section class="section">
+  <div class="container">
+    <div class="rich-text reveal">
+      <h2>{admin ? "Final Thoughts" : "Warranty Purchase Process"}</h2>
+      <p>{admin ? "The admin portal work focused on simplifying claims management, communication, approvals, and operational visibility for internal teams." : "The redesign focused on making EV warranty comparison clearer, improving product understanding, and giving the brand a modern interface that can grow over time."}</p>
+    </div>
+    <Gallery images={gallery} />
+  </div>
+</section>
+<ContactForm />
+<Footer />

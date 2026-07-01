@@ -1,0 +1,52 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageRenderer from "../components/PageRenderer.astro";
+import { projects } from "../data/projects.js";
+import { pageToParam } from "../lib/assets.js";
+
+export function getStaticPaths() {
+  const staticPages = [
+    "design.html",
+    "web-design.html",
+    "google-ads.html",
+    "projects.html",
+    "projekti.html",
+    "contact.html",
+    "about-me.html",
+    "try-for-free.html",
+    "home.html",
+    "web-stranice-ads.html",
+    "privacy-policy.html",
+    "style-guide.html",
+    "components.html",
+    "log-in.html",
+    "sign-up.html",
+    "reset-password.html",
+    "update-password.html",
+    "access-denied.html",
+    "user-account.html",
+    "detail_project.html",
+    "detail_blog-posts.html",
+    "detail_blog-posts-global.html",
+    "component-40f96761-0dca-b2b1-2e4d-945cc34ffcaa.html",
+    "component-42e0f538-9159-e11e-f85b-ca6af9e7200b.html",
+    "component-a70cd9dd-5afc-860f-1d2b-33d238a6cb65.html",
+  ];
+  const projectPages = projects.flatMap((project) => [project.caseStudyUrl, ...(project.legacyUrls || [])]).filter(Boolean);
+  const pages = Array.from(new Set([...staticPages, ...projectPages]));
+
+  return pages.map((page) => ({
+    params: { page: pageToParam(page) },
+    props: {
+      page,
+      project: projects.find((project) => project.caseStudyUrl === page || project.legacyUrls?.includes(page)),
+    },
+  }));
+}
+
+const { page, project } = Astro.props;
+---
+
+<BaseLayout page={page} project={project}>
+  <PageRenderer page={page} />
+</BaseLayout>

@@ -1,0 +1,30 @@
+---
+import { img, vid } from "../lib/assets.js";
+
+const { title, lead, primary, secondary, media, eyebrow } = Astro.props;
+---
+
+<main class="hero">
+  <div class="container--medium">
+    <div class="hero__content reveal">
+      {eyebrow && <div class="eyebrow"><span class="pulse"></span>{eyebrow}</div>}
+      <h1 set:html={title} />
+      <p class="hero__lead">{lead}</p>
+      <div class="button-row">
+        {primary && <a class="glow-button" href={primary.href} target={primary.external ? "_blank" : undefined} rel={primary.external ? "noreferrer" : undefined}><span>{primary.label}</span></a>}
+        {secondary && <a class:list={[secondary.text ? "button button--text" : "button button--ghost"]} href={secondary.href} target={secondary.external ? "_blank" : undefined} rel={secondary.external ? "noreferrer" : undefined}>{secondary.label}</a>}
+      </div>
+    </div>
+    {
+      media && (
+        <div class="hero__media reveal" style={`background-image:url('${img(media.image || "IMG-9214-from-Lightroom-1.jpg")}')`}>
+          {media.video && (
+            <video autoplay muted loop playsinline poster={media.poster ? vid(media.poster) : img(media.image)}>
+              <source src={vid(media.video)} type="video/mp4" />
+            </video>
+          )}
+        </div>
+      )
+    }
+  </div>
+</main>

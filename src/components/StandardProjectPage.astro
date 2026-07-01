@@ -1,0 +1,43 @@
+---
+import { img } from "../lib/assets.js";
+import Header from "./Header.astro";
+import Footer from "./Footer.astro";
+import ContactForm from "./ContactForm.astro";
+import Gallery from "./Gallery.astro";
+
+const { project } = Astro.props;
+---
+
+<Header active="projects.html" />
+<main class="case-hero section">
+  <div class="container">
+    <div class="hero__content reveal">
+      <h2>{project.title}</h2>
+      <p class="hero__lead">{project.description}</p>
+    </div>
+    {
+      project.coverImage ? (
+        <div class="case-cover reveal" style={`background-image:url('${img(project.coverImage)}')`}></div>
+      ) : (
+        <div class="case-cover case-cover--empty reveal"><span>Cover image coming soon</span></div>
+      )
+    }
+    <div class="case-meta-grid case-meta-grid--two reveal">
+      <div class="case-meta"><span class="muted">Service</span><h4>{project.service}</h4></div>
+      <div class="case-meta"><span class="muted">Industry</span><h4>{project.industry}</h4></div>
+    </div>
+  </div>
+</main>
+<section class="section">
+  <div class="container">
+    <div class="rich-text reveal">
+      <h2>About the project</h2>
+      <p>{project.about}</p>
+      <h2>The company</h2>
+      <p>{project.company}</p>
+    </div>
+    <Gallery images={project.gallery} />
+  </div>
+</section>
+<ContactForm />
+<Footer />

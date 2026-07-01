@@ -1,6 +1,14 @@
 {
+  "name": "blending-lab-rebuild",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
   "scripts": {
-    "build": "rm -rf dist && mkdir dist && cp -R *.html src public dist/"
+    "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
+    "build": "ASTRO_TELEMETRY_DISABLED=1 astro build",
+    "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "astro": "^5.12.0"
+  }
 }

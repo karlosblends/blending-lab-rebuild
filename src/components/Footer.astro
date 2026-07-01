@@ -1,0 +1,21 @@
+---
+import { img } from "../lib/assets.js";
+---
+
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__grid">
+      <div>
+        <img class="footer__logo" src={img("Logo.svg")} alt="Blending Lab" />
+        <p class="footer__muted" style="font-size:1.1rem;margin-top:1rem">No big teams, no extra costs. Just great design.</p>
+        <div class="socials">
+          <a href="https://www.linkedin.com/in/karlo-osman" target="_blank" rel="noreferrer"><img src={img("linkedin.svg")} alt="LinkedIn" /></a>
+          <a href="https://x.com/karlosblends" target="_blank" rel="noreferrer"><img src={img("social_x.svg")} alt="X" /></a>
+        </div>
+      </div>
+      <div class="footer__links"><span class="footer__muted">Pages</span><a href="index.html">Home</a><a href="projects.html">Projects</a><a href="contact.html">Contact</a></div>
+      <div class="footer__links"><span class="footer__muted">Legal</span><a href="privacy-policy.html">Privacy policy</a><a href="privacy-policy.html">Tems and Conditions</a></div>
+    </div>
+    <div class="footer__bottom">2026 Blending Lab. All rights reserved.</div>
+  </div>
+</footer>

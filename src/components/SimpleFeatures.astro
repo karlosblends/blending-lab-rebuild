@@ -1,0 +1,18 @@
+---
+import { img } from "../lib/assets.js";
+
+const { title, items } = Astro.props;
+---
+
+<section class="section">
+  <div class="container">
+    <div class="section-title reveal"><h2>{title}</h2></div>
+    <div class="feature-grid">
+      {
+        items.map(([icon, heading, text]) => (
+          <div class="feature-item reveal"><img src={img(icon)} alt="" /><h4>{heading}</h4>{text && <p>{text}</p>}</div>
+        ))
+      }
+    </div>
+  </div>
+</section>

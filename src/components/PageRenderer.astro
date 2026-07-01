@@ -1,0 +1,388 @@
+---
+import { projects } from "../data/projects.js";
+import { img } from "../lib/assets.js";
+import Header from "./Header.astro";
+import Footer from "./Footer.astro";
+import Hero from "./Hero.astro";
+import ContactForm from "./ContactForm.astro";
+import ProjectsSection from "./ProjectsSection.astro";
+import FaqSection from "./FaqSection.astro";
+import SimpleFeatures from "./SimpleFeatures.astro";
+import StandardProjectPage from "./StandardProjectPage.astro";
+import CustomCaseStudy from "./CustomCaseStudy.astro";
+
+const { page = "index.html" } = Astro.props;
+const projectForPage = projects.find((project) => project.caseStudyUrl === page || project.legacyUrls?.includes(page));
+
+const faqs = [
+  [
+    "Why work with a dedicated design partner instead of an agency?",
+    "Agencies charge for their overhead, not just the work. With me, you get senior-level design without account managers, project coordinators, or markup. Whether it's a one-time website or ongoing product design, you work directly with one person who actually does the work.",
+  ],
+  [
+    "How do I know if I need a project or a monthly plan?",
+    "If you have a clear, scoped goal like a website redesign, landing page, or pitch deck, a one-time project works well. If your team ships regularly and needs design support across product, web, and marketing, the monthly plan gives you consistent capacity without hiring.",
+  ],
+  [
+    "How does pricing work?",
+    "Fixed projects have fixed prices upfront, while ongoing design support is based on monthly retainers. No hourly tracking, no surprise invoices.",
+  ],
+  [
+    "Can we start with a pilot before a monthly retainer?",
+    "Yes. A pilot is a focused, paid testing period before committing to a monthly retainer. It gives us a real project to work through together, so you can see the communication, speed, and design quality in practice.",
+  ],
+];
+
+const processItems = [
+  ["process-step-1.svg", "Deep understanding", "We map your offer, market, and goals before building the campaign."],
+  ["process-step-2.svg", "Launch and learn", "Campaigns and landing pages go live with the tracking needed to improve."],
+  ["process-step-3.svg", "Optimize", "We keep refining toward better leads, lower waste, and clearer results."],
+];
+
+const directPages = [
+  "index.html",
+  "design.html",
+  "web-design.html",
+  "google-ads.html",
+  "projects.html",
+  "projekti.html",
+  "contact.html",
+  "about-me.html",
+  "try-for-free.html",
+  "home.html",
+  "web-stranice-ads.html",
+  "privacy-policy.html",
+  "style-guide.html",
+  "components.html",
+  "log-in.html",
+  "sign-up.html",
+  "reset-password.html",
+  "update-password.html",
+  "access-denied.html",
+  "user-account.html",
+];
+
+const isDirectPage = directPages.includes(page);
+const isPlaceholder = !isDirectPage && !projectForPage;
+
+const brands = () => {
+  const logos = ["HH-logo.svg", "refinance-logo.svg", "xcelerate-logo.svg", "tmp-logo.svg", "he-logo.svg", "brands-logo.svg"];
+  return `
+    <section class="section--small reveal">
+      <div class="container">
+        <div class="section-title">
+          <div class="eyebrow">Teams I've helped grow</div>
+        </div>
+        <div class="brands-strip"><div class="brands-grid">${logos.map((logo) => `<img src="${img(logo)}" alt="">`).join("")}</div></div>
+      </div>
+    </section>`;
+};
+
+const largeText = () => `
+  <section class="section reveal">
+    <div class="container">
+      <div class="section-title"><div class="eyebrow"><span class="pulse"></span>Today's market situation</div></div>
+      <div class="large-copy">Let's be real. <strong>Hiring a full-time designer</strong> means paying a salary plus all the extra costs that come with it. And agencies? You're paying for their entire team, not just the <strong>work you need</strong>. With me, you get <span class="accent">high-quality design</span> without the <strong>overhead</strong>.</div>
+      <div class="mini-grid">
+        ${[
+          ["Frame-6.svg", "Save money"],
+          ["Frame-6-1.svg", "Get world-class design"],
+          ["Frame-6-2.svg", "Predictable cost"],
+        ]
+          .map(([icon, text]) => `<div class="mini-card"><img src="${img(icon)}" alt=""><span>${text}</span></div>`)
+          .join("")}
+      </div>
+    </div>
+  </section>`;
+
+const workWays = () => `
+  <section class="section" id="work-ways">
+    <div class="container">
+      <h2 class="reveal">Two ways to <em>work together</em></h2>
+      <div class="split-cards" style="margin-top:2rem">
+        <article class="cta-card reveal">
+          <div><h3>One-time project</h3></div>
+          <div><p>Get an estimated price range for your website, landing page, or digital product in under 2 minutes.</p><div class="button-row" style="justify-content:flex-start"><a class="button" href="https://blending-estimator.lovable.app/estimate?path=project" target="_blank" rel="noreferrer">Get an estimate →</a></div></div>
+        </article>
+        <article class="cta-card second reveal">
+          <div><h3>Looking for a design partner?</h3></div>
+          <div><p>See how ongoing design support works and what to expect investment-wise.</p><div class="button-row" style="justify-content:flex-start"><a class="button" href="https://blending-estimator.lovable.app/estimate?path=retainer" target="_blank" rel="noreferrer">Explore pricing →</a></div></div>
+        </article>
+      </div>
+    </div>
+  </section>`;
+
+const challengePanel = () => {
+  const items = [
+    ["Box.svg", "Flexibility and Adaptability", "Freelancers adjust to your workload and project needs, scaling up or down without the delays of agency processes."],
+    ["Price-tag.svg", "Pay for output, not a seat", "You pay for expertise, not overhead. No salaries, benefits, or office costs. Just the design work you need."],
+    ["Focus.svg", "Business-Focused Design", "Get targeted design solutions that align with your business goals and drive real results, helping you move forward faster."],
+    ["Key-Square.svg", "No Long-Term Commitment", "Hire only when needed, with the added benefit of flexible retainer options for consistent, long-term support."],
+  ];
+  return `
+    <section class="section">
+      <div class="container">
+        <div class="feature-panel reveal">
+          <div class="feature-panel__image" style="background-image:url('${img("Orange-Graphic.svg")}')"></div>
+          <div><img src="${img("Emoji_happy.svg")}" alt="" style="width:72px;margin-bottom:1rem"><h2>Why SaaS teams hire a design partner instead of going in-house</h2><p class="hero__lead">Hiring a full-time designer means salary, benefits, management, and months of ramp-up. Working with me, you get senior product design from day one, at a fraction of the cost, with zero HR overhead.</p></div>
+        </div>
+        <div class="feature-grid" style="margin-top:1rem">${items.map(([icon, title, text]) => `<div class="feature-item reveal"><img src="${img(icon)}" alt=""><h4>${title}</h4><p>${text}</p></div>`).join("")}</div>
+      </div>
+    </section>`;
+};
+
+const expectations = (title, imageName = "IMG-9041-from-Lightroom-min.jpg") => {
+  const items = [
+    "Clear pricing, expectations and term document",
+    "Product design trends and the thinking behind them",
+    "UX and Competitor Research Options",
+    "Flexible support options for ongoing design needs",
+  ];
+  return `
+    <section class="section">
+      <div class="container">
+        <div class="feature-panel reveal">
+          <div class="feature-panel__image" style="background-image:url('${img(imageName)}')"></div>
+          <div>
+            <h3>${title}</h3>
+            <div class="service-grid" style="margin-top:1.5rem">${items.map((item, i) => `<div class="feature-item"><img src="${img(`${i + 1}.svg`)}" alt=""><h4>${item}</h4></div>`).join("")}</div>
+          </div>
+        </div>
+      </div>
+    </section>`;
+};
+
+const privacyPage = () => `
+  <main class="section"><div class="container"><div class="rich-text reveal"><h2>Privacy Policy</h2><p>Explore Blending Lab's Privacy Policy and Terms & Conditions. Learn how we protect your data and outline the rules for website usage. Your digital experience, secured.</p><p>Information submitted through contact forms is used to respond to your inquiry and provide relevant project communication. Analytics and cookie tools may be used to understand site performance and improve the experience.</p><h2>Terms & Conditions</h2><p>By using this website, you agree to use the content and contact forms responsibly. Project terms, deliverables, timelines, and pricing are agreed separately before work begins.</p></div></div></main>`;
+
+const styleGuidePage = () => `
+  <main class="section"><div class="container"><div class="rich-text reveal"><h1>Style Guide</h1><h2>Colors</h2><p>Charcoal, almost black, alabaster, gray, and flamingo orange form the core palette.</p><h2>Buttons</h2><p><a class="button" href="#">Default button</a> <a class="glow-button" href="#"><span>Glowing CTA</span></a></p><h2>Cards</h2></div><div class="feature-grid">${["UX/UI Design", "Webflow Development", "Presentation Design", "Google Ads"].map((x) => `<div class="feature-item"><h4>${x}</h4><p>Reusable dark card sample.</p></div>`).join("")}</div></div></main>`;
+
+const utilityPage = () => {
+  const titles = {
+    "log-in.html": "Log in",
+    "sign-up.html": "Sign up",
+    "reset-password.html": "Reset Password",
+    "update-password.html": "Update Password",
+    "access-denied.html": "Access Denied",
+    "user-account.html": "My Account",
+  };
+  const title = titles[page] || "Blending Lab";
+  return `
+    <div class="utility-wrap">
+      <div class="utility-card">
+        <img src="${img("Logo.svg")}" alt="Blending Lab" style="width:54px">
+        <h2>${title}</h2>
+        <p class="muted">This utility page was preserved from the Webflow export. Connect it to your authentication provider before production use.</p>
+        <form><label>Email</label><input type="email" placeholder="john.doe@acme.com"><label>Password</label><input type="password" placeholder="••••••••"><div class="button-row" style="justify-content:flex-start"><button class="button" type="button">${title}</button></div></form>
+        <a class="muted" href="index.html">Back home</a>
+      </div>
+    </div>`;
+};
+
+const placeholderPage = () => {
+  const heading = page.includes("blog") ? "Blog" : page.includes("component") || page === "components.html" ? "Components" : "Happy client, great project";
+  return { heading };
+};
+---
+
+{projectForPage && projectForPage.template === "custom" && <CustomCaseStudy project={projectForPage} admin />}
+{projectForPage && projectForPage.template !== "custom" && <StandardProjectPage project={projectForPage} />}
+
+{
+  page === "index.html" && (
+    <>
+      <Header active="index.html" />
+      <Hero
+        title="You’re a few clicks away from having a dedicated designer for your projects."
+        lead="No payroll, no long-term commitment - just high-quality design when you need it. Think of me as your in-house designer, but without the extra costs."
+        primary={{ label: "Let's talk", href: "contact.html" }}
+        secondary={{ label: "Free Audit", href: "try-for-free.html" }}
+        media={{ image: "IMG-9214-from-Lightroom-1.jpg" }}
+      />
+      <Fragment set:html={brands()} />
+      <Fragment set:html={largeText()} />
+      <ProjectsSection />
+      <Fragment set:html={workWays()} />
+      <FaqSection items={faqs} />
+      <ContactForm />
+      <Footer />
+    </>
+  )
+}
+
+{
+  page === "design.html" && (
+    <>
+      <Header active="design.html" />
+      <Hero
+        title="In-house level design, without the in-house designer cost"
+        lead="Your product challenges, handled by a single designer just an email away. Let’s talk about your needs and how we can work together."
+        primary={{ label: "Book a free 30-min call", href: "https://calendly.com/hello-blending-lab/discovery-call", external: true }}
+        secondary={{ label: "Ask a question", href: "#contact-section", text: true }}
+      />
+      <Fragment set:html={challengePanel()} />
+      <ProjectsSection heading="Case Study" intro="" />
+      <Fragment set:html={expectations("What can you expect from <em>our partnership</em>?", "Image_before.jpg")} />
+      <ContactForm />
+      <Footer />
+    </>
+  )
+}
+
+{
+  page === "web-design.html" && (
+    <>
+      <Header active="design.html" />
+      <Hero
+        title="Great web design starts with the right approach"
+        lead="Websites that feel polished, explain the offer clearly, and create the trust people need before they reach out."
+        primary={{ label: "Book a free 30-min call", href: "https://calendly.com/hello-blending-lab/discovery-call", external: true }}
+        secondary={{ label: "Ask a question", href: "#contact-section", text: true }}
+        media={{ image: "Vertical-Hero-Web-Design-1..webp" }}
+      />
+      <SimpleFeatures title="Identifying a common challenge" items={[["building.svg", "Clarity first", "A site should quickly explain what you do, who it is for, and why visitors should care."], ["user-search.svg", "User journeys", "Pages are shaped around how buyers scan, compare, and decide."], ["Webflow.svg", "Clean Webflow builds", "Layouts are built so your team can keep improving after launch."], ["design.svg", "Strong visual system", "Brand, UI, and conversion sections work together without feeling generic."]]} />
+      <ProjectsSection all heading="Work" intro="" />
+      <Fragment set:html={expectations("What can you expect from a web design project?", "Vertical-Hero-Web-Design-1..webp")} />
+      <ContactForm />
+      <Footer />
+    </>
+  )
+}
+
+{
+  page === "google-ads.html" && (
+    <>
+      <Header active="design.html" />
+      <Hero
+        title="Google Ads makes your phone ring. A lot."
+        lead="At Blending Lab, we blend innovation and precision in Google Ads. Elevate your online presence with expert strategies and clear landing page journeys."
+        primary={{ label: "Let's talk", href: "contact.html" }}
+        media={{ image: "Vertical-Hero-Ads.webp" }}
+      />
+      <SimpleFeatures title="Why Google Ads?" items={[["Pulse.svg", "Fast results", "Reach people who are already searching for what you offer."], ["Focus.svg", "PPC expertise", "Campaigns are structured around intent, relevance, and performance."], ["Coins.svg", "Budget control", "Spend is controlled, visible, and optimized around real outcomes."]]} />
+      <SimpleFeatures title="The process" items={processItems} />
+      <ContactForm />
+      <Footer />
+    </>
+  )
+}
+
+{
+  (page === "projects.html" || page === "projekti.html") && (
+    <>
+      <Header active="projects.html" />
+      <Hero
+        title={page === "projekti.html" ? "Projekti" : "From concept to creation - browse my best work"}
+        lead={page === "projekti.html" ? "Odabrani primjeri radova koji spajaju dizajn, jasnoću i preciznu izvedbu." : "A compact look at recent product, web, and design-system work."}
+        primary={{ label: page === "projekti.html" ? "Pokrenimo razgovor" : "Let's talk", href: page === "projekti.html" ? "#contact-section" : "contact.html" }}
+      />
+      <ProjectsSection all heading={page === "projekti.html" ? "Projekti" : "Projects"} intro="" />
+      <ContactForm croatian={page === "projekti.html"} />
+      <Footer />
+    </>
+  )
+}
+
+{
+  page === "contact.html" && (
+    <>
+      <Header active="contact.html" />
+      <main class="contact-page">
+        <ContactForm />
+        <Footer />
+      </main>
+    </>
+  )
+}
+
+{
+  page === "about-me.html" && (
+    <>
+      <Header active="about-me.html" />
+      <Hero
+        title="Hey there, I'm Karlo. This is the perfect page to get to know me."
+        lead="Scroll through and get to know me better. I'm sharing my distinctive career journey, passions, and personal insights."
+        primary={{ label: "Let's get in touch", href: "#contact-section" }}
+        media={{ image: "About-me.webp" }}
+      />
+      <section class="section"><div class="container"><div class="feature-panel reveal"><div class="feature-panel__image" style={`background-image:url('${img("IMG-9041-from-Lightroom-min.jpg")}')`}></div><div><h2>I dedicated time to self-discovery.</h2><p class="hero__lead">I went from being unsure about my future to starting in advertising, thinking that was my path. But over time, I shifted to design - now my work helps businesses grow while giving me the freedom to do what I love.</p></div></div></div></section>
+      <ContactForm />
+      <Footer />
+    </>
+  )
+}
+
+{
+  page === "try-for-free.html" && (
+    <>
+      <Header active="try-for-free.html" />
+      <Hero title="Get one screen redesigned for free." lead="Share your context, I’ll redesign it and send it back. No commitment." primary={{ label: "Start free redesign", href: "contact.html" }} />
+      <section class="section"><div class="container"><div class="section-title reveal"><h2>Before & After</h2></div><div class="before-after reveal" data-before-after><img src={img("Image_before.jpg")} alt="Before" /><img class="after" src={img("Image_after.jpg")} alt="After" /><input type="range" min="0" max="100" value="50" aria-label="Before after slider" /></div></div></section>
+      <ProjectsSection all heading="Other projects" intro="" />
+      <Footer />
+    </>
+  )
+}
+
+{
+  page === "home.html" && (
+    <>
+      <Header active="home.html" />
+      <Hero title="Vaša vizija. Naš dizajn." lead="Stranice koje jasno komuniciraju vrijednost, izgledaju profesionalno i ostavljaju pravi dojam." primary={{ label: "Pokrenimo razgovor", href: "#contact-section" }} media={{ image: "IMG-9214-from-Lightroom-1.jpg" }} />
+      <ProjectsSection all heading="Projekti" intro="" />
+      <Fragment set:html={workWays()} />
+      <SimpleFeatures title="Zašto baš Blending Lab" items={[["Book-call.svg", "Jasan proces", "Suradnja je strukturirana, pregledna i usmjerena na konkretan ishod."], ["presention-chart.svg", "Poslovni fokus", "Dizajn ne postoji sam za sebe, već podržava prodaju, povjerenje i rast."], ["Webflow.svg", "Brza izvedba", "Webflow omogućuje kvalitetan launch i lakše održavanje nakon njega."]]} />
+      <FaqSection items={faqs} title="Često postavljana pitanja" />
+      <ContactForm croatian />
+      <Footer />
+    </>
+  )
+}
+
+{
+  page === "web-stranice-ads.html" && (
+    <>
+      <Header active="web-stranice-ads.html" />
+      <Hero title="Tražite osobu za izradu web stranica? Na pravom ste mjestu." lead="Tražite vrhunskog partnera za izradu web stranice? Na tržištu je puno konkurencije, stoga nema smisla zadovoljiti se lošom web stranicom." primary={{ label: "Zatražite ponudu", href: "#contact-section" }} media={{ image: "Vertical-Hero-Web-Design-1..webp" }} />
+      <SimpleFeatures title="Dizajn i izrada web stranice" items={[["design.svg", "Dizajn", "Jasna struktura, moderan vizualni sustav i stranice koje grade povjerenje."], ["Webflow.svg", "Webflow", "Izvedba u sustavu koji se može brzo ažurirati i širiti."], ["google-ads.svg", "Google Ads", "Kampanje i landing stranice mogu raditi zajedno prema istom cilju."]]} />
+      <ProjectsSection all heading="Projekti" intro="" />
+      <SimpleFeatures title="The process" items={processItems} />
+      <ContactForm croatian />
+      <Footer />
+    </>
+  )
+}
+
+{
+  page === "privacy-policy.html" && (
+    <>
+      <Header active="privacy-policy.html" />
+      <Fragment set:html={privacyPage()} />
+      <Footer />
+    </>
+  )
+}
+
+{
+  (page === "style-guide.html" || page === "components.html") && (
+    <>
+      <Header active={page} />
+      <Fragment set:html={styleGuidePage()} />
+      <Footer />
+    </>
+  )
+}
+
+{["log-in.html", "sign-up.html", "reset-password.html", "update-password.html", "access-denied.html", "user-account.html"].includes(page) && <Fragment set:html={utilityPage()} />}
+
+{
+  isPlaceholder && (
+    <>
+      <Header active={page} />
+      <Hero title={placeholderPage().heading} lead="This page path was preserved from the Webflow export and rebuilt with the shared Blending Lab visual system." primary={{ label: "Back home", href: "index.html" }} />
+      <ContactForm />
+      <Footer />
+    </>
+  )
+}

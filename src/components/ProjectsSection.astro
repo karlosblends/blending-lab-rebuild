@@ -1,0 +1,24 @@
+---
+import { projects } from "../data/projects.js";
+import ProjectCard from "./ProjectCard.astro";
+
+const {
+  all = false,
+  heading = "Projects",
+  intro = "Projects built to work as good as they look. Designed to grow with your business.",
+} = Astro.props;
+const list = all ? projects.filter((project) => !project.archived) : projects.filter((project) => project.featured && !project.archived);
+---
+
+<section class="section section-projects">
+  <div class="container">
+    <div class="section-title reveal">
+      <h2>{heading}</h2>
+      {intro && <p>{intro}</p>}
+    </div>
+    <div class="projects-list">
+      {list.map((project) => <ProjectCard project={project} />)}
+    </div>
+    {!all && <div class="button-row"><a class="glow-button" href="projects.html"><span>All projects</span></a></div>}
+  </div>
+</section>

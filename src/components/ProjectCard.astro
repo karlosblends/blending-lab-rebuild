@@ -1,0 +1,24 @@
+---
+import { img, imgSrcset } from "../lib/assets.js";
+
+const { project } = Astro.props;
+const href = project.caseStudyUrl || "projects.html";
+const image = project.thumbnail || project.coverImage;
+const srcset = image ? imgSrcset(image) : "";
+---
+
+<a class="project-card reveal" href={href}>
+  <div class="project-card__media">
+    {
+      image ? (
+        <img src={img(image)} srcset={srcset || undefined} sizes={srcset ? "(max-width: 767px) calc(100vw - 2.5rem), calc(100vw - 5rem)" : undefined} alt="" loading="lazy" decoding="async" />
+      ) : (
+        <div class="project-card__placeholder"><span>{project.service || "Project"}</span></div>
+      )
+    }
+  </div>
+  <div class="project-card__text">
+    <h3 class="project-card__title">{project.title}</h3>
+    <p>{project.description}</p>
+  </div>
+</a>

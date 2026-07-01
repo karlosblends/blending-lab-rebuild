@@ -1,0 +1,38 @@
+---
+import { img } from "../lib/assets.js";
+
+const { croatian = false } = Astro.props;
+---
+
+<section id="contact-section" class="section">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-side reveal">
+        <div>
+          <h2 set:html={croatian ? "Pokrenimo razgovor" : "Let's get in <em>touch</em>"} />
+          <p class="hero__lead">
+            {croatian ? "Imate projekt, pitanje ili ideju? Javite se i vidimo koji je najbolji sljedeći korak." : "Hit me up if you’re wishing to discuss a project, have general questions or thinking about a partnership."}
+          </p>
+        </div>
+        <div class="contact-cards">
+          <a class="contact-card" href="mailto:hello@blending-lab.com"><img src={img("Frame-6_1.svg")} alt="" /><span><span class="muted">E-mail</span><br />hello@blending-lab.com</span></a>
+          <a class="contact-card" href="https://www.linkedin.com/in/karlo-osman" target="_blank" rel="noreferrer"><img src={img("Frame-6-1_1.svg")} alt="" /><span><span class="muted">LinkedIn</span><br />@karloosman</span></a>
+        </div>
+      </div>
+      <div class="form-card reveal">
+        <h2>{croatian ? "Spremni za ozbiljniju online prisutnost?" : "Build something great"}</h2>
+        <form data-contact-form action="https://formspree.io/f/xpqgddeg" method="POST" style="margin-top:2rem">
+          <input type="hidden" name="_subject" value="New Blending Lab website inquiry" />
+          <div class="form-grid">
+            <div><label>{croatian ? "Ime i prezime" : "First and last name"}</label><input name="name" required placeholder={croatian ? "Ivan Horvat" : "John Doe"} /></div>
+            <div><label>{croatian ? "E-mail adresa" : "Email Address"}</label><input name="email" type="email" required placeholder={croatian ? "ivan.horvat@gmail.com" : "john.doe@acme.com"} /></div>
+            <div><label>{croatian ? "Tvrtka" : "Company"}</label><input name="company" placeholder={croatian ? "Naziv tvrtke" : "Company name"} /></div>
+            <div class="field--full"><label>{croatian ? "Poruka" : "Message"}</label><textarea name="message" required placeholder={croatian ? "Podijelite što vam je na umu..." : "Share the idea, product, or challenge you’re working on…"}></textarea></div>
+          </div>
+          <p class="form-note" data-form-status role="status" aria-live="polite"></p>
+          <div class="button-row" style="justify-content:flex-start"><button class="button" type="submit">Submit</button></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

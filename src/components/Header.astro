@@ -1,0 +1,43 @@
+---
+import { img } from "../lib/assets.js";
+
+const { active = "index.html" } = Astro.props;
+const pricingHref = active === "index.html" ? "#work-ways" : "index.html#work-ways";
+const links = [
+  ["projects.html", "Projects"],
+  [pricingHref, "Pricing"],
+  ["design.html", "Design"],
+];
+const mobileLinks = [...links, ["contact.html", "Contact"]];
+---
+
+<nav class="nav" data-nav>
+  <div class="nav__bar">
+    <div class="nav__links">
+      {
+        links.slice(0, 2).map(([href, label]) => (
+          <a class:list={["nav__link", active === href && "active"]} href={href}>
+            {label}
+          </a>
+        ))
+      }
+    </div>
+    <a class="nav__logo" href="index.html" aria-label="Blending Lab home">
+      <img src={img("Logo_1.svg")} alt="Blending Lab" />
+    </a>
+    <div class="nav__right">
+      <a class:list={["nav__link", active === "design.html" && "active"]} href="design.html">Design</a>
+      <a class="button" href="contact.html">Contact</a>
+    </div>
+    <button class="nav__toggle" type="button" aria-label="Open menu" aria-expanded="false" data-nav-toggle><span></span></button>
+    <div class="nav__mobile-menu">
+      {
+        mobileLinks.map(([href, label]) => (
+          <a class:list={["nav__link", active === href && "active"]} href={href}>
+            {label}
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</nav>
