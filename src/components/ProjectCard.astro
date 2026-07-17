@@ -5,13 +5,14 @@ const { project } = Astro.props;
 const href = project.caseStudyUrl || "projects.html";
 const image = project.thumbnail || project.coverImage;
 const srcset = image ? imgSrcset(image) : "";
+const sizes = "(max-width: 767px) calc(100vw - 4rem), min(calc(100vw - 8rem), 90rem)";
 ---
 
 <a class="project-card reveal" href={href}>
   <div class="project-card__media">
     {
       image ? (
-        <img src={img(image)} srcset={srcset || undefined} sizes={srcset ? "(max-width: 767px) calc(100vw - 2.5rem), calc(100vw - 5rem)" : undefined} alt="" loading="lazy" decoding="async" />
+        <img src={img(image)} srcset={srcset || undefined} sizes={srcset ? sizes : undefined} alt="" loading="lazy" decoding="async" />
       ) : (
         <div class="project-card__placeholder"><span>{project.service || "Project"}</span></div>
       )

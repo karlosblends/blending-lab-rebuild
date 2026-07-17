@@ -6,6 +6,11 @@ import ContactForm from "./ContactForm.astro";
 import Gallery from "./Gallery.astro";
 
 const { project } = Astro.props;
+const metaItems = [
+  ["Role", project.role || project.service],
+  ["Deliverables", project.deliverables],
+  ["Expertise", project.expertise || project.industry],
+].filter(([, value]) => value);
 ---
 
 <Header active="projects.html" />
@@ -17,24 +22,35 @@ const { project } = Astro.props;
     </div>
     {
       project.coverImage ? (
-        <div class="case-cover reveal" style={`background-image:url('${img(project.coverImage)}')`}></div>
+        <figure class="case-cover reveal">
+          <img src={img(project.coverImage)} alt="" decoding="async" fetchpriority="high" />
+        </figure>
       ) : (
         <div class="case-cover case-cover--empty reveal"><span>Cover image coming soon</span></div>
       )
     }
-    <div class="case-meta-grid case-meta-grid--two reveal">
-      <div class="case-meta"><span class="muted">Service</span><h4>{project.service}</h4></div>
-      <div class="case-meta"><span class="muted">Industry</span><h4>{project.industry}</h4></div>
+    <div class="case-meta-grid reveal">
+      {metaItems.map(([label, value]) => <div class="case-meta"><span class="muted">{label}</span><h4>{value}</h4></div>)}
     </div>
   </div>
 </main>
-<section class="section">
+<section class="section case-body">
   <div class="container">
     <div class="rich-text reveal">
-      <h2>About the project</h2>
-      <p>{project.about}</p>
       <h2>The company</h2>
       <p>{project.company}</p>
+      <h2>My role</h2>
+      <p>{project.myRole || project.about}</p>
+      {
+        project.services?.length > 0 && (
+          <>
+            <h2>Services</h2>
+            <div class="service-tags">
+              {project.services.map((service) => <span>{service}</span>)}
+            </div>
+          </>
+        )
+      }
     </div>
     <Gallery images={project.gallery} />
   </div>

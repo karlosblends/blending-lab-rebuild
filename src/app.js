@@ -233,8 +233,9 @@ function largeText() {
 function projectCard(project) {
   const href = project.caseStudyUrl || "projects.html";
   const image = project.thumbnail || project.coverImage;
+  const sizes = "(max-width: 767px) calc(100vw - 4rem), min(calc(100vw - 8rem), 90rem)";
   const media = image
-    ? `<img src="${img(image)}" ${imgSrcset(image) ? `srcset="${imgSrcset(image)}" sizes="(max-width: 767px) calc(100vw - 2.5rem), calc(100vw - 5rem)"` : ""} alt="" loading="lazy" decoding="async">`
+    ? `<img src="${img(image)}" ${imgSrcset(image) ? `srcset="${imgSrcset(image)}" sizes="${sizes}"` : ""} alt="" loading="lazy" decoding="async">`
     : `<div class="project-card__placeholder"><span>${project.service || "Project"}</span></div>`;
   return `
     <a class="project-card reveal" href="${href}">
@@ -647,11 +648,19 @@ function caseStudy({ admin = false, project } = {}) {
 
 function standardProjectPage(project) {
   if (!project) return placeholderPage("projects.html");
+  const metaItems = [
+    ["Role", project.role || project.service],
+    ["Deliverables", project.deliverables],
+    ["Expertise", project.expertise || project.industry],
+  ].filter(([, value]) => value);
   const cover = project.coverImage
-    ? `<div class="case-cover reveal" style="background-image:url('${img(project.coverImage)}')"></div>`
+    ? `<figure class="case-cover reveal"><img src="${img(project.coverImage)}" alt="" decoding="async" fetchpriority="high"></figure>`
     : `<div class="case-cover case-cover--empty reveal"><span>Cover image coming soon</span></div>`;
   const gallery = project.gallery && project.gallery.length
     ? `<div class="image-grid" style="margin-top:2rem">${project.gallery.map((g) => `<img class="reveal" src="${img(g)}" alt="">`).join("")}</div>`
+    : "";
+  const services = project.services && project.services.length
+    ? `<h2>Services</h2><div class="service-tags">${project.services.map((service) => `<span>${service}</span>`).join("")}</div>`
     : "";
   return `
     ${nav("projects.html")}
@@ -662,19 +671,19 @@ function standardProjectPage(project) {
           <p class="hero__lead">${project.description}</p>
         </div>
         ${cover}
-        <div class="case-meta-grid case-meta-grid--two reveal">
-          <div class="case-meta"><span class="muted">Service</span><h4>${project.service}</h4></div>
-          <div class="case-meta"><span class="muted">Industry</span><h4>${project.industry}</h4></div>
+        <div class="case-meta-grid reveal">
+          ${metaItems.map(([label, value]) => `<div class="case-meta"><span class="muted">${label}</span><h4>${value}</h4></div>`).join("")}
         </div>
       </div>
     </main>
-    <section class="section">
+    <section class="section case-body">
       <div class="container">
         <div class="rich-text reveal">
-          <h2>About the project</h2>
-          <p>${project.about}</p>
           <h2>The company</h2>
           <p>${project.company}</p>
+          <h2>My role</h2>
+          <p>${project.myRole || project.about}</p>
+          ${services}
         </div>
         ${gallery}
       </div>

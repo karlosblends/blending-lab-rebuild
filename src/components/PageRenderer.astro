@@ -67,13 +67,14 @@ const isPlaceholder = !isDirectPage && !projectForPage;
 
 const brands = () => {
   const logos = ["HH-logo.svg", "refinance-logo.svg", "xcelerate-logo.svg", "tmp-logo.svg", "he-logo.svg", "brands-logo.svg"];
+  const logoSet = logos.map((logo) => `<img src="${img(logo)}" alt="">`).join("");
   return `
     <section class="section--small reveal">
       <div class="container">
         <div class="section-title">
           <div class="eyebrow">Teams I've helped grow</div>
         </div>
-        <div class="brands-strip"><div class="brands-grid">${logos.map((logo) => `<img src="${img(logo)}" alt="">`).join("")}</div></div>
+        <div class="brands-strip"><div class="brands-grid"><div class="brands-set">${logoSet}</div><div class="brands-set brands-set--duplicate" aria-hidden="true">${logoSet}</div></div></div>
       </div>
     </section>`;
 };
