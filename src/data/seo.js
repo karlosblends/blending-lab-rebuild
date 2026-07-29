@@ -1,10 +1,17 @@
+export const siteSeo = {
+  title: "Blending Lab — Design + code, from one person",
+  description:
+    "Product design and websites, designed and hand-coded by one person. You get the design and the working, production-ready code — no handoff, no builder lock-in, no team markup.",
+  ogTitle: "Blending Lab — Design + code, from one person",
+  ogImage: "https://www.blending-lab.com/og-image/og-image.jpg",
+};
+
 export const seo = {
   "index.html": {
-    title: "Product Design Partner for Fast-Moving SaaS Teams | Blending Lab",
-    description:
-      "Fractional product design for SaaS and AI teams that need a reliable partner, not another freelancer. Clear flows, clean UI, Webflow builds, and support that actually moves product and growth forward.",
-    ogTitle: "Blending Lab - digital studio for web design, no-code tools and Google Ads",
-    ogImage: "https://drive.google.com/file/d/1AtsFFFK9I_hqWu3sF-YfUVnZpPY89oE7/view?usp=sharing",
+    title: siteSeo.title,
+    description: siteSeo.description,
+    ogTitle: siteSeo.ogTitle,
+    ogImage: siteSeo.ogImage,
   },
   "design.html": {
     title: "Design Services for SaaS, Startups & Digital Products | Blending Lab",
@@ -79,10 +86,21 @@ export const seo = {
 export function getSeo(page, project) {
   if (project) {
     return {
-      title: seo[project.caseStudyUrl]?.title || `${project.title} | Blending Lab`,
-      description: project.description,
+      ...siteSeo,
+      ...seo[project.caseStudyUrl],
+      title: siteSeo.title,
+      description: siteSeo.description,
+      ogTitle: siteSeo.ogTitle,
+      ogImage: siteSeo.ogImage,
     };
   }
 
-  return seo[page] || seo["index.html"];
+  return {
+    ...siteSeo,
+    ...seo[page],
+    title: siteSeo.title,
+    description: siteSeo.description,
+    ogTitle: siteSeo.ogTitle,
+    ogImage: siteSeo.ogImage,
+  };
 }

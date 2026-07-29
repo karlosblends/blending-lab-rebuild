@@ -7,13 +7,19 @@ const img = (name) => {
 };
 const vid = (name) => `/public/assets/videos/${name}`;
 const imgSrcset = (name) => (projectImageSrcsets[name] ? projectImageSrcsets[name].split(", ").map((entry) => `${img(entry.split(" ")[0])} ${entry.split(" ")[1]}`).join(", ") : "");
+const siteSeo = {
+  title: "Blending Lab — Design + code, from one person",
+  description:
+    "Product design and websites, designed and hand-coded by one person. You get the design and the working, production-ready code — no handoff, no builder lock-in, no team markup.",
+  ogTitle: "Blending Lab — Design + code, from one person",
+  ogImage: "https://www.blending-lab.com/og-image/og-image.jpg",
+};
 const meta = {
   "index.html": {
-    title: "Product Design Partner for Fast-Moving SaaS Teams | Blending Lab",
-    description:
-      "Fractional product design for SaaS and AI teams that need a reliable partner, not another freelancer. Clear flows, clean UI, Webflow builds, and support that actually moves product and growth forward.",
-    ogTitle: "Blending Lab - digital studio for web design, no-code tools and Google Ads",
-    ogImage: "https://drive.google.com/file/d/1AtsFFFK9I_hqWu3sF-YfUVnZpPY89oE7/view?usp=sharing",
+    title: siteSeo.title,
+    description: siteSeo.description,
+    ogTitle: siteSeo.ogTitle,
+    ogImage: siteSeo.ogImage,
   },
   "design.html": {
     title: "Design Services for SaaS, Startups & Digital Products | Blending Lab",
@@ -118,16 +124,25 @@ function ensureHeadAssets() {
 }
 
 function setMeta(page) {
-  const data = meta[page] || meta["index.html"];
+  const data = {
+    ...siteSeo,
+    ...(meta[page] || meta["index.html"]),
+    title: siteSeo.title,
+    description: siteSeo.description,
+    ogTitle: siteSeo.ogTitle,
+    ogImage: siteSeo.ogImage,
+  };
   document.title = data.title || "Blending Lab";
   upsertMeta("description", data.description || "");
+  upsertMeta("og:type", "website", "property");
   upsertMeta("og:title", data.ogTitle || data.title || "Blending Lab", "property");
   upsertMeta("og:description", data.description || "", "property");
-  upsertMeta("twitter:title", data.ogTitle || data.title || "Blending Lab", "property");
-  upsertMeta("twitter:description", data.description || "", "property");
+  upsertMeta("twitter:card", "summary_large_image");
+  upsertMeta("twitter:title", data.ogTitle || data.title || "Blending Lab");
+  upsertMeta("twitter:description", data.description || "");
   if (data.ogImage) {
     upsertMeta("og:image", data.ogImage, "property");
-    upsertMeta("twitter:image", data.ogImage, "property");
+    upsertMeta("twitter:image", data.ogImage);
   }
 }
 
