@@ -1244,27 +1244,30 @@ textarea {
 }
 
 .reveal {
-  opacity: 0;
-  filter: blur(12px);
-  transform: translateY(12px);
   transition: opacity 0.6s ease, filter 0.6s ease, transform 0.6s ease;
 }
 
-.reveal.in {
+body.reveal-animations-ready .reveal {
+  opacity: 0;
+  filter: blur(12px);
+  transform: translateY(12px);
+}
+
+body.reveal-animations-ready .reveal.in {
   opacity: 1;
   filter: blur(0);
   transform: translateY(0);
 }
 
-.project-card.reveal.in {
+body.reveal-animations-ready .project-card.reveal.in {
   filter: none;
 }
 
-.hero__media.reveal {
+body.reveal-animations-ready .hero__media.reveal {
   transform: translateY(12px) scale(var(--hero-media-scale, 0.8));
 }
 
-.hero__media.reveal.in {
+body.reveal-animations-ready .hero__media.reveal.in {
   transform: translateY(0) scale(var(--hero-media-scale, 0.8));
 }
 

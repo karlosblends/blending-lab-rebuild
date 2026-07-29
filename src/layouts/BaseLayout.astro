@@ -296,6 +296,7 @@ const socialTitle = meta.ogTitle || title;
 
       const revealElements = document.querySelectorAll(".reveal");
       if ("IntersectionObserver" in window) {
+        document.body.classList.add("reveal-animations-ready");
         const observer = new IntersectionObserver(
           (entries) => {
             entries.forEach((entry) => {
@@ -308,6 +309,9 @@ const socialTitle = meta.ogTitle || title;
           { threshold: 0.12 }
         );
         revealElements.forEach((el) => observer.observe(el));
+        window.setTimeout(() => {
+          revealElements.forEach((el) => el.classList.add("in"));
+        }, 1600);
       } else {
         revealElements.forEach((el) => el.classList.add("in"));
       }

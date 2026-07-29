@@ -234,9 +234,9 @@ function largeText() {
         <div class="large-copy">Let's be real. <strong>Hiring a full-time designer</strong> means paying a salary plus all the extra costs that come with it. And agencies? You're paying for their entire team, not just the <strong>work you need</strong>. With me, you get <span class="accent">high-quality design</span> without the <strong>overhead</strong>.</div>
         <div class="mini-grid">
           ${[
-            ["Frame-6.svg", "Save money"],
-            ["Frame-6-1.svg", "Get world-class design"],
-            ["Frame-6-2.svg", "Predictable cost"],
+            ["Frame-6.svg", "Design + code, one person"],
+            ["Frame-6-1.svg", "Production-ready, not just mockups"],
+            ["Frame-6-2.svg", "Direct access, 48h response"],
           ]
             .map(([icon, text]) => `<div class="mini-card"><img src="${img(icon)}" alt=""><span>${text}</span></div>`)
             .join("")}
@@ -399,8 +399,8 @@ function homePage() {
   return `
     ${nav("index.html")}
     ${hero({
-      title: "You’re a few clicks away from having a dedicated designer for your projects.",
-      lead: "No payroll, no long-term commitment - just high-quality design when you need it. Think of me as your in-house designer, but without the extra costs.",
+      title: "You get the design and the working, production-ready code. From one person, not a team.",
+      lead: "I join SaaS and AI teams as their design partner — from product UX to hand-coded, production-ready pages. No handoffs, no account managers, no builder lock-in. You own the code and host it anywhere.",
       primary: { label: "Let's talk", href: "contact.html" },
       secondary: { label: "Free Audit", href: "try-for-free.html" },
       media: { image: "IMG-9214-from-Lightroom-1.jpg" },
