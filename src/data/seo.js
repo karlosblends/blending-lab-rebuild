@@ -13,10 +13,15 @@ export const seo = {
     ogTitle: siteSeo.ogTitle,
     ogImage: siteSeo.ogImage,
   },
-  "design.html": {
-    title: "Design Services for SaaS, Startups & Digital Products | Blending Lab",
+  "about.html": {
+    title: "About Blending Lab | Design that ships",
     description:
-      "Design services for startups and SaaS companies - product design, Webflow development, and presentation design in flexible hour packages.",
+      "Meet Karlo Osman: a design engineer who designs products and websites, then hand-codes the frontend so the approved design is what ships.",
+  },
+  "design.html": {
+    title: "About Blending Lab | Design that ships",
+    description:
+      "The old design page has moved to the new Blending Lab About page.",
   },
   "web-design.html": {
     title: "Blending Lab - Web design services",
@@ -39,6 +44,10 @@ export const seo = {
     title: "Try a Free Screen Redesign | Blending Lab",
     description:
       "Get one of your product or landing page screens redesigned for free. Share your context, I’ll redesign it and send it back. No commitment.",
+  },
+  "estimate.html": {
+    title: "Project Estimate | Blending Lab",
+    description: "Estimate a one-time project or ongoing design partnership with Blending Lab.",
   },
   "privacy-policy.html": {
     title: "Privacy Policy",

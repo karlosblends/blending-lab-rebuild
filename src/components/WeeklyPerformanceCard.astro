@@ -1,0 +1,65 @@
+---
+import { img } from "../lib/assets.js";
+
+const days = [
+  ["Mon", "10", 52.87],
+  ["Tue", "11", 117.6],
+  ["Wed", "12", 182.97],
+  ["Thu", "13", 248.34],
+  ["Fri", "14", 314.34],
+  ["Sat", "15", 379.71],
+];
+
+const stats = [
+  ["Best", "$90.00"],
+  ["Worst", "$45.00"],
+  ["Current", "$45.00"],
+];
+
+const chartAsset = (name) => img(`images/weekly-performance/${name}.svg`);
+---
+
+<article class="weekly-performance-card" aria-labelledby="weekly-performance-title" data-node-id="367:3416">
+  <h3 class="weekly-performance-card__title" id="weekly-performance-title" data-node-id="367:3417">Weekly Performance</h3>
+
+  <div class="weekly-performance-card__days" aria-label="Week range">
+    {days.map(([day, date, x]) => (
+      <div class="weekly-performance-card__day" style={`--day-x:${x}`}>
+        <span>{day}</span>
+        <strong>{date}</strong>
+      </div>
+    ))}
+  </div>
+
+  <div class="weekly-performance-card__chart" aria-hidden="true">
+    {[0, 1, 2, 3, 5].map((index) => (
+      <img
+        class="weekly-performance-card__grid-line"
+        src={chartAsset("grid-line")}
+        alt=""
+        style={`--line-index:${index}`}
+        loading="lazy"
+      />
+    ))}
+    <img class="weekly-performance-card__area" src={chartAsset("area-fill")} alt="" loading="lazy" />
+    <img class="weekly-performance-card__trend" src={chartAsset("trend-line")} alt="" loading="lazy" />
+    <img class="weekly-performance-card__active-line" src={chartAsset("active-line")} alt="" loading="lazy" />
+    <img class="weekly-performance-card__forecast" src={chartAsset("forecast-line")} alt="" loading="lazy" />
+    <img class="weekly-performance-card__dot" src={chartAsset("current-dot")} alt="" loading="lazy" />
+
+    <div class="weekly-performance-card__tooltip">
+      <span>4,890:</span>
+      <strong>Low end</strong>
+    </div>
+  </div>
+
+  <dl class="weekly-performance-card__stats">
+    {stats.map(([label, value], index) => (
+      <div class="weekly-performance-card__stat">
+        <dt>{label}</dt>
+        <dd>{value}</dd>
+        {index < stats.length - 1 && <img src={chartAsset("divider")} alt="" loading="lazy" />}
+      </div>
+    ))}
+  </dl>
+</article>

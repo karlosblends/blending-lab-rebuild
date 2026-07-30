@@ -1,0 +1,31 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+const estimatorUrl = "https://blending-estimator.lovable.app/estimate";
+---
+
+<BaseLayout page="estimate.html">
+  <Header active="estimate.html" />
+  <main class="estimate-page">
+    <iframe
+      class="estimate-frame"
+      data-estimate-frame
+      src="about:blank"
+      title="Blending Lab estimate calculator"
+      loading="eager"
+      referrerpolicy="strict-origin-when-cross-origin"
+      allow="clipboard-write"
+    ></iframe>
+  </main>
+  <Footer />
+  <script define:vars={{ estimatorUrl }}>
+    const frame = document.querySelector("[data-estimate-frame]");
+    if (frame) {
+      const source = new URL(estimatorUrl);
+      source.search = window.location.search;
+      frame.src = source.toString();
+    }
+  </script>
+</BaseLayout>

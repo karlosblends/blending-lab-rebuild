@@ -161,6 +161,30 @@ export const projects = [
     caseStudyUrl: "super-ai.html",
   },
   {
+    title: "AsPromised",
+    slug: "aspromised",
+    template: "standard",
+    description:
+      "A CRO tool that scores how well a landing page keeps its ad's promise — conceived, designed, coded, and shipped solo, from idea to live payments.",
+    role: "Founder, Designer & Developer",
+    service: "SaaS Product",
+    deliverables: "Live SaaS Product, CRO Diagnostic Tool, Payments",
+    expertise: "Product Design, Front-end Development, CRO, Payments",
+    industry: "Conversion Optimization",
+    pageIntro:
+      "AsPromised is a conversion tool I took end to end on my own: idea, product design, front-end code, and a live payment flow. Users paste an ad and a landing page, and it returns a prioritized diagnosis of where the page breaks the ad's promise — grounded in ten published CRO frameworks, with its reasoning shown instead of hidden in a black box.",
+    proofLine:
+      "The point of this project isn't a pixel-perfect UI — it's range. One person carrying a real product from a blank page to something live and paid, designing and building every layer.",
+    services: ["Product Strategy", "Product Design", "Front-end Development", "CRO", "Payment Flow", "Solo Build"],
+    coverImage: projectAsset("aspromised", "cover.png"),
+    gallery: projectGallery("aspromised", 4),
+    featured: true,
+    archived: false,
+    caseStudyUrl: "aspromised.html",
+    liveUrl: "https://aspromised.io/",
+    liveLabel: "Try it live →",
+  },
+  {
     title: "Byte Lab",
     slug: "byte-lab",
     template: "standard",

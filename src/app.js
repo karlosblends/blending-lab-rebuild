@@ -97,6 +97,10 @@ const faqs = [
     "Agencies charge for their overhead, not just the work. With me, you get senior-level design without account managers, project coordinators, or markup. Whether it's a one-time website or ongoing product design, you work directly with one person who actually does the work.",
   ],
   [
+    "Do you also develop, or only design?",
+    "Both — that's the point. I design the product and the interface, then build it in production-ready code. You get one person from first flow to shipped page, and you own the code with no builder lock-in.",
+  ],
+  [
     "How do I know if I need a project or a monthly plan?",
     "If you have a clear, scoped goal like a website redesign, landing page, or pitch deck, a one-time project works well. If your team ships regularly and needs design support across product, web, and marketing, the monthly plan gives you consistent capacity without hiring.",
   ],
@@ -231,14 +235,14 @@ function largeText() {
     <section class="section reveal">
       <div class="container">
         <div class="section-title"><div class="eyebrow"><span class="pulse"></span>Today's market situation</div></div>
-        <div class="large-copy">Let's be real. <strong>Hiring a full-time designer</strong> means paying a salary plus all the extra costs that come with it. And agencies? You're paying for their entire team, not just the <strong>work you need</strong>. With me, you get <span class="accent">high-quality design</span> without the <strong>overhead</strong>.</div>
-        <div class="mini-grid">
+        <div class="large-copy large-copy--fill" data-fill-statement>Strong SaaS and AI products need more than static&nbsp;screens. They need <strong>product thinking</strong>, polished interface detail, and frontend implementation your team can wire into the real product. That is the design engineer layer: <span class="fill-accent">UX, UI and clean components moving together.</span></div>
+        <div class="mini-grid" data-chip-reveal>
           ${[
-            ["Frame-6.svg", "Design + code, one person"],
-            ["Frame-6-1.svg", "Production-ready, not just mockups"],
-            ["Frame-6-2.svg", "Direct access, 48h response"],
+            ["images/Icon/icon-design-frontend.svg", "Design + frontend"],
+            ["images/Icon/icon-pixel-perfect.svg", "Pixel-perfect build"],
+            ["images/Icon/icon-reusable-components.svg", "Reusable components"],
           ]
-            .map(([icon, text]) => `<div class="mini-card"><img src="${img(icon)}" alt=""><span>${text}</span></div>`)
+            .map(([icon, text]) => `<div class="mini-card"><span class="mini-card__icon" style="--icon:url('${img(icon)}')" aria-hidden="true"></span><span>${text}</span></div>`)
             .join("")}
         </div>
       </div>
@@ -307,11 +311,11 @@ function workWays() {
         <div class="split-cards" style="margin-top:2rem">
           <article class="cta-card reveal">
             <div><h3>One-time project</h3></div>
-            <div><p>Get an estimated price range for your website, landing page, or digital product in under 2 minutes.</p><div class="button-row" style="justify-content:flex-start"><a class="button" href="https://blending-estimator.lovable.app/estimate?path=project" target="_blank" rel="noreferrer">Get an estimate →</a></div></div>
+            <div><p>Get an estimated price range for your website, landing page, or digital product in under 2 minutes.</p><div class="button-row" style="justify-content:flex-start"><a class="button button--flip" href="/estimate?path=project" aria-label="Get an estimate"><span class="button--flip__track" aria-hidden="true"><span class="button--flip__line"><span>Get an estimate</span><span class="button--flip__arrow">→</span></span><span class="button--flip__line"><span>Get an estimate</span><span class="button--flip__arrow">→</span></span></span></a></div></div>
           </article>
           <article class="cta-card second reveal">
             <div><h3>Looking for a design partner?</h3></div>
-            <div><p>See how ongoing design support works and what to expect investment-wise.</p><div class="button-row" style="justify-content:flex-start"><a class="button" href="https://blending-estimator.lovable.app/estimate?path=retainer" target="_blank" rel="noreferrer">Explore pricing →</a></div></div>
+            <div><p>See how ongoing design support works and what to expect investment-wise.</p><div class="button-row" style="justify-content:flex-start"><a class="button button--flip" href="/estimate?path=retainer" aria-label="Explore pricing"><span class="button--flip__track" aria-hidden="true"><span class="button--flip__line"><span>Explore pricing</span><span class="button--flip__arrow">→</span></span><span class="button--flip__line"><span>Explore pricing</span><span class="button--flip__arrow">→</span></span></span></a></div></div>
           </article>
         </div>
       </div>
@@ -388,7 +392,7 @@ function footer() {
             </div>
           </div>
           <div class="footer__links"><span class="footer__muted">Pages</span><a href="index.html">Home</a><a href="projects.html">Projects</a><a href="contact.html">Contact</a></div>
-          <div class="footer__links"><span class="footer__muted">Legal</span><a href="privacy-policy.html">Privacy policy</a><a href="privacy-policy.html">Tems and Conditions</a></div>
+          <div class="footer__links"><span class="footer__muted">Legal</span><a href="privacy-policy.html">Privacy policy</a><!-- TODO: Link this once a dedicated terms page exists. --><span class="footer__pending" aria-disabled="true" title="Terms page still needs to be created">Terms and Conditions</span></div>
         </div>
         <div class="footer__bottom">2026 Blending Lab. All rights reserved.</div>
       </div>
@@ -399,8 +403,8 @@ function homePage() {
   return `
     ${nav("index.html")}
     ${hero({
-      title: "You get the design and the working, production-ready code. From one person, not a team.",
-      lead: "I join SaaS and AI teams as their design partner — from product UX to hand-coded, production-ready pages. No handoffs, no account managers, no builder lock-in. You own the code and host it anywhere.",
+      title: "A design engineer for your product and the site around it.",
+      lead: "Product UX and interfaces, hand-coded into working, production-ready frontend, built clean for your team to wire up. One person, no handoff, no builder lock-in.",
       primary: { label: "Let's talk", href: "contact.html" },
       secondary: { label: "Free Audit", href: "try-for-free.html" },
       media: { image: "IMG-9214-from-Lightroom-1.jpg" },
@@ -870,6 +874,164 @@ function attachBehavior() {
     input.addEventListener("input", update);
     update();
   });
+
+  const fillStatements = Array.from(document.querySelectorAll("[data-fill-statement]"));
+  const reduceTextMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  if (fillStatements.length && !reduceTextMotion.matches) {
+    let fillTicking = false;
+    let fillResizeTimer;
+
+    const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
+    const isBreakSpace = (character) => /\s/.test(character) && character !== "\u00a0";
+
+    const splitStatement = (setup) => {
+      const { element, originalHtml } = setup;
+      element.innerHTML = originalHtml;
+      element.classList.remove("is-fill-ready");
+
+      const textNodes = [];
+      const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+      let textLength = 0;
+      while (walker.nextNode()) {
+        const node = walker.currentNode;
+        const start = textLength;
+        textLength += node.nodeValue.length;
+        textNodes.push({ node, start, end: textLength });
+      }
+
+      const rawText = element.textContent || "";
+      const readableText = rawText.trim().replace(/\s+/g, " ");
+      const accentText = element.querySelector(".fill-accent")?.textContent || "";
+      const accentStart = accentText ? rawText.indexOf(accentText) : -1;
+      const accentEnd = accentStart + accentText.length;
+
+      const positionAt = (index) => {
+        const match = textNodes.find((item) => index >= item.start && index <= item.end) || textNodes[textNodes.length - 1];
+        return {
+          node: match.node,
+          offset: Math.min(Math.max(index - match.start, 0), match.node.nodeValue.length),
+        };
+      };
+
+      const tokens = [];
+      let index = 0;
+      while (index < rawText.length) {
+        while (index < rawText.length && isBreakSpace(rawText[index])) index += 1;
+        const start = index;
+        while (index < rawText.length && !isBreakSpace(rawText[index])) index += 1;
+        if (start < index) tokens.push({ start, end: index });
+      }
+
+      const range = document.createRange();
+      const lines = [];
+      tokens.forEach((token) => {
+        const start = positionAt(token.start);
+        const end = positionAt(token.end);
+        range.setStart(start.node, start.offset);
+        range.setEnd(end.node, end.offset);
+        const rect = Array.from(range.getClientRects()).find((item) => item.width || item.height);
+        if (!rect) return;
+
+        const current = lines[lines.length - 1];
+        if (!current || Math.abs(rect.top - current.top) > 4) {
+          lines.push({ start: token.start, end: token.end, top: rect.top });
+        } else {
+          current.end = token.end;
+        }
+      });
+      range.detach?.();
+
+      const appendPieces = (parent, line) => {
+        let cursor = line.start;
+        const addText = (text, isAccent = false) => {
+          if (!text) return;
+          if (isAccent) {
+            const span = document.createElement("span");
+            span.className = "fill-line__accent";
+            span.textContent = text;
+            parent.appendChild(span);
+            return;
+          }
+          parent.appendChild(document.createTextNode(text));
+        };
+
+        if (accentStart >= 0 && line.end > accentStart && line.start < accentEnd) {
+          addText(rawText.slice(cursor, Math.max(cursor, accentStart)));
+          addText(rawText.slice(Math.max(line.start, accentStart), Math.min(line.end, accentEnd)), true);
+          cursor = Math.min(line.end, accentEnd);
+        }
+        addText(rawText.slice(cursor, line.end));
+      };
+
+      element.innerHTML = "";
+      element.setAttribute("aria-label", readableText);
+      element.setAttribute("role", "text");
+      setup.lines = lines.map((line) => {
+        const lineElement = document.createElement("span");
+        const base = document.createElement("span");
+        const ink = document.createElement("span");
+        lineElement.className = "fill-line";
+        base.className = "fill-line__base";
+        ink.className = "fill-line__ink";
+        lineElement.setAttribute("aria-hidden", "true");
+        appendPieces(base, line);
+        appendPieces(ink, line);
+        lineElement.append(base, ink);
+        element.appendChild(lineElement);
+        return lineElement;
+      });
+      element.classList.add("is-fill-ready");
+    };
+
+    const fillSetups = fillStatements.map((element) => ({
+      element,
+      originalHtml: element.innerHTML,
+      lines: [],
+    }));
+
+    const updateStatementFill = () => {
+      fillTicking = false;
+      fillSetups.forEach((setup) => {
+        const { element, lines } = setup;
+        const rect = element.getBoundingClientRect();
+        const start = window.innerHeight * 0.92;
+        const end = window.innerHeight * 0.22;
+        const progress = clamp((start - rect.top) / Math.max(1, start - end));
+        const delayedProgress = clamp((progress - 0.34) / 0.66);
+        const lineStep = 1 / Math.max(lines.length + 0.75, 1);
+        const lineDuration = lineStep * 1.65;
+        lines.forEach((line, index) => {
+          const lineProgress = clamp((delayedProgress - index * lineStep) / lineDuration);
+          line.style.setProperty("--fill", `${lineProgress * 100}%`);
+        });
+
+        const chips = element.closest(".section")?.querySelector("[data-chip-reveal]");
+        chips?.classList.add("is-ready");
+        chips?.classList.toggle("is-visible", delayedProgress > 0.86);
+      });
+    };
+
+    const requestFillUpdate = () => {
+      if (!fillTicking) {
+        fillTicking = true;
+        requestAnimationFrame(updateStatementFill);
+      }
+    };
+
+    fillSetups.forEach((setup) => {
+      splitStatement(setup);
+      setup.element.closest(".section")?.querySelector("[data-chip-reveal]")?.classList.add("is-ready");
+    });
+    requestFillUpdate();
+    window.addEventListener("scroll", requestFillUpdate, { passive: true });
+    window.addEventListener("resize", () => {
+      clearTimeout(fillResizeTimer);
+      fillResizeTimer = window.setTimeout(() => {
+        fillSetups.forEach(splitStatement);
+        requestFillUpdate();
+      }, 120);
+    });
+  }
 
   const observer = new IntersectionObserver(
     (entries) => {

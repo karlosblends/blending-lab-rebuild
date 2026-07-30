@@ -6,7 +6,7 @@ const pricingHref = active === "index.html" ? "#work-ways" : "index.html#work-wa
 const links = [
   ["projects.html", "Projects"],
   [pricingHref, "Pricing"],
-  ["design.html", "Design"],
+  ["about.html", "About"],
 ];
 const mobileLinks = [...links, ["contact.html", "Contact"]];
 ---
@@ -26,7 +26,7 @@ const mobileLinks = [...links, ["contact.html", "Contact"]];
       <img src={img("Logo_1.svg")} alt="Blending Lab" />
     </a>
     <div class="nav__right">
-      <a class:list={["nav__link", active === "design.html" && "active"]} href="design.html">Design</a>
+      <a class:list={["nav__link", active === "about.html" && "active"]} href="about.html">About</a>
       <a class="button" href="contact.html">Contact</a>
     </div>
     <button class="nav__toggle" type="button" aria-label="Open menu" aria-expanded="false" data-nav-toggle><span></span></button>

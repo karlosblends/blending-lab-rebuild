@@ -11,6 +11,10 @@ const metaItems = [
   ["Deliverables", project.deliverables],
   ["Expertise", project.expertise || project.industry],
 ].filter(([, value]) => value);
+const introHeading = project.pageIntro ? "Overview" : "The company";
+const introText = project.pageIntro || project.company;
+const roleHeading = project.proofLine ? "What this shows" : "My role";
+const roleText = project.proofLine || project.myRole || project.about;
 ---
 
 <Header active="projects.html" />
@@ -37,10 +41,19 @@ const metaItems = [
 <section class="section case-body">
   <div class="container">
     <div class="rich-text reveal">
-      <h2>The company</h2>
-      <p>{project.company}</p>
-      <h2>My role</h2>
-      <p>{project.myRole || project.about}</p>
+      <h2>{introHeading}</h2>
+      <p>{introText}</p>
+      {
+        project.liveUrl && (
+          <div class="case-actions">
+            <a class="button button--ghost" href={project.liveUrl} target="_blank" rel="noreferrer">
+              {project.liveLabel || "View live project"}
+            </a>
+          </div>
+        )
+      }
+      <h2>{roleHeading}</h2>
+      <p>{roleText}</p>
       {
         project.services?.length > 0 && (
           <>

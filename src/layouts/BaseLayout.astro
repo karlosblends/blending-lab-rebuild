@@ -117,6 +117,192 @@ const socialTitle = meta.ogTitle || title;
         update();
       });
 
+      const fillStatements = Array.from(document.querySelectorAll("[data-fill-statement]"));
+      const reduceTextMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+      if (fillStatements.length && !reduceTextMotion.matches) {
+        let fillTicking = false;
+        let fillResizeTimer;
+
+        const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
+        const isBreakSpace = (character) => /\s/.test(character) && character !== "\u00a0";
+
+        const splitStatement = (setup) => {
+          const { element, originalHtml } = setup;
+          element.innerHTML = originalHtml;
+          element.classList.remove("is-fill-ready");
+
+          const textNodes = [];
+          const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+          let textLength = 0;
+          while (walker.nextNode()) {
+            const node = walker.currentNode;
+            const start = textLength;
+            textLength += node.nodeValue.length;
+            textNodes.push({ node, start, end: textLength });
+          }
+
+          const rawText = element.textContent || "";
+          const readableText = rawText.trim().replace(/\s+/g, " ");
+          const accentText = element.querySelector(".fill-accent")?.textContent || "";
+          const accentStart = accentText ? rawText.indexOf(accentText) : -1;
+          const accentEnd = accentStart + accentText.length;
+
+          const positionAt = (index) => {
+            const match = textNodes.find((item) => index >= item.start && index <= item.end) || textNodes[textNodes.length - 1];
+            return {
+              node: match.node,
+              offset: Math.min(Math.max(index - match.start, 0), match.node.nodeValue.length),
+            };
+          };
+
+          const tokens = [];
+          let index = 0;
+          while (index < rawText.length) {
+            while (index < rawText.length && isBreakSpace(rawText[index])) index += 1;
+            const start = index;
+            while (index < rawText.length && !isBreakSpace(rawText[index])) index += 1;
+            if (start < index) tokens.push({ start, end: index });
+          }
+
+          const range = document.createRange();
+          const lines = [];
+          tokens.forEach((token) => {
+            const start = positionAt(token.start);
+            const end = positionAt(token.end);
+            range.setStart(start.node, start.offset);
+            range.setEnd(end.node, end.offset);
+            const rect = Array.from(range.getClientRects()).find((item) => item.width || item.height);
+            if (!rect) return;
+
+            const current = lines[lines.length - 1];
+            if (!current || Math.abs(rect.top - current.top) > 4) {
+              lines.push({ start: token.start, end: token.end, top: rect.top });
+            } else {
+              current.end = token.end;
+            }
+          });
+          range.detach?.();
+
+          const appendPieces = (parent, line) => {
+            let cursor = line.start;
+            const addText = (text, isAccent = false) => {
+              if (!text) return;
+              if (isAccent) {
+                const span = document.createElement("span");
+                span.className = "fill-line__accent";
+                span.textContent = text;
+                parent.appendChild(span);
+                return;
+              }
+              parent.appendChild(document.createTextNode(text));
+            };
+
+            if (accentStart >= 0 && line.end > accentStart && line.start < accentEnd) {
+              addText(rawText.slice(cursor, Math.max(cursor, accentStart)));
+              addText(rawText.slice(Math.max(line.start, accentStart), Math.min(line.end, accentEnd)), true);
+              cursor = Math.min(line.end, accentEnd);
+            }
+            addText(rawText.slice(cursor, line.end));
+          };
+
+          element.innerHTML = "";
+          element.setAttribute("aria-label", readableText);
+          element.setAttribute("role", "text");
+          setup.lines = lines.map((line) => {
+            const lineElement = document.createElement("span");
+            const base = document.createElement("span");
+            const ink = document.createElement("span");
+            lineElement.className = "fill-line";
+            base.className = "fill-line__base";
+            ink.className = "fill-line__ink";
+            lineElement.setAttribute("aria-hidden", "true");
+            appendPieces(base, line);
+            appendPieces(ink, line);
+            lineElement.append(base, ink);
+            element.appendChild(lineElement);
+            return lineElement;
+          });
+          element.classList.add("is-fill-ready");
+        };
+
+        const fillSetups = fillStatements.map((element) => ({
+          element,
+          originalHtml: element.innerHTML,
+          lines: [],
+        }));
+
+        const updateStatementFill = () => {
+          fillTicking = false;
+          fillSetups.forEach((setup) => {
+            const { element, lines } = setup;
+            const rect = element.getBoundingClientRect();
+            let delayedProgress;
+
+            if (element.classList.contains("about-statement")) {
+              const section = element.closest(".section, .about-section") || element;
+              const sectionRect = section.getBoundingClientRect();
+              const statementTop = rect.top + window.scrollY;
+              const sectionBottom = sectionRect.bottom + window.scrollY;
+              const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+              const startY = Math.max(0, statementTop - window.innerHeight * 0.86);
+              const endY = Math.min(maxScroll, sectionBottom - window.innerHeight * 0.42);
+              const progressRange = Math.max(1, endY - startY);
+              const sectionProgress = clamp((window.scrollY - startY) / progressRange);
+              const start = window.innerHeight * 0.9;
+              const end = window.innerHeight * 0.54;
+              const lineStep = 1 / Math.max(lines.length, 1);
+              const lineDuration = lineStep * 1.7;
+              let totalLineProgress = 0;
+              lines.forEach((line, index) => {
+                const lineRect = line.getBoundingClientRect();
+                const viewportProgress = clamp((start - lineRect.top) / Math.max(1, start - end));
+                const sequenceProgress = clamp((sectionProgress - index * lineStep) / lineDuration);
+                const lineProgress = Math.max(viewportProgress, sequenceProgress);
+                totalLineProgress += lineProgress;
+                line.style.setProperty("--fill", `${lineProgress * 100}%`);
+              });
+              delayedProgress = lines.length ? totalLineProgress / lines.length : 0;
+            } else {
+              const start = window.innerHeight * 0.92;
+              const end = window.innerHeight * 0.22;
+              const progress = clamp((start - rect.top) / Math.max(1, start - end));
+              delayedProgress = clamp((progress - 0.34) / 0.66);
+              const lineStep = 1 / Math.max(lines.length + 0.75, 1);
+              const lineDuration = lineStep * 1.65;
+              lines.forEach((line, index) => {
+                const lineProgress = clamp((delayedProgress - index * lineStep) / lineDuration);
+                line.style.setProperty("--fill", `${lineProgress * 100}%`);
+              });
+            }
+
+            const chips = element.closest(".section, .about-section")?.querySelector("[data-chip-reveal]");
+            chips?.classList.add("is-ready");
+            chips?.classList.toggle("is-visible", delayedProgress > 0.86);
+          });
+        };
+
+        const requestFillUpdate = () => {
+          if (!fillTicking) {
+            fillTicking = true;
+            requestAnimationFrame(updateStatementFill);
+          }
+        };
+
+        fillSetups.forEach((setup) => {
+          splitStatement(setup);
+          setup.element.closest(".section, .about-section")?.querySelector("[data-chip-reveal]")?.classList.add("is-ready");
+        });
+        requestFillUpdate();
+        window.addEventListener("scroll", requestFillUpdate, { passive: true });
+        window.addEventListener("resize", () => {
+          clearTimeout(fillResizeTimer);
+          fillResizeTimer = window.setTimeout(() => {
+            fillSetups.forEach(splitStatement);
+            requestFillUpdate();
+          }, 120);
+        });
+      }
+
       const nav = document.querySelector("[data-nav]");
       if (nav) {
         const navBar = nav.querySelector(".nav__bar");
@@ -314,6 +500,24 @@ const socialTitle = meta.ogTitle || title;
         }, 1600);
       } else {
         revealElements.forEach((el) => el.classList.add("in"));
+      }
+
+      const aboutPrinciples = document.querySelectorAll(".about-principle");
+      if (aboutPrinciples.length && "IntersectionObserver" in window) {
+        const numberObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-number-active");
+                numberObserver.unobserve(entry.target);
+              }
+            });
+          },
+          { rootMargin: "-24% 0px -70% 0px", threshold: 0 }
+        );
+        aboutPrinciples.forEach((item) => numberObserver.observe(item));
+      } else {
+        aboutPrinciples.forEach((item) => item.classList.add("is-number-active"));
       }
 
       const heroMedia = document.querySelector(".hero__media");

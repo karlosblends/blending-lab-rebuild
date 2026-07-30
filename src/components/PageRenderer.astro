@@ -10,6 +10,7 @@ import FaqSection from "./FaqSection.astro";
 import SimpleFeatures from "./SimpleFeatures.astro";
 import StandardProjectPage from "./StandardProjectPage.astro";
 import CustomCaseStudy from "./CustomCaseStudy.astro";
+import WeeklyPerformanceCard from "./WeeklyPerformanceCard.astro";
 
 const { page = "index.html" } = Astro.props;
 const projectForPage = projects.find((project) => project.caseStudyUrl === page || project.legacyUrls?.includes(page));
@@ -18,6 +19,10 @@ const faqs = [
   [
     "Why work with a dedicated design partner instead of an agency?",
     "Agencies charge for their overhead, not just the work. With me, you get senior-level design without account managers, project coordinators, or markup. Whether it's a one-time website or ongoing product design, you work directly with one person who actually does the work.",
+  ],
+  [
+    "Do you also develop, or only design?",
+    "Both. That's the point. I design the product and the interface, then build it in production-ready code. You get one person from first flow to shipped page, and you own the code with no builder lock-in.",
   ],
   [
     "How do I know if I need a project or a monthly plan?",
@@ -41,6 +46,7 @@ const processItems = [
 
 const directPages = [
   "index.html",
+  "about.html",
   "design.html",
   "web-design.html",
   "google-ads.html",
@@ -83,14 +89,14 @@ const largeText = () => `
   <section class="section reveal">
     <div class="container">
       <div class="section-title"><div class="eyebrow"><span class="pulse"></span>Today's market situation</div></div>
-      <div class="large-copy">Let's be real. <strong>Hiring a full-time designer</strong> means paying a salary plus all the extra costs that come with it. And agencies? You're paying for their entire team, not just the <strong>work you need</strong>. With me, you get <span class="accent">high-quality design</span> without the <strong>overhead</strong>.</div>
-      <div class="mini-grid">
+      <div class="large-copy large-copy--fill" data-fill-statement>Strong SaaS and AI products need more than static&nbsp;screens. They need <strong>product thinking</strong>, polished interface detail, and frontend implementation your team can wire into the real product. That is the design engineer layer: <span class="fill-accent">UX, UI and clean components moving together.</span></div>
+      <div class="mini-grid" data-chip-reveal>
         ${[
-          ["Frame-6.svg", "Design + code, one person"],
-          ["Frame-6-1.svg", "Production-ready, not just mockups"],
-          ["Frame-6-2.svg", "Direct access, 48h response"],
+          ["images/Icon/icon-design-frontend.svg", "Design + frontend"],
+          ["images/Icon/icon-pixel-perfect.svg", "Pixel-perfect build"],
+          ["images/Icon/icon-reusable-components.svg", "Reusable components"],
         ]
-          .map(([icon, text]) => `<div class="mini-card"><img src="${img(icon)}" alt=""><span>${text}</span></div>`)
+          .map(([icon, text]) => `<div class="mini-card"><span class="mini-card__icon" style="--icon:url('${img(icon)}')" aria-hidden="true"></span><span>${text}</span></div>`)
           .join("")}
       </div>
     </div>
@@ -103,11 +109,11 @@ const workWays = () => `
       <div class="split-cards" style="margin-top:2rem">
         <article class="cta-card reveal">
           <div><h3>One-time project</h3></div>
-          <div><p>Get an estimated price range for your website, landing page, or digital product in under 2 minutes.</p><div class="button-row" style="justify-content:flex-start"><a class="button" href="https://blending-estimator.lovable.app/estimate?path=project" target="_blank" rel="noreferrer">Get an estimate →</a></div></div>
+          <div><p>Get an estimated price range for your website, landing page, or digital product in under 2 minutes.</p><div class="button-row" style="justify-content:flex-start"><a class="button button--flip" href="/estimate?path=project" aria-label="Get an estimate"><span class="button--flip__track" aria-hidden="true"><span class="button--flip__line"><span>Get an estimate</span><span class="button--flip__arrow">→</span></span><span class="button--flip__line"><span>Get an estimate</span><span class="button--flip__arrow">→</span></span></span></a></div></div>
         </article>
         <article class="cta-card second reveal">
           <div><h3>Looking for a design partner?</h3></div>
-          <div><p>See how ongoing design support works and what to expect investment-wise.</p><div class="button-row" style="justify-content:flex-start"><a class="button" href="https://blending-estimator.lovable.app/estimate?path=retainer" target="_blank" rel="noreferrer">Explore pricing →</a></div></div>
+          <div><p>See how ongoing design support works and what to expect investment-wise.</p><div class="button-row" style="justify-content:flex-start"><a class="button button--flip" href="/estimate?path=retainer" aria-label="Explore pricing"><span class="button--flip__track" aria-hidden="true"><span class="button--flip__line"><span>Explore pricing</span><span class="button--flip__arrow">→</span></span><span class="button--flip__line"><span>Explore pricing</span><span class="button--flip__arrow">→</span></span></span></a></div></div>
         </article>
       </div>
     </div>
@@ -159,6 +165,152 @@ const privacyPage = () => `
 const styleGuidePage = () => `
   <main class="section"><div class="container"><div class="rich-text reveal"><h1>Style Guide</h1><h2>Colors</h2><p>Charcoal, almost black, alabaster, gray, and flamingo orange form the core palette.</p><h2>Buttons</h2><p><a class="button" href="#">Default button</a> <a class="glow-button" href="#"><span>Glowing CTA</span></a></p><h2>Cards</h2></div><div class="feature-grid">${["UX/UI Design", "Webflow Development", "Presentation Design", "Google Ads"].map((x) => `<div class="feature-item"><h4>${x}</h4><p>Reusable dark card sample.</p></div>`).join("")}</div></div></main>`;
 
+const aboutProjects = ["aspromised", "xcare-admin-portal", "refinance-digital-dashboard", "xcare-website"]
+  .map((slug) => projects.find((project) => project.slug === slug))
+  .filter(Boolean);
+
+const aboutProjectDescriptions = {
+  aspromised:
+    "A conversion tool I took from idea to designed, coded, and live, with payments. Proof I can carry a product end to end, alone.",
+};
+
+const aboutPage = () => {
+  const principles = [
+    [
+      "01",
+      "Direct communication. No middleman.",
+      "You talk to me, the person doing the work, start to finish. No account manager relaying feedback, no telephone game, no waiting to hear what got lost along the way.",
+    ],
+    [
+      "02",
+      "Designed around your business, not to show off.",
+      "I design for what the product needs to do (convert, clarify, retain), not for a screenshot that looks clever. Sharp is the baseline; doing the job is the point.",
+    ],
+    [
+      "03",
+      "Design and code together. No freelancer juggling.",
+      "You get the interface designed and the frontend built by the same person. No hiring a designer, then a developer, then hoping they agree on anything.",
+    ],
+    [
+      "04",
+      "Brand in mind, conversion in focus.",
+      "The work ships looking like you and built to move the metric. On-brand and high-converting aren't a trade-off when the same person handles both.",
+    ],
+  ];
+
+  return `
+    <main class="about-page">
+      <section class="about-hero">
+        <div class="about-container about-hero__grid">
+          <div class="about-hero__copy reveal">
+            <p class="about-eyebrow">About Blending Lab</p>
+            <h1>Design that makes it all the way to the screen.</h1>
+            <p>I'm Karlo. I design products and websites, then hand-code the frontend myself, so the thing you approved is the thing that ships.</p>
+          </div>
+          <figure class="about-portrait reveal" aria-label="Karlo Osman portrait">
+            <img src="${img("karlo-landscape-office.png")}" alt="Karlo Osman" />
+          </figure>
+        </div>
+      </section>
+
+      <section class="about-thesis" id="work">
+        <div class="about-container about-thesis__inner reveal">
+          <h2>A designer who also builds the frontend.</h2>
+          <p>Most designers stop at the mockup and pass it to someone else to build. I don't. I design the interface and the product thinking, then write the frontend code myself, so what you signed off on is what actually ends up in front of your users.</p>
+          <a href="#how" class="about-text-link">See how I work ↓</a>
+        </div>
+      </section>
+
+      <section class="about-section" id="how">
+        <div class="about-container about-split">
+          <div class="about-section__intro reveal">
+            <p class="about-eyebrow">How the work actually runs</p>
+            <h2>How I work</h2>
+            <p>I work like part of your team, not a vendor you brief and wait on. Close to your goals, your brand, and the way you already work, so what I make fits the business, not just the screen.</p>
+          </div>
+          <div class="about-principles">
+            ${principles
+              .map(
+                ([number, title, text]) => `
+                  <article class="about-principle reveal">
+                    <span>(${number})</span>
+                    <div>
+                      <h3>${title}</h3>
+                      <p>${text}</p>
+                    </div>
+                  </article>`
+              )
+              .join("")}
+          </div>
+        </div>
+      </section>
+
+      <section class="about-section about-section--compact">
+        <div class="about-container">
+          <div class="about-stacked-copy reveal">
+            <p class="about-eyebrow">Solo, accountable, direct</p>
+            <div class="about-statement large-copy large-copy--fill" data-fill-statement>One person. From the first flow to the shipped frontend. No handoffs, no account managers, no telephone game. Just me, <span class="fill-accent">accountable the whole way.</span></div>
+            <p class="about-statement__note">When a project needs backend or heavier engineering, I build the frontend clean and handoff-ready so your developers can plug in without rework.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="about-section about-work">
+        <div class="about-container">
+          <div class="about-work__heading reveal">
+            <p class="about-eyebrow">Selected work</p>
+            <h2>Things I've designed and shipped.</h2>
+            <p>A few recent projects. Product interfaces, dashboards, and websites, most designed and built end to end.</p>
+          </div>
+          <div class="about-project-grid">
+            ${aboutProjects
+              .map(
+                (project) => `
+                  <a class="about-project-card reveal" href="${project.caseStudyUrl}">
+                    <div class="about-project-card__image">
+                      <img src="${img(project.coverImage)}" alt="${project.title}" loading="lazy" />
+                    </div>
+                    <div>
+                      <span>${project.industry}</span>
+                      <h3>${project.title}</h3>
+                      <p>${aboutProjectDescriptions[project.slug] || project.description}</p>
+                    </div>
+                  </a>`
+              )
+              .join("")}
+          </div>
+          <a class="about-text-link about-work__link reveal" href="projects.html">More in the full project list →</a>
+        </div>
+      </section>
+
+      <section class="about-section about-calendly" id="call">
+        <div class="about-container">
+          <div class="about-calendly__copy reveal">
+            <p class="about-eyebrow">You've reached the end, so...</p>
+            <h2>Tell me what you're building.</h2>
+            <p>A short call to talk through what you need, what it'd take, and whether I'm the right fit. No pitch, no pressure.</p>
+          </div>
+          <div class="about-calendly__embed reveal">
+            <div class="calendly-inline-widget" data-url="https://calendly.com/hello-blending-lab/discovery-call?background_color=101010&text_color=f8f8f8&primary_color=fc4f1c" style="min-width:320px;height:760px;"></div>
+          </div>
+          <p class="about-email reveal">Or email me: <a href="mailto:hello@blending-lab.com">hello@blending-lab.com</a></p>
+        </div>
+        <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+      </section>
+    </main>`;
+};
+
+const designRedirectPage = () => `
+  <main class="utility-wrap">
+    <div class="utility-card">
+      <img src="${img("Logo.svg")}" alt="Blending Lab" style="width:54px">
+      <h2>Redirecting to About</h2>
+      <p class="muted">The design page has moved.</p>
+      <a class="button" href="about.html">Go to About</a>
+    </div>
+  </main>
+  <script>window.location.replace("/about");</script>`;
+
 const utilityPage = () => {
   const titles = {
     "log-in.html": "Log in",
@@ -195,8 +347,8 @@ const placeholderPage = () => {
     <>
       <Header active="index.html" />
       <Hero
-        title="You get the design and the working, production-ready code. From one person, not a team."
-        lead="I join SaaS and AI teams as their design partner — from product UX to hand-coded, production-ready pages. No handoffs, no account managers, no builder lock-in. You own the code and host it anywhere."
+        title="A design engineer for your product and the site around it."
+        lead="Product UX and interfaces, hand-coded into working, production-ready frontend, built clean for your team to wire up. One person, no handoff, no builder lock-in."
         primary={{ label: "Let's talk", href: "contact.html" }}
         secondary={{ label: "Free Audit", href: "try-for-free.html" }}
         media={{ image: "IMG-9214-from-Lightroom-1.jpg" }}
@@ -213,20 +365,19 @@ const placeholderPage = () => {
 }
 
 {
+  page === "about.html" && (
+    <>
+      <Header active="about.html" />
+      <Fragment set:html={aboutPage()} />
+      <Footer />
+    </>
+  )
+}
+
+{
   page === "design.html" && (
     <>
-      <Header active="design.html" />
-      <Hero
-        title="In-house level design, without the in-house designer cost"
-        lead="Your product challenges, handled by a single designer just an email away. Let’s talk about your needs and how we can work together."
-        primary={{ label: "Book a free 30-min call", href: "https://calendly.com/hello-blending-lab/discovery-call", external: true }}
-        secondary={{ label: "Ask a question", href: "#contact-section", text: true }}
-      />
-      <Fragment set:html={challengePanel()} />
-      <ProjectsSection heading="Case Study" intro="" />
-      <Fragment set:html={expectations("What can you expect from <em>our partnership</em>?", "Image_before.jpg")} />
-      <ContactForm />
-      <Footer />
+      <Fragment set:html={designRedirectPage()} />
     </>
   )
 }
@@ -234,7 +385,7 @@ const placeholderPage = () => {
 {
   page === "web-design.html" && (
     <>
-      <Header active="design.html" />
+      <Header active="about.html" />
       <Hero
         title="Great web design starts with the right approach"
         lead="Websites that feel polished, explain the offer clearly, and create the trust people need before they reach out."
@@ -254,7 +405,7 @@ const placeholderPage = () => {
 {
   page === "google-ads.html" && (
     <>
-      <Header active="design.html" />
+      <Header active="about.html" />
       <Hero
         title="Google Ads makes your phone ring. A lot."
         lead="At Blending Lab, we blend innovation and precision in Google Ads. Elevate your online presence with expert strategies and clear landing page journeys."
@@ -370,6 +521,11 @@ const placeholderPage = () => {
     <>
       <Header active={page} />
       <Fragment set:html={styleGuidePage()} />
+      <section class="section--small">
+        <div class="container performance-card-preview">
+          <WeeklyPerformanceCard />
+        </div>
+      </section>
       <Footer />
     </>
   )
