@@ -139,6 +139,31 @@ export const projects = [
     caseStudyUrl: "humble-hunters.html",
   },
   {
+    title: "NY/LON Psychology",
+    slug: "ny-lon",
+    template: "standard",
+    description:
+      "A bold, cinematic Webflow website for a psychology practice shaped by New York, London, and the people who move between them.",
+    role: "Lead Designer, Strategist, Art Director & Webflow Developer",
+    service: "UX/UI Design",
+    deliverables: "Strategy, UX/UI Design, Art Direction, Motion Design, Webflow Development",
+    expertise: "Editorial Web Design, Service Architecture, Webflow, Motion Direction",
+    industry: "Psychology / Mental Health / Professional Services",
+    platform: "Webflow",
+    company:
+      "NY/LON Psychology is a practice serving individuals, clinicians, and organizations across New York and London.",
+    myRole:
+      "Led strategy, design, art direction, copy direction, motion direction, Webflow development, SEO foundations, and launch for a psychology website that needed to feel intelligent, international, emotionally aware, and distinct from the conventions of the category.",
+    services: ["Strategy", "UX/UI Design", "Art Direction", "Copy Direction", "Motion Design", "Webflow Development", "SEO", "Launch"],
+    coverImage: projectAsset("ny-lon", "cover.png"),
+    gallery: projectGallery("ny-lon", 5),
+    featured: true,
+    archived: false,
+    caseStudyUrl: "ny-lon-psychology.html",
+    liveUrl: "https://www.nylonpsychology.com",
+    liveLabel: "Visit live website →",
+  },
+  {
     title: "super.AI",
     slug: "super-ai",
     template: "standard",
@@ -251,3 +276,580 @@ export const projects = [
     caseStudyUrl: "jvcs.html",
   },
 ];
+
+// Curated for breadth: alternate client, project type, and visual/problem framing rather than chronology.
+const curatedProjectOrder = [
+  "xcare-admin-portal",
+  "humble-hunters",
+  "ny-lon",
+  "xcare-warranty-purchase-process",
+  "refinance-digital-dashboard",
+  "xcare-website",
+  "aspromised",
+  "byte-lab",
+  "jvcs",
+  "caronwall",
+  "humble-education",
+  "super-ai",
+];
+
+const curatedProjectRank = new Map(curatedProjectOrder.map((slug, index) => [slug, index]));
+
+projects.sort((a, b) => (curatedProjectRank.get(a.slug) ?? Number.MAX_SAFE_INTEGER) - (curatedProjectRank.get(b.slug) ?? Number.MAX_SAFE_INTEGER));
+
+const caseStudyConfigs = {
+  "xcare-admin-portal": {
+    label: "XCare · Internal product design",
+    headline: "Designing the internal platform behind XCare",
+    summary: "Support and operations workspace for warranty claims, customer records, messages, and daily case work.",
+    heroTreatment: "immersive",
+    intro: {
+      eyebrow: "Operating context",
+      title: "Claims, customers, and daily decisions in one workspace",
+      body:
+        "The admin portal brings claims, customer records, messages, and approvals into one internal workspace.",
+    },
+    context: [
+      ["Role", "Product Designer"],
+      ["Scope", "Admin platform, claims workflows, design system"],
+      ["Focus", "Internal tools, information architecture, operations UX"],
+    ],
+    sections: [
+      {
+        type: "fullImage",
+        image: projectAsset("xcare-admin-portal", "gallery-01.png"),
+        caption: "Claims overview with status filters.",
+      },
+      {
+        type: "textImage",
+        eyebrow: "Workflow design",
+        title: "Status, ownership, and next action stay visible.",
+        body:
+          "Detail screens keep the current state of the case close to the customer and policy context.",
+        image: projectAsset("xcare-admin-portal", "gallery-02.png"),
+        caption: "Claim detail with customer and policy context.",
+        scale: "wide",
+      },
+      {
+        type: "twoImage",
+        ratio: "primary",
+        title: "A system of connected operational views",
+        body:
+          "The same structure carries across messages, claim details, and operational views.",
+        images: [
+          { src: projectAsset("xcare-admin-portal", "gallery-03.png") },
+          { src: projectAsset("xcare-admin-portal", "gallery-04.png") },
+        ],
+      },
+    ],
+  },
+  "xcare-warranty-purchase-process": {
+    label: "XCare · Purchase flow",
+    headline: "Clarifying the EV warranty purchase journey",
+    summary: "A responsive purchase flow for vehicle entry, plan selection, and checkout.",
+    heroTreatment: "immersive",
+    intro: {
+      eyebrow: "Conversion context",
+      title: "A multi-step decision with real financial weight",
+      body:
+        "The purchase flow moves from vehicle details to plan selection and checkout, with product detail introduced only where it matters.",
+    },
+    context: [
+      ["Role", "Product Designer"],
+      ["Scope", "Purchase flow, design system, A/B testing"],
+      ["Focus", "User flows, trust, conversion UX"],
+    ],
+    sections: [
+      {
+        type: "fullImage",
+        eyebrow: "Sequence",
+        title: "From vehicle entry to plan selection",
+        body:
+          "Plan differences, pricing, and checkout stay visible as the customer moves through the flow.",
+        image: projectAsset("xcare-warranty-purchase-process", "gallery-01.png"),
+        caption: "Vehicle details and quote entry.",
+      },
+      {
+        type: "twoImage",
+        ratio: "primary",
+        title: "Coverage selection and purchase states",
+        body: "Related steps are shown in one aligned grid so the flow reads as a connected product.",
+        images: [
+          { src: projectAsset("xcare-warranty-purchase-process", "gallery-02.png"), caption: "Coverage selection." },
+          { src: projectAsset("xcare-warranty-purchase-process", "gallery-03.png"), caption: "Checkout state." },
+        ],
+      },
+      {
+        type: "fullImage",
+        size: "bleed",
+        image: projectAsset("xcare-warranty-purchase-process", "gallery-04.png"),
+        caption: "Mobile owner details and purchase guidance.",
+      },
+    ],
+  },
+  "xcare-website": {
+    label: "XCare · Website system",
+    headline: "A website system for XCare's EV warranty product",
+    summary: "A customer-facing website and landing-page system for explaining EV warranty products.",
+    heroTreatment: "contained",
+    intro: {
+      eyebrow: "Marketing and product overlap",
+      title: "A website that has to explain, reassure, and convert",
+      body:
+        "The website supports education, landing pages, product launches, and conversion experiments for XCare.",
+    },
+    context: [
+      ["Role", "Product Designer"],
+      ["Scope", "Website, landing pages, design system, CRO"],
+      ["Focus", "Product communication and conversion"],
+    ],
+    sections: [
+      {
+        type: "textImage",
+        eyebrow: "Communication design",
+        title: "Turning a complicated product into a clearer first impression",
+        body:
+          "The homepage puts coverage, price, and quote entry close together instead of hiding them behind long copy.",
+        image: projectAsset("xcare-website", "gallery-01.png"),
+        scale: "wide",
+      },
+      {
+        type: "twoImage",
+        title: "Landing pages as part of the product system",
+        body:
+          "Campaign pages reuse the core product language while staying focused on one offer.",
+        images: [
+          { src: projectAsset("xcare-website", "gallery-02.png") },
+          { src: projectAsset("xcare-website", "gallery-03.png") },
+        ],
+      },
+      {
+        type: "fullImage",
+        image: projectAsset("xcare-website", "gallery-04.png"),
+        caption: "Mobile quote and education states.",
+      },
+    ],
+  },
+  "refinance-digital-dashboard": {
+    label: "Refinance Digital · Fintech dashboard",
+    headline: "Designing a broker dashboard for rate-aware decisions",
+    summary: "A CRM-style dashboard for rates, client portfolios, and refinancing opportunities.",
+    heroTreatment: "immersive",
+    intro: {
+      eyebrow: "Product context",
+      title: "A data-heavy workspace for daily broker decisions",
+      body:
+        "Refinance Digital helps brokers monitor loan rates, client portfolios, and refinancing opportunities from one dashboard.",
+    },
+    context: [
+      ["Role", "Product Designer"],
+      ["Scope", "CRM dashboard, data visualization, internal platform"],
+      ["Focus", "Information architecture and decision support"],
+    ],
+    sections: [
+      {
+        type: "fullImage",
+        image: projectAsset("refinance-digital-dashboard", "gallery-01.png"),
+        caption: "Broker dashboard with portfolio and rate signals.",
+      },
+      {
+        type: "twoImage",
+        ratio: "primary",
+        title: "From portfolio overview to individual action",
+        body:
+          "The supporting screens carry the same data hierarchy into follow-up workflows.",
+        images: [
+          { src: projectAsset("refinance-digital-dashboard", "gallery-02.png") },
+          { src: projectAsset("refinance-digital-dashboard", "gallery-03.png") },
+        ],
+      },
+    ],
+  },
+  "humble-education": {
+    label: "Humble Education · Webflow website",
+    headline: "Designing a clearer path for students studying abroad",
+    summary: "A Webflow website and CMS for international student guidance.",
+    heroTreatment: "contained",
+    intro: {
+      eyebrow: "Website context",
+      title: "A service website built around trust and orientation",
+      body:
+        "Humble Education helps international students navigate admissions, visas, and studying abroad.",
+    },
+    context: [
+      ["Role", "UX/UI Designer and Webflow Developer"],
+      ["Scope", "Marketing website, CMS, custom animations"],
+      ["Focus", "Visual design, Webflow development, CMS"],
+    ],
+    sections: [
+      {
+        type: "textImage",
+        eyebrow: "Content structure",
+        title: "Making the process feel less overwhelming",
+        body:
+          "The layout turns a complicated service into a clearer path of information and action.",
+        image: projectAsset("humble-education", "gallery-01.png"),
+        scale: "wide",
+      },
+      {
+        type: "twoImage",
+        title: "A warm visual system with room for practical detail",
+        body:
+          "Supporting pages keep the tone warm while leaving space for admissions detail.",
+        images: [
+          { src: projectAsset("humble-education", "gallery-02.png") },
+          { src: projectAsset("humble-education", "gallery-03.png") },
+        ],
+      },
+      {
+        type: "fullImage",
+        image: projectAsset("humble-education", "gallery-04.png"),
+      },
+    ],
+  },
+  "humble-hunters": {
+    label: "Humble Hunters · Recruitment website",
+    headline: "A sharper website system for a recruitment group",
+    summary: "A marketing website and CMS for a multi-brand recruitment group.",
+    heroTreatment: "immersive",
+    intro: {
+      eyebrow: "Brand and website",
+      title: "A polished digital presence for a multi-brand recruitment group",
+      body:
+        "Humble Hunters needed a modern website language that could scale through Webflow CMS and reusable page patterns.",
+    },
+    context: [
+      ["Role", "UX/UI Designer and Webflow Developer"],
+      ["Scope", "Marketing website, CMS, custom animations"],
+      ["Focus", "Visual hierarchy, Webflow development, motion"],
+    ],
+    sections: [
+      {
+        type: "fullImage",
+        image: projectAsset("humble-hunters", "gallery-01.png"),
+        caption: "Homepage and recruitment network entry.",
+      },
+      {
+        type: "textImage",
+        eyebrow: "System design",
+        title: "Bold typography, controlled structure, and maintainable sections",
+        body:
+          "The CMS structure keeps the bold visual direction maintainable across pages.",
+        image: projectAsset("humble-hunters", "gallery-02.png"),
+        align: "left",
+      },
+      {
+        type: "twoImage",
+        images: [
+          { src: projectAsset("humble-hunters", "gallery-03.png") },
+          { src: projectAsset("humble-hunters", "gallery-04.png") },
+        ],
+      },
+      {
+        type: "fullImage",
+        image: projectAsset("humble-hunters", "gallery-05.png"),
+      },
+    ],
+  },
+  "ny-lon": {
+    label: "NY/LON Psychology · Webflow website",
+    headline: "A psychology website that refuses to look like one.",
+    summary:
+      "A bold, cinematic digital identity for a psychology practice shaped by New York, London, and the people who move between them.",
+    heroTreatment: "immersive",
+    heroImage: projectAsset("ny-lon", "cover.png"),
+    heroAlt: "NY/LON Psychology homepage with large serif typography over an aerial city crossing",
+    intro: {
+      eyebrow: "Website and art direction",
+      title: "Psychology between two cities",
+      body:
+        "NY/LON Psychology needed a website that could hold therapy, clinical supervision, consulting, and Mental Health First Aid training without looking like a conventional therapy template. The direction leaned into real New York and London imagery, oversized serif typography, controlled motion, and clear paths into the practice.",
+    },
+    context: [
+      ["Role", "Lead designer, strategist, art director, and Webflow developer"],
+      ["Scope", "Strategy, UX/UI, art direction, Webflow, motion, SEO"],
+      ["Focus", "Service architecture and cinematic visual direction"],
+    ],
+    sections: [
+      {
+        type: "fullImage",
+        image: projectAsset("ny-lon", "gallery-02.png"),
+        fit: "interface-contain",
+        background: "warm",
+        padding: "tight",
+        alt: "NY/LON Psychology website section pairing New York and London photography",
+        caption: "A homepage section connects the NY/LON point of view with clear service paths.",
+      },
+      {
+        type: "textImage",
+        eyebrow: "Visual language",
+        title: "A different kind of psychology website",
+        body:
+          "Instead of soft wellness cues, the site uses deep electric blue, warm neutral surfaces, large editorial type, and city photography with a more observational tone. The result feels premium and culturally specific without becoming cold or clinical.",
+        image: projectAsset("ny-lon", "gallery-04.png"),
+        fit: "interface-contain",
+        background: "cool",
+        padding: "tight",
+        alt: "NY/LON Psychology about section showing deep blue brand color and service positioning",
+        caption: "The about section sets the tone for a practice shaped by more than one kind of psychological work.",
+        align: "left",
+      },
+      {
+        type: "twoImage",
+        title: "New York and London as texture",
+        body:
+          "The photography avoids postcard landmarks and generic therapy imagery. Transit, infrastructure, architecture, and street-level movement give the site a sense of place without making it feel like a tourism brand.",
+        images: [
+          {
+            src: projectAsset("ny-lon", "cover.png"),
+            fit: "visual-cover",
+            background: "warm",
+            padding: "tight",
+            alt: "NY/LON Psychology homepage using aerial street movement for New York",
+            caption: "New York appears through movement, infrastructure, and street-level pressure.",
+          },
+          {
+            src: projectAsset("ny-lon", "gallery-01.png"),
+            fit: "visual-cover",
+            background: "warm",
+            padding: "tight",
+            alt: "NY/LON Psychology supervision page with London bridge photography",
+            caption: "London is shown through architecture, transit, and night-time city texture.",
+          },
+        ],
+      },
+      {
+        type: "textImage",
+        eyebrow: "Responsive design",
+        title: "Keeping the character on smaller screens",
+        body:
+          "Large typography and expressive layouts were adapted deliberately for mobile rather than simply scaled down. Service pages keep their editorial rhythm while staying readable and direct.",
+        image: projectAsset("ny-lon", "gallery-03.png"),
+        fit: "interface-contain",
+        background: "warm",
+        padding: "tight",
+        alt: "Two mobile screens for NY/LON Psychology showing therapy and consulting pages",
+        caption: "Mobile layouts preserve the expressive type scale without making the service pages hard to scan.",
+        scale: "wide",
+      },
+      {
+        type: "fullImage",
+        image: projectAsset("ny-lon", "gallery-05.png"),
+        fit: "interface-contain",
+        background: "warm",
+        padding: "tight",
+        alt: "NY/LON Psychology contact page with locations and inquiry form",
+        caption: "The contact page keeps the editorial identity intact while making inquiry paths practical.",
+      },
+    ],
+  },
+  "super-ai": {
+    label: "super.AI · Enterprise homepage concept",
+    headline: "Making an enterprise AI product feel easier to understand",
+    summary: "A homepage concept for an enterprise AI document-processing platform.",
+    heroTreatment: "contained",
+    intro: {
+      eyebrow: "Homepage concept",
+      title: "A technical product needed a clearer front door",
+      body:
+        "The homepage concept turns intelligent document processing into a clearer product story.",
+    },
+    context: [
+      ["Role", "UX/UI Designer"],
+      ["Scope", "Homepage concept, responsive UI"],
+      ["Focus", "Enterprise product communication"],
+    ],
+    sections: [
+      {
+        type: "twoImage",
+        title: "A homepage paced between explanation and proof",
+        body:
+          "The page moves between product explanation and proof surfaces.",
+        images: [
+          { src: projectAsset("super-ai", "gallery-01.png") },
+          { src: projectAsset("super-ai", "gallery-02.png") },
+        ],
+      },
+      {
+        type: "fullImage",
+        image: projectAsset("super-ai", "gallery-03.png"),
+      },
+      {
+        type: "textImage",
+        title: "Responsive states stay part of the story",
+        body:
+          "Mobile keeps the same hierarchy without shrinking the product story away.",
+        image: projectAsset("super-ai", "gallery-04.png"),
+        scale: "crop",
+      },
+    ],
+  },
+  aspromised: {
+    label: "AsPromised · Solo SaaS product",
+    headline: "Taking a CRO diagnostic product from idea to live payments",
+    summary: "A live SaaS product for diagnosing gaps between ads and landing pages.",
+    heroTreatment: "immersive",
+    intro: {
+      eyebrow: "Solo product build",
+      title: "One product carried from blank page to live checkout",
+      body:
+        "AsPromised is a live CRO diagnostic tool with product design, frontend, and payments handled end to end.",
+    },
+    context: [
+      ["Role", "Founder, designer and developer"],
+      ["Scope", "Product strategy, UI, frontend, payment flow"],
+      ["Focus", "CRO diagnostics and product execution"],
+    ],
+    sections: [
+      {
+        type: "fullImage",
+        image: projectAsset("aspromised", "gallery-01.png"),
+        fit: "interface-contain",
+        aspect: "four-three",
+        background: "aspromised",
+        padding: "comfortable",
+        caption: "Ad and landing-page diagnostic workspace.",
+      },
+      {
+        type: "twoImage",
+        title: "From input to diagnosis",
+        body:
+          "The product moves from page input to a prioritized diagnosis.",
+        images: [
+          { src: projectAsset("aspromised", "gallery-02.png"), fit: "interface-contain", aspect: "four-three", background: "aspromised", padding: "comfortable" },
+          { src: projectAsset("aspromised", "gallery-03.png"), fit: "interface-contain", aspect: "four-three", background: "aspromised", padding: "comfortable" },
+        ],
+      },
+      {
+        type: "fullImage",
+        image: projectAsset("aspromised", "gallery-04.png"),
+        fit: "interface-contain",
+        aspect: "four-three",
+        background: "aspromised",
+        padding: "comfortable",
+      },
+    ],
+  },
+  "byte-lab": {
+    label: "Byte Lab · Website redesign",
+    headline: "Refining an engineering website around clearer conversion paths",
+    summary: "A targeted website redesign for an embedded systems company.",
+    heroTreatment: "contained",
+    intro: {
+      eyebrow: "Website redesign",
+      title: "A technical company needed sharper structure without losing credibility",
+      body:
+        "Byte Lab needed clearer information architecture for embedded systems, IoT, and electronic product work.",
+    },
+    context: [
+      ["Role", "UX/UI Designer"],
+      ["Scope", "Website redesign, information architecture"],
+      ["Focus", "Content hierarchy and conversion"],
+    ],
+    sections: [
+      {
+        type: "textImage",
+        eyebrow: "Information architecture",
+        title: "Making engineering expertise easier to navigate",
+        body:
+          "Technical services and proof points are organized around faster evaluation.",
+        image: projectAsset("byte-lab", "gallery-01.png"),
+        scale: "wide",
+      },
+      {
+        type: "twoImage",
+        images: [
+          { src: projectAsset("byte-lab", "gallery-02.png") },
+          { src: projectAsset("byte-lab", "gallery-03.png") },
+        ],
+      },
+      {
+        type: "twoImage",
+        title: "Supporting pages keep the system practical",
+        body:
+          "Deeper pages keep the hierarchy without repeating one layout.",
+        images: [
+          { src: projectAsset("byte-lab", "gallery-04.png") },
+          { src: projectAsset("byte-lab", "gallery-05.png") },
+        ],
+      },
+    ],
+  },
+  caronwall: {
+    label: "Caronwall · Webflow Ecommerce",
+    headline: "Building a premium ecommerce experience around product clarity",
+    summary: "A Webflow Ecommerce build for a premium automotive store.",
+    heroTreatment: "contained",
+    intro: {
+      eyebrow: "Ecommerce context",
+      title: "A store experience designed to keep attention on the product",
+      body:
+        "Caronwall needed a clean Webflow Ecommerce build for product presentation, browsing, and checkout.",
+    },
+    context: [
+      ["Role", "Webflow Developer"],
+      ["Scope", "Ecommerce website, CMS"],
+      ["Focus", "Responsive build and purchase flow"],
+    ],
+    sections: [
+      {
+        type: "fullImage",
+        image: projectAsset("caronwall", "gallery-01.png"),
+      },
+      {
+        type: "textImage",
+        title: "A calm shopping flow for a premium product category",
+        body:
+          "Navigation, product detail, and checkout stay direct so the products remain the focus.",
+        image: projectAsset("caronwall", "gallery-02.png"),
+      },
+      {
+        type: "twoImage",
+        images: [
+          { src: projectAsset("caronwall", "gallery-03.png") },
+          { src: projectAsset("caronwall", "gallery-04.png") },
+        ],
+      },
+    ],
+  },
+  jvcs: {
+    label: "JVCS · Recruitment website concept",
+    headline: "A motion-led website direction for a global workforce brand",
+    summary: "A futuristic marketing website concept for a global workforce brand.",
+    heroTreatment: "immersive",
+    intro: {
+      eyebrow: "Website concept",
+      title: "A technology-forward identity translated into a website system",
+      body:
+        "JVCS needed a digital direction for a global recruitment and workforce brand.",
+    },
+    context: [
+      ["Role", "UX/UI Designer"],
+      ["Scope", "Marketing website, custom animations"],
+      ["Focus", "Visual design, motion direction, responsive UI"],
+    ],
+    sections: [
+      {
+        type: "fullImage",
+        image: projectAsset("JVCS", "gallery-01.png"),
+      },
+      {
+        type: "twoImage",
+        title: "A visual system carried across page states",
+        images: [
+          { src: projectAsset("JVCS", "gallery-02.png") },
+          { src: projectAsset("JVCS", "gallery-03.png") },
+        ],
+      },
+      {
+        type: "fullImage",
+        image: projectAsset("JVCS", "gallery-04.png"),
+      },
+    ],
+  },
+};
+
+projects.forEach((project) => {
+  const config = caseStudyConfigs[project.slug];
+  if (config) project.caseStudy = config;
+});

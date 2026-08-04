@@ -1,7 +1,15 @@
 ---
 import { img } from "../lib/assets.js";
 
-const { croatian = false } = Astro.props;
+const { croatian = false, caseStudy = false } = Astro.props;
+
+const heading = croatian ? "Pokrenimo razgovor" : caseStudy ? "Working through a complex product or website?" : "Let's get in <em>touch</em>";
+const lead = croatian
+  ? "Imate projekt, pitanje ili ideju? Javite se i vidimo koji je najbolji sljedeći korak."
+  : caseStudy
+    ? "I work with software teams across product UX, internal platforms, marketing websites, and the space between them."
+    : "Share the product, website, or design challenge you’re working through and I’ll help you find the clearest next step.";
+const formHeading = croatian ? "Spremni za ozbiljniju online prisutnost?" : caseStudy ? "Tell me what you’re working on" : "Tell me what you're working on";
 ---
 
 <section id="contact-section" class="section">
@@ -9,9 +17,9 @@ const { croatian = false } = Astro.props;
     <div class="contact-grid">
       <div class="contact-side reveal">
         <div>
-          <h2 set:html={croatian ? "Pokrenimo razgovor" : "Let's get in <em>touch</em>"} />
+          <h2 set:html={heading} />
           <p class="hero__lead">
-            {croatian ? "Imate projekt, pitanje ili ideju? Javite se i vidimo koji je najbolji sljedeći korak." : "Hit me up if you’re wishing to discuss a project, have general questions or thinking about a partnership."}
+            {lead}
           </p>
         </div>
         <div class="contact-cards">
@@ -20,7 +28,7 @@ const { croatian = false } = Astro.props;
         </div>
       </div>
       <div class="form-card reveal">
-        <h2>{croatian ? "Spremni za ozbiljniju online prisutnost?" : "Build something great"}</h2>
+        <h2>{formHeading}</h2>
         <form data-contact-form action="https://formspree.io/f/xpqgddeg" method="POST" style="margin-top:2rem">
           <input type="hidden" name="_subject" value="New Blending Lab website inquiry" />
           <div class="form-grid">
