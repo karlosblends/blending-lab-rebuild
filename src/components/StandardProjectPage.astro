@@ -63,31 +63,22 @@ const nextProject =
 
 const imageLabel = (label = "Open image larger") => label;
 const imageSource = (imageItem = {}) => imageItem.src || imageItem.image;
-const imageMode = (imageItem = {}, fallback = "visual-cover") => imageItem.fit || imageItem.mode || fallback;
-const imageFrameClasses = (imageItem = {}, fallback = "visual-cover") => [
+const imageFrameClasses = (imageItem = {}) => [
   "case-image-button",
-  `case-image-button--${imageMode(imageItem, fallback)}`,
+  "case-image-button--visual-cover",
   imageItem.aspect && `case-image-button--aspect-${imageItem.aspect}`,
-  imageItem.background && `case-image-button--bg-${imageItem.background}`,
-  imageItem.padding && `case-image-button--pad-${imageItem.padding}`,
 ];
 const imageFrameStyle = (imageItem = {}) => {
   const styles = [];
   const position = imageItem.objectPosition || imageItem.position;
   if (position) styles.push(`--case-image-position: ${position}`);
-  if (imageItem.backgroundColor) styles.push(`--case-image-bg: ${imageItem.backgroundColor}`);
-  if (imageItem.paddingValue) styles.push(`--case-image-padding: ${imageItem.paddingValue}`);
   return styles.length ? styles.join("; ") : undefined;
 };
-const usesContainedImage = (imageItem = {}, fallback = "visual-cover") => imageMode(imageItem, fallback) === "interface-contain";
 const itemLabel = (item) => (typeof item === "string" ? item : item.label);
 const itemText = (item) => (typeof item === "string" ? "" : item.text);
 const heroImageSettings = {
   src: heroImage,
-  fit: caseStudy.heroFit || "visual-cover",
   objectPosition: caseStudy.heroPosition,
-  background: caseStudy.heroBackground,
-  padding: caseStudy.heroPadding,
 };
 ---
 
@@ -108,8 +99,7 @@ const heroImageSettings = {
       {
         heroImage ? (
           <figure class="case-visual case-visual--hero reveal">
-            <button class:list={imageFrameClasses(heroImageSettings, "visual-cover")} style={imageFrameStyle(heroImageSettings)} type="button" data-lightbox-image={img(heroImage)} data-lightbox-alt={heroAlt} aria-label={imageLabel("Open hero image larger")}>
-              {usesContainedImage(heroImageSettings, "visual-cover") && <img class="case-image-button__backdrop" src={img(heroImage)} alt="" decoding="async" fetchpriority="high" aria-hidden="true" />}
+            <button class:list={imageFrameClasses(heroImageSettings)} style={imageFrameStyle(heroImageSettings)} type="button" data-lightbox-image={img(heroImage)} data-lightbox-alt={heroAlt} aria-label={imageLabel("Open hero image larger")}>
               <img class="case-image-button__image" src={img(heroImage)} alt={heroAlt} decoding="async" fetchpriority="high" />
             </button>
             {caseStudy.heroCaption && <figcaption>{caseStudy.heroCaption}</figcaption>}
@@ -175,8 +165,7 @@ const heroImageSettings = {
               <div class="case-editorial-gallery__grid">
                 {section.images?.map((imageItem, imageIndex) => (
                   <figure class="case-visual reveal">
-                    <button class:list={imageFrameClasses(imageItem, section.fit || "interface-contain")} style={imageFrameStyle(imageItem)} type="button" data-lightbox-image={img(imageSource(imageItem))} data-lightbox-alt={imageItem.alt || `${project.title} related visual ${imageIndex + 1}`} aria-label={imageLabel()}>
-                      {usesContainedImage(imageItem, section.fit || "interface-contain") && <img class="case-image-button__backdrop" src={img(imageSource(imageItem))} alt="" loading="lazy" decoding="async" aria-hidden="true" />}
+                    <button class:list={imageFrameClasses(imageItem)} style={imageFrameStyle(imageItem)} type="button" data-lightbox-image={img(imageSource(imageItem))} data-lightbox-alt={imageItem.alt || `${project.title} related visual ${imageIndex + 1}`} aria-label={imageLabel()}>
                       <img class="case-image-button__image" src={img(imageSource(imageItem))} alt={imageItem.alt || ""} loading="lazy" decoding="async" />
                     </button>
                     {imageItem.caption && <figcaption>{imageItem.caption}</figcaption>}
@@ -184,8 +173,7 @@ const heroImageSettings = {
                 ))}
               </div>
               <figure class:list={["case-visual", "case-visual--full", "case-editorial-gallery__feature", "reveal", feature?.crop && "case-visual--crop"]}>
-                <button class:list={imageFrameClasses(feature, feature.fit || "interface-contain")} style={imageFrameStyle(feature)} type="button" data-lightbox-image={img(imageSource(feature))} data-lightbox-alt={feature.alt || `${project.title} full project visual`} aria-label={imageLabel()}>
-                  {usesContainedImage(feature, feature.fit || "interface-contain") && <img class="case-image-button__backdrop" src={img(imageSource(feature))} alt="" loading="lazy" decoding="async" aria-hidden="true" />}
+                <button class:list={imageFrameClasses(feature)} style={imageFrameStyle(feature)} type="button" data-lightbox-image={img(imageSource(feature))} data-lightbox-alt={feature.alt || `${project.title} full project visual`} aria-label={imageLabel()}>
                   <img class="case-image-button__image" src={img(imageSource(feature))} alt={feature.alt || ""} loading="lazy" decoding="async" />
                 </button>
                 {feature.caption && <figcaption>{feature.caption}</figcaption>}
@@ -209,8 +197,7 @@ const heroImageSettings = {
                 {section.body && <p>{section.body}</p>}
               </div>
               <figure class:list={["case-visual", "reveal", section.scale === "crop" && "case-visual--crop"]}>
-                <button class:list={imageFrameClasses(section, section.fit || "interface-contain")} style={imageFrameStyle(section)} type="button" data-lightbox-image={img(imageSource(section))} data-lightbox-alt={section.alt || `${project.title} case study image ${index + 1}`} aria-label={imageLabel()}>
-                  {usesContainedImage(section, section.fit || "interface-contain") && <img class="case-image-button__backdrop" src={img(imageSource(section))} alt="" loading="lazy" decoding="async" aria-hidden="true" />}
+                <button class:list={imageFrameClasses(section)} style={imageFrameStyle(section)} type="button" data-lightbox-image={img(imageSource(section))} data-lightbox-alt={section.alt || `${project.title} case study image ${index + 1}`} aria-label={imageLabel()}>
                   <img class="case-image-button__image" src={img(imageSource(section))} alt={section.alt || ""} loading="lazy" decoding="async" />
                 </button>
                 {section.caption && <figcaption>{section.caption}</figcaption>}
@@ -228,8 +215,7 @@ const heroImageSettings = {
                 </div>
               )}
               <figure class:list={["case-visual", "case-visual--full", "reveal", section.size === "bleed" && "case-visual--bleed", section.crop && "case-visual--crop"]}>
-                <button class:list={imageFrameClasses(section, section.fit || "interface-contain")} style={imageFrameStyle(section)} type="button" data-lightbox-image={img(imageSource(section))} data-lightbox-alt={section.alt || `${project.title} full project visual`} aria-label={imageLabel()}>
-                  {usesContainedImage(section, section.fit || "interface-contain") && <img class="case-image-button__backdrop" src={img(imageSource(section))} alt="" loading="lazy" decoding="async" aria-hidden="true" />}
+                <button class:list={imageFrameClasses(section)} style={imageFrameStyle(section)} type="button" data-lightbox-image={img(imageSource(section))} data-lightbox-alt={section.alt || `${project.title} full project visual`} aria-label={imageLabel()}>
                   <img class="case-image-button__image" src={img(imageSource(section))} alt={section.alt || ""} loading="lazy" decoding="async" />
                 </button>
                 {section.caption && <figcaption>{section.caption}</figcaption>}
@@ -249,8 +235,7 @@ const heroImageSettings = {
               <div class="case-composition__images">
                 {section.images?.map((imageItem, imageIndex) => (
                   <figure class="case-visual reveal">
-                    <button class:list={imageFrameClasses(imageItem, section.fit || "interface-contain")} style={imageFrameStyle(imageItem)} type="button" data-lightbox-image={img(imageSource(imageItem))} data-lightbox-alt={imageItem.alt || `${project.title} related visual ${imageIndex + 1}`} aria-label={imageLabel()}>
-                      {usesContainedImage(imageItem, section.fit || "interface-contain") && <img class="case-image-button__backdrop" src={img(imageSource(imageItem))} alt="" loading="lazy" decoding="async" aria-hidden="true" />}
+                    <button class:list={imageFrameClasses(imageItem)} style={imageFrameStyle(imageItem)} type="button" data-lightbox-image={img(imageSource(imageItem))} data-lightbox-alt={imageItem.alt || `${project.title} related visual ${imageIndex + 1}`} aria-label={imageLabel()}>
                       <img class="case-image-button__image" src={img(imageSource(imageItem))} alt={imageItem.alt || ""} loading="lazy" decoding="async" />
                     </button>
                     {imageItem.caption && <figcaption>{imageItem.caption}</figcaption>}

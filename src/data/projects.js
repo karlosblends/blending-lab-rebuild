@@ -318,6 +318,7 @@ const caseStudyConfigs = {
       {
         type: "fullImage",
         image: projectAsset("xcare-admin-portal", "gallery-01.png"),
+        position: "center top",
         caption: "Claims overview with status filters.",
       },
       {
@@ -327,6 +328,7 @@ const caseStudyConfigs = {
         body:
           "Detail screens keep the current state of the case close to the customer and policy context.",
         image: projectAsset("xcare-admin-portal", "gallery-02.png"),
+        position: "center top",
         caption: "Claim detail with customer and policy context.",
         scale: "wide",
       },
@@ -337,8 +339,8 @@ const caseStudyConfigs = {
         body:
           "The same structure carries across messages, claim details, and operational views.",
         images: [
-          { src: projectAsset("xcare-admin-portal", "gallery-03.png") },
-          { src: projectAsset("xcare-admin-portal", "gallery-04.png") },
+          { src: projectAsset("xcare-admin-portal", "gallery-03.png"), position: "center top" },
+          { src: projectAsset("xcare-admin-portal", "gallery-04.png"), position: "center top" },
         ],
       },
     ],
@@ -367,6 +369,7 @@ const caseStudyConfigs = {
         body:
           "Plan differences, pricing, and checkout stay visible as the customer moves through the flow.",
         image: projectAsset("xcare-warranty-purchase-process", "gallery-01.png"),
+        position: "center top",
         caption: "Vehicle details and quote entry.",
       },
       {
@@ -375,14 +378,15 @@ const caseStudyConfigs = {
         title: "Coverage selection and purchase states",
         body: "Related steps are shown in one aligned grid so the flow reads as a connected product.",
         images: [
-          { src: projectAsset("xcare-warranty-purchase-process", "gallery-02.png"), caption: "Coverage selection." },
-          { src: projectAsset("xcare-warranty-purchase-process", "gallery-03.png"), caption: "Checkout state." },
+          { src: projectAsset("xcare-warranty-purchase-process", "gallery-02.png"), position: "center top", caption: "Coverage selection." },
+          { src: projectAsset("xcare-warranty-purchase-process", "gallery-03.png"), position: "center top", caption: "Checkout state." },
         ],
       },
       {
         type: "fullImage",
         size: "bleed",
         image: projectAsset("xcare-warranty-purchase-process", "gallery-04.png"),
+        position: "center top",
         caption: "Mobile owner details and purchase guidance.",
       },
     ],
@@ -411,6 +415,7 @@ const caseStudyConfigs = {
         body:
           "The homepage puts coverage, price, and quote entry close together instead of hiding them behind long copy.",
         image: projectAsset("xcare-website", "gallery-01.png"),
+        position: "center top",
         scale: "wide",
       },
       {
@@ -419,13 +424,14 @@ const caseStudyConfigs = {
         body:
           "Campaign pages reuse the core product language while staying focused on one offer.",
         images: [
-          { src: projectAsset("xcare-website", "gallery-02.png") },
-          { src: projectAsset("xcare-website", "gallery-03.png") },
+          { src: projectAsset("xcare-website", "gallery-02.png"), position: "center top" },
+          { src: projectAsset("xcare-website", "gallery-03.png"), position: "center top" },
         ],
       },
       {
         type: "fullImage",
         image: projectAsset("xcare-website", "gallery-04.png"),
+        position: "center top",
         caption: "Mobile quote and education states.",
       },
     ],
@@ -450,6 +456,7 @@ const caseStudyConfigs = {
       {
         type: "fullImage",
         image: projectAsset("refinance-digital-dashboard", "gallery-01.png"),
+        position: "center top",
         caption: "Broker dashboard with portfolio and rate signals.",
       },
       {
@@ -459,8 +466,8 @@ const caseStudyConfigs = {
         body:
           "The supporting screens carry the same data hierarchy into follow-up workflows.",
         images: [
-          { src: projectAsset("refinance-digital-dashboard", "gallery-02.png") },
-          { src: projectAsset("refinance-digital-dashboard", "gallery-03.png") },
+          { src: projectAsset("refinance-digital-dashboard", "gallery-02.png"), position: "center top" },
+          { src: projectAsset("refinance-digital-dashboard", "gallery-03.png"), position: "center top" },
         ],
       },
     ],
@@ -489,6 +496,7 @@ const caseStudyConfigs = {
         body:
           "The layout turns a complicated service into a clearer path of information and action.",
         image: projectAsset("humble-education", "gallery-01.png"),
+        position: "center top",
         scale: "wide",
       },
       {
@@ -497,13 +505,14 @@ const caseStudyConfigs = {
         body:
           "Supporting pages keep the tone warm while leaving space for admissions detail.",
         images: [
-          { src: projectAsset("humble-education", "gallery-02.png") },
-          { src: projectAsset("humble-education", "gallery-03.png") },
+          { src: projectAsset("humble-education", "gallery-02.png"), position: "center top" },
+          { src: projectAsset("humble-education", "gallery-03.png"), position: "center top" },
         ],
       },
       {
         type: "fullImage",
         image: projectAsset("humble-education", "gallery-04.png"),
+        position: "center top",
       },
     ],
   },
@@ -527,6 +536,7 @@ const caseStudyConfigs = {
       {
         type: "fullImage",
         image: projectAsset("humble-hunters", "gallery-01.png"),
+        position: "center 38%",
         caption: "Homepage and recruitment network entry.",
       },
       {
@@ -536,18 +546,20 @@ const caseStudyConfigs = {
         body:
           "The CMS structure keeps the bold visual direction maintainable across pages.",
         image: projectAsset("humble-hunters", "gallery-02.png"),
+        position: "center top",
         align: "left",
       },
       {
         type: "twoImage",
         images: [
-          { src: projectAsset("humble-hunters", "gallery-03.png") },
-          { src: projectAsset("humble-hunters", "gallery-04.png") },
+          { src: projectAsset("humble-hunters", "gallery-03.png"), position: "center top" },
+          { src: projectAsset("humble-hunters", "gallery-04.png"), position: "center top" },
         ],
       },
       {
         type: "fullImage",
         image: projectAsset("humble-hunters", "gallery-05.png"),
+        position: "center top",
       },
     ],
   },
@@ -574,9 +586,7 @@ const caseStudyConfigs = {
       {
         type: "fullImage",
         image: projectAsset("ny-lon", "gallery-02.png"),
-        fit: "interface-contain",
-        background: "warm",
-        padding: "tight",
+        position: "center top",
         alt: "NY/LON Psychology website section pairing New York and London photography",
         caption: "A homepage section connects the NY/LON point of view with clear service paths.",
       },
@@ -587,9 +597,7 @@ const caseStudyConfigs = {
         body:
           "Instead of soft wellness cues, the site uses deep electric blue, warm neutral surfaces, large editorial type, and city photography with a more observational tone. The result feels premium and culturally specific without becoming cold or clinical.",
         image: projectAsset("ny-lon", "gallery-04.png"),
-        fit: "interface-contain",
-        background: "cool",
-        padding: "tight",
+        position: "center top",
         alt: "NY/LON Psychology about section showing deep blue brand color and service positioning",
         caption: "The about section sets the tone for a practice shaped by more than one kind of psychological work.",
         align: "left",
@@ -602,17 +610,11 @@ const caseStudyConfigs = {
         images: [
           {
             src: projectAsset("ny-lon", "cover.png"),
-            fit: "visual-cover",
-            background: "warm",
-            padding: "tight",
             alt: "NY/LON Psychology homepage using aerial street movement for New York",
             caption: "New York appears through movement, infrastructure, and street-level pressure.",
           },
           {
             src: projectAsset("ny-lon", "gallery-01.png"),
-            fit: "visual-cover",
-            background: "warm",
-            padding: "tight",
             alt: "NY/LON Psychology supervision page with London bridge photography",
             caption: "London is shown through architecture, transit, and night-time city texture.",
           },
@@ -625,9 +627,7 @@ const caseStudyConfigs = {
         body:
           "Large typography and expressive layouts were adapted deliberately for mobile rather than simply scaled down. Service pages keep their editorial rhythm while staying readable and direct.",
         image: projectAsset("ny-lon", "gallery-03.png"),
-        fit: "interface-contain",
-        background: "warm",
-        padding: "tight",
+        position: "center top",
         alt: "Two mobile screens for NY/LON Psychology showing therapy and consulting pages",
         caption: "Mobile layouts preserve the expressive type scale without making the service pages hard to scan.",
         scale: "wide",
@@ -635,9 +635,7 @@ const caseStudyConfigs = {
       {
         type: "fullImage",
         image: projectAsset("ny-lon", "gallery-05.png"),
-        fit: "interface-contain",
-        background: "warm",
-        padding: "tight",
+        position: "center top",
         alt: "NY/LON Psychology contact page with locations and inquiry form",
         caption: "The contact page keeps the editorial identity intact while making inquiry paths practical.",
       },
@@ -666,13 +664,14 @@ const caseStudyConfigs = {
         body:
           "The page moves between product explanation and proof surfaces.",
         images: [
-          { src: projectAsset("super-ai", "gallery-01.png") },
-          { src: projectAsset("super-ai", "gallery-02.png") },
+          { src: projectAsset("super-ai", "gallery-01.png"), position: "center top" },
+          { src: projectAsset("super-ai", "gallery-02.png"), position: "center top" },
         ],
       },
       {
         type: "fullImage",
         image: projectAsset("super-ai", "gallery-03.png"),
+        position: "center top",
       },
       {
         type: "textImage",
@@ -680,6 +679,7 @@ const caseStudyConfigs = {
         body:
           "Mobile keeps the same hierarchy without shrinking the product story away.",
         image: projectAsset("super-ai", "gallery-04.png"),
+        position: "center top",
         scale: "crop",
       },
     ],
@@ -704,10 +704,7 @@ const caseStudyConfigs = {
       {
         type: "fullImage",
         image: projectAsset("aspromised", "gallery-01.png"),
-        fit: "interface-contain",
         aspect: "four-three",
-        background: "aspromised",
-        padding: "comfortable",
         caption: "Ad and landing-page diagnostic workspace.",
       },
       {
@@ -716,17 +713,14 @@ const caseStudyConfigs = {
         body:
           "The product moves from page input to a prioritized diagnosis.",
         images: [
-          { src: projectAsset("aspromised", "gallery-02.png"), fit: "interface-contain", aspect: "four-three", background: "aspromised", padding: "comfortable" },
-          { src: projectAsset("aspromised", "gallery-03.png"), fit: "interface-contain", aspect: "four-three", background: "aspromised", padding: "comfortable" },
+          { src: projectAsset("aspromised", "gallery-02.png"), aspect: "four-three" },
+          { src: projectAsset("aspromised", "gallery-03.png"), aspect: "four-three" },
         ],
       },
       {
         type: "fullImage",
         image: projectAsset("aspromised", "gallery-04.png"),
-        fit: "interface-contain",
         aspect: "four-three",
-        background: "aspromised",
-        padding: "comfortable",
       },
     ],
   },
@@ -754,13 +748,14 @@ const caseStudyConfigs = {
         body:
           "Technical services and proof points are organized around faster evaluation.",
         image: projectAsset("byte-lab", "gallery-01.png"),
+        position: "center top",
         scale: "wide",
       },
       {
         type: "twoImage",
         images: [
-          { src: projectAsset("byte-lab", "gallery-02.png") },
-          { src: projectAsset("byte-lab", "gallery-03.png") },
+          { src: projectAsset("byte-lab", "gallery-02.png"), position: "center top" },
+          { src: projectAsset("byte-lab", "gallery-03.png"), position: "center top" },
         ],
       },
       {
@@ -769,8 +764,8 @@ const caseStudyConfigs = {
         body:
           "Deeper pages keep the hierarchy without repeating one layout.",
         images: [
-          { src: projectAsset("byte-lab", "gallery-04.png") },
-          { src: projectAsset("byte-lab", "gallery-05.png") },
+          { src: projectAsset("byte-lab", "gallery-04.png"), position: "center top" },
+          { src: projectAsset("byte-lab", "gallery-05.png"), position: "center top" },
         ],
       },
     ],
@@ -795,6 +790,7 @@ const caseStudyConfigs = {
       {
         type: "fullImage",
         image: projectAsset("caronwall", "gallery-01.png"),
+        position: "center top",
       },
       {
         type: "textImage",
@@ -802,12 +798,13 @@ const caseStudyConfigs = {
         body:
           "Navigation, product detail, and checkout stay direct so the products remain the focus.",
         image: projectAsset("caronwall", "gallery-02.png"),
+        position: "center top",
       },
       {
         type: "twoImage",
         images: [
-          { src: projectAsset("caronwall", "gallery-03.png") },
-          { src: projectAsset("caronwall", "gallery-04.png") },
+          { src: projectAsset("caronwall", "gallery-03.png"), position: "center top" },
+          { src: projectAsset("caronwall", "gallery-04.png"), position: "center top" },
         ],
       },
     ],
@@ -832,18 +829,20 @@ const caseStudyConfigs = {
       {
         type: "fullImage",
         image: projectAsset("JVCS", "gallery-01.png"),
+        position: "center top",
       },
       {
         type: "twoImage",
         title: "A visual system carried across page states",
         images: [
-          { src: projectAsset("JVCS", "gallery-02.png") },
-          { src: projectAsset("JVCS", "gallery-03.png") },
+          { src: projectAsset("JVCS", "gallery-02.png"), position: "center top" },
+          { src: projectAsset("JVCS", "gallery-03.png"), position: "center top" },
         ],
       },
       {
         type: "fullImage",
         image: projectAsset("JVCS", "gallery-04.png"),
+        position: "center top",
       },
     ],
   },

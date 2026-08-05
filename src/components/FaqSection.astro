@@ -1,11 +1,14 @@
 ---
 const { items, title = "Frequently asked questions" } = Astro.props;
+const isDefaultTitle = title === "Frequently asked questions";
 ---
 
 <section class="section">
   <div class="container">
     <div class="faq-layout">
-      <h2 class="reveal">{title}</h2>
+      <h2 class="reveal">
+        {isDefaultTitle ? <>Frequently asked <em>questions</em></> : title}
+      </h2>
       <div class="faq-list reveal">
         {
           items.map(([question, answer]) => (

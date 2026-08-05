@@ -97,8 +97,8 @@ const faqs = [
     "Agencies charge for their overhead, not just the work. With me, you get senior-level design without account managers, project coordinators, or markup. Whether it's a one-time website or ongoing product design, you work directly with one person who actually does the work.",
   ],
   [
-    "Do you also develop, or only design?",
-    "Both — that's the point. I design the product and the interface, then build it in production-ready code. You get one person from first flow to shipped page, and you own the code with no builder lock-in.",
+    "Do you also build, or only design?",
+    "Both. I design the product and interface, then develop the frontend into responsive components or complete user experiences.\n\nFor backend logic, infrastructure, and complex integrations, I work alongside your engineering team or trusted development\u00a0partners.",
   ],
   [
     "How do I know if I need a project or a monthly plan?",
@@ -323,11 +323,13 @@ function workWays() {
 }
 
 function faqSection(items = faqs, title = "Frequently asked questions") {
+  const heading = title === "Frequently asked questions" ? "Frequently asked <em>questions</em>" : title;
+
   return `
     <section class="section">
       <div class="container">
         <div class="faq-layout">
-          <h2 class="reveal">${title}</h2>
+          <h2 class="reveal">${heading}</h2>
           <div class="faq-list reveal">
             ${items
               .map(

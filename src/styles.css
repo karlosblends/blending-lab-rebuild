@@ -294,6 +294,15 @@ p {
   text-wrap: balance;
 }
 
+.hero__heading-gradient {
+  width: min(100%, 22ch);
+  background: linear-gradient(90deg, #ffffff 0%, #b5b5b5 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
 .hero__lead {
   max-width: 58rem;
   color: var(--alto);
@@ -1343,8 +1352,6 @@ textarea {
 
 .case-image-button {
   --case-image-position: center;
-  --case-image-bg: linear-gradient(135deg, #101010 0%, #181818 55%, #0b0b0b 100%);
-  --case-image-padding: clamp(0.65rem, 1vw, 1rem);
   position: relative;
   isolation: isolate;
   display: grid;
@@ -1356,53 +1363,24 @@ textarea {
   border: 1px solid var(--onyx);
   border-radius: var(--radius-s);
   color: inherit;
-  background: var(--case-image-bg);
+  background: var(--almost-black);
   cursor: zoom-in;
   font: inherit;
   overflow: hidden;
 }
 
-.case-image-button__image,
-.case-image-button__backdrop {
+.case-image-button__image {
   display: block;
   width: 100%;
   height: 100%;
+  object-fit: cover;
   object-position: var(--case-image-position);
-}
-
-.case-image-button__image {
   position: relative;
   z-index: 1;
 }
 
-.case-image-button__backdrop {
-  position: absolute;
-  inset: -12%;
-  z-index: 0;
-  width: 124%;
-  height: 124%;
-  object-fit: cover;
-  filter: blur(30px) saturate(0.96) brightness(0.62);
-  opacity: 0.34;
-  transform: scale(1.04);
-  pointer-events: none;
-}
-
 .case-image-button--visual-cover .case-image-button__image {
   object-fit: cover;
-}
-
-.case-image-button--interface-contain {
-  padding: var(--case-image-padding);
-}
-
-.case-image-button--interface-contain .case-image-button__image {
-  align-self: stretch;
-  justify-self: stretch;
-  min-width: 0;
-  min-height: 0;
-  object-fit: contain;
-  border-radius: max(0px, calc(var(--radius-s) - 4px));
 }
 
 .case-image-button--aspect-four-three {
@@ -1415,41 +1393,6 @@ textarea {
 
 .case-image-button--aspect-wide {
   aspect-ratio: 16 / 9 !important;
-}
-
-.case-image-button--bg-aspromised {
-  --case-image-bg:
-    radial-gradient(circle at 18% 18%, rgba(49, 213, 233, 0.38), transparent 34%),
-    radial-gradient(circle at 78% 20%, rgba(62, 102, 255, 0.36), transparent 36%),
-    linear-gradient(135deg, #02040a 0%, #061427 54%, #030304 100%);
-}
-
-.case-image-button--bg-cool {
-  --case-image-bg:
-    radial-gradient(circle at 18% 12%, rgba(61, 99, 255, 0.2), transparent 34%),
-    linear-gradient(135deg, #0c1018 0%, #14171d 60%, #090909 100%);
-}
-
-.case-image-button--bg-warm {
-  --case-image-bg:
-    radial-gradient(circle at 20% 16%, rgba(244, 95, 38, 0.18), transparent 34%),
-    linear-gradient(135deg, #15110f 0%, #191817 60%, #0b0b0b 100%);
-}
-
-.case-image-button--pad-tight {
-  --case-image-padding: clamp(0.45rem, 0.8vw, 0.75rem);
-}
-
-.case-image-button--pad-comfortable {
-  --case-image-padding: clamp(0.8rem, 1.15vw, 1.2rem);
-}
-
-.case-image-button--pad-spacious {
-  --case-image-padding: clamp(1rem, 1.5vw, 1.7rem);
-}
-
-.case-image-button--pad-none {
-  --case-image-padding: 0;
 }
 
 .case-image-button:focus-visible {

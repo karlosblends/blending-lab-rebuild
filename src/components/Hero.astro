@@ -1,14 +1,14 @@
 ---
 import { img, vid } from "../lib/assets.js";
 
-const { title, lead, primary, secondary, media, eyebrow } = Astro.props;
+const { title, lead, primary, secondary, media, eyebrow, headingClass = "" } = Astro.props;
 ---
 
 <main class="hero">
   <div class="container--medium">
     <div class="hero__content reveal">
       {eyebrow && <div class="eyebrow"><span class="pulse"></span>{eyebrow}</div>}
-      <h1 set:html={title} />
+      <h1 class={headingClass} set:html={title} />
       <p class="hero__lead">{lead}</p>
       <div class="button-row">
         {primary && <a class="glow-button" href={primary.href} target={primary.external ? "_blank" : undefined} rel={primary.external ? "noreferrer" : undefined}><span>{primary.label}</span></a>}
