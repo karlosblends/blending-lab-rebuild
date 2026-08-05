@@ -1,11 +1,10 @@
 ---
-import { projects } from "../data/projects.js";
 import { img } from "../lib/assets.js";
 import Header from "./Header.astro";
 import Footer from "./Footer.astro";
 import ContactForm from "./ContactForm.astro";
 
-const { project } = Astro.props;
+const { project, projects = [] } = Astro.props;
 
 const contextItems = [
   ["Role", project.role || project.service],

@@ -6,12 +6,22 @@
   "scripts": {
     "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
     "build": "ASTRO_TELEMETRY_DISABLED=1 astro build",
-    "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview"
+    "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
+    "sanity:export-projects": "node scripts/local-projects-to-sanity.mjs",
+    "sanity:deploy": "sanity deploy"
   },
   "devDependencies": {
     "astro": "^5.12.0"
   },
   "dependencies": {
-    "motion": "^12.42.2"
+    "@astrojs/react": "^6.0.2",
+    "@sanity/astro": "^3.5.0",
+    "@sanity/client": "^7.26.2",
+    "@sanity/image-url": "^2.1.1",
+    "motion": "^12.42.2",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "sanity": "^6.9.0",
+    "styled-components": "^6.5.0"
   }
 }

@@ -1,5 +1,4 @@
 ---
-import { projects } from "../data/projects.js";
 import { img } from "../lib/assets.js";
 import Header from "./Header.astro";
 import Footer from "./Footer.astro";
@@ -12,7 +11,7 @@ import StandardProjectPage from "./StandardProjectPage.astro";
 import CustomCaseStudy from "./CustomCaseStudy.astro";
 import WeeklyPerformanceCard from "./WeeklyPerformanceCard.astro";
 
-const { page = "index.html" } = Astro.props;
+const { page = "index.html", projects = [] } = Astro.props;
 const projectForPage = projects.find((project) => project.caseStudyUrl === page || project.legacyUrls?.includes(page));
 
 const faqs = [
@@ -340,7 +339,7 @@ const placeholderPage = () => {
 ---
 
 {projectForPage && projectForPage.template === "custom" && <CustomCaseStudy project={projectForPage} admin />}
-{projectForPage && projectForPage.template !== "custom" && <StandardProjectPage project={projectForPage} />}
+{projectForPage && projectForPage.template !== "custom" && <StandardProjectPage project={projectForPage} projects={projects} />}
 
 {
   page === "index.html" && (
@@ -356,7 +355,7 @@ const placeholderPage = () => {
       />
       <Fragment set:html={brands()} />
       <Fragment set:html={largeText()} />
-      <ProjectsSection />
+      <ProjectsSection projects={projects} />
       <Fragment set:html={workWays()} />
       <FaqSection items={faqs} />
       <ContactForm />
@@ -395,7 +394,7 @@ const placeholderPage = () => {
         media={{ image: "Vertical-Hero-Web-Design-1..webp" }}
       />
       <SimpleFeatures title="Identifying a common challenge" items={[["building.svg", "Clarity first", "A site should quickly explain what you do, who it is for, and why visitors should care."], ["user-search.svg", "User journeys", "Pages are shaped around how buyers scan, compare, and decide."], ["Webflow.svg", "Clean Webflow builds", "Layouts are built so your team can keep improving after launch."], ["design.svg", "Strong visual system", "Brand, UI, and conversion sections work together without feeling generic."]]} />
-      <ProjectsSection all heading="Work" intro="" />
+      <ProjectsSection projects={projects} all heading="Work" intro="" />
       <Fragment set:html={expectations("What can you expect from a web design project?", "Vertical-Hero-Web-Design-1..webp")} />
       <ContactForm />
       <Footer />
@@ -430,7 +429,7 @@ const placeholderPage = () => {
         lead={page === "projekti.html" ? "Odabrani primjeri radova koji spajaju dizajn, jasnoću i preciznu izvedbu." : "A compact look at recent product, web, and design-system work."}
         primary={{ label: page === "projekti.html" ? "Pokrenimo razgovor" : "Let's talk", href: page === "projekti.html" ? "#contact-section" : "contact.html" }}
       />
-      <ProjectsSection all heading={page === "projekti.html" ? "Projekti" : "Projects"} intro="" />
+      <ProjectsSection projects={projects} all heading={page === "projekti.html" ? "Projekti" : "Projects"} intro="" />
       <ContactForm croatian={page === "projekti.html"} />
       <Footer />
     </>
@@ -472,7 +471,7 @@ const placeholderPage = () => {
       <Header active="try-for-free.html" />
       <Hero title="Get one screen redesigned for free." lead="Share your context, I’ll redesign it and send it back. No commitment." primary={{ label: "Start free redesign", href: "contact.html" }} />
       <section class="section"><div class="container"><div class="section-title reveal"><h2>Before & After</h2></div><div class="before-after reveal" data-before-after><img src={img("Image_before.jpg")} alt="Before" /><img class="after" src={img("Image_after.jpg")} alt="After" /><input type="range" min="0" max="100" value="50" aria-label="Before after slider" /></div></div></section>
-      <ProjectsSection all heading="Other projects" intro="" />
+      <ProjectsSection projects={projects} all heading="Other projects" intro="" />
       <Footer />
     </>
   )
@@ -483,7 +482,7 @@ const placeholderPage = () => {
     <>
       <Header active="home.html" />
       <Hero title="Vaša vizija. Naš dizajn." lead="Stranice koje jasno komuniciraju vrijednost, izgledaju profesionalno i ostavljaju pravi dojam." primary={{ label: "Pokrenimo razgovor", href: "#contact-section" }} media={{ image: "IMG-9214-from-Lightroom-1.jpg" }} />
-      <ProjectsSection all heading="Projekti" intro="" />
+      <ProjectsSection projects={projects} all heading="Projekti" intro="" />
       <Fragment set:html={workWays()} />
       <SimpleFeatures title="Zašto baš Blending Lab" items={[["Book-call.svg", "Jasan proces", "Suradnja je strukturirana, pregledna i usmjerena na konkretan ishod."], ["presention-chart.svg", "Poslovni fokus", "Dizajn ne postoji sam za sebe, već podržava prodaju, povjerenje i rast."], ["Webflow.svg", "Brza izvedba", "Webflow omogućuje kvalitetan launch i lakše održavanje nakon njega."]]} />
       <FaqSection items={faqs} title="Često postavljana pitanja" />
@@ -499,7 +498,7 @@ const placeholderPage = () => {
       <Header active="web-stranice-ads.html" />
       <Hero title="Tražite osobu za izradu web stranica? Na pravom ste mjestu." lead="Tražite vrhunskog partnera za izradu web stranice? Na tržištu je puno konkurencije, stoga nema smisla zadovoljiti se lošom web stranicom." primary={{ label: "Zatražite ponudu", href: "#contact-section" }} media={{ image: "Vertical-Hero-Web-Design-1..webp" }} />
       <SimpleFeatures title="Dizajn i izrada web stranice" items={[["design.svg", "Dizajn", "Jasna struktura, moderan vizualni sustav i stranice koje grade povjerenje."], ["Webflow.svg", "Webflow", "Izvedba u sustavu koji se može brzo ažurirati i širiti."], ["google-ads.svg", "Google Ads", "Kampanje i landing stranice mogu raditi zajedno prema istom cilju."]]} />
-      <ProjectsSection all heading="Projekti" intro="" />
+      <ProjectsSection projects={projects} all heading="Projekti" intro="" />
       <SimpleFeatures title="The process" items={processItems} />
       <ContactForm croatian />
       <Footer />

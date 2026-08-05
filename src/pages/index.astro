@@ -1,8 +1,11 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PageRenderer from "../components/PageRenderer.astro";
+import { getProjects } from "../lib/sanity.js";
+
+const projects = await getProjects();
 ---
 
 <BaseLayout page="index.html">
-  <PageRenderer page="index.html" />
+  <PageRenderer page="index.html" projects={projects} />
 </BaseLayout>
