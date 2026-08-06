@@ -5,6 +5,21 @@
   "outputDirectory": "dist",
   "redirects": [
     {
+      "source": "/xcare-website",
+      "destination": "/xcare",
+      "permanent": true
+    },
+    {
+      "source": "/xcelerate-auto-admin-portal",
+      "destination": "/xcare",
+      "permanent": true
+    },
+    {
+      "source": "/xcare-warranty-purchase-process",
+      "destination": "/xcare",
+      "permanent": true
+    },
+    {
       "source": "/design",
       "destination": "/about",
       "permanent": true

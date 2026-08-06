@@ -43,6 +43,9 @@ const fallbackSections = [
 
 const caseStudy = project.caseStudy || {};
 const sections = caseStudy.sections?.length ? caseStudy.sections : fallbackSections;
+const contextEntries = caseStudy.context || contextItems;
+const showContext = caseStudy.showContext !== false && contextEntries.length;
+const showContextCopy = caseStudy.intro !== false;
 const editorialSections = [];
 for (let index = 0; index < sections.length; index += 1) {
   const section = sections[index];
@@ -58,13 +61,15 @@ const heroImage = caseStudy.heroImage || project.coverImage;
 const heroAlt = caseStudy.heroAlt || `${project.title} project interface`;
 const heroTreatment = caseStudy.heroTreatment || "immersive";
 const nextProject =
-  projects[(projects.findIndex((item) => item.slug === project.slug) + 1) % projects.length] || projects.find((item) => item.slug !== project.slug);
+  (caseStudy.nextProjectSlug && projects.find((item) => item.slug === caseStudy.nextProjectSlug)) ||
+  projects[(projects.findIndex((item) => item.slug === project.slug) + 1) % projects.length] ||
+  projects.find((item) => item.slug !== project.slug);
 
 const imageLabel = (label = "Open image larger") => label;
 const imageSource = (imageItem = {}) => imageItem.src || imageItem.image;
 const imageFrameClasses = (imageItem = {}) => [
   "case-image-button",
-  "case-image-button--visual-cover",
+  project.slug !== "xcare" && "case-image-button--visual-cover",
   imageItem.aspect && `case-image-button--aspect-${imageItem.aspect}`,
 ];
 const imageFrameStyle = (imageItem = {}) => {
@@ -75,6 +80,19 @@ const imageFrameStyle = (imageItem = {}) => {
 };
 const itemLabel = (item) => (typeof item === "string" ? item : item.label);
 const itemText = (item) => (typeof item === "string" ? "" : item.text);
+const escapeHtml = (value = "") =>
+  String(value).replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[character]);
+const bodyItems = (body) => {
+  if (!body) return [];
+  return (Array.isArray(body) ? body : [body]).map((paragraph) => (typeof paragraph === "string" ? { text: paragraph } : paragraph)).filter(Boolean);
+};
+const bodyHtml = (body) =>
+  bodyItems(body)
+    .map((paragraph) => {
+      const lead = paragraph.lead ? `<strong>${escapeHtml(paragraph.lead)}</strong>${paragraph.text ? " " : ""}` : "";
+      return `<p>${lead}${escapeHtml(paragraph.text || "")}</p>`;
+    })
+    .join("");
 const heroImageSettings = {
   src: heroImage,
   objectPosition: caseStudy.heroPosition,
@@ -82,7 +100,7 @@ const heroImageSettings = {
 ---
 
 <Header active="projects.html" />
-<main class="case-study">
+<main class:list={["case-study", project.slug && `case-study--${project.slug}`]}>
   <section class="case-hero section">
     <div class="case-container">
       <div class="case-hero__content reveal">
@@ -110,32 +128,40 @@ const heroImageSettings = {
     </div>
   </section>
 
-  <section class="case-section case-section--context" id="project-context">
-    <div class="case-container">
-      <div class="case-context reveal">
-        <div class="case-context__copy">
-          <p class="case-section-label">{caseStudy.intro?.eyebrow || "Project context"}</p>
-          <h2>{caseStudy.intro?.title || "What needed to be designed"}</h2>
-          <p>{caseStudy.intro?.body || project.pageIntro || project.company}</p>
-          {
-            project.liveUrl && (
-              <a class="case-text-link" href={project.liveUrl} target="_blank" rel="noreferrer">
-                {project.liveLabel || "View live project"}
-              </a>
-            )
-          }
+  {
+    showContext && (
+      <section class="case-section case-section--context" id="project-context">
+        <div class="case-container">
+          <div class="case-context reveal">
+            {
+              showContextCopy && (
+                <div class="case-context__copy">
+                  <p class="case-section-label">{caseStudy.intro?.eyebrow || "Project context"}</p>
+                  <h2>{caseStudy.intro?.title || "What needed to be designed"}</h2>
+                  <Fragment set:html={bodyHtml(caseStudy.intro?.body || project.pageIntro || project.company)} />
+                  {
+                    project.liveUrl && (
+                      <a class="case-text-link" href={project.liveUrl} target="_blank" rel="noreferrer">
+                        {project.liveLabel || "View live project"}
+                      </a>
+                    )
+                  }
+                </div>
+              )
+            }
+            <dl class="case-context__meta" aria-label="Project facts">
+              {contextEntries.map(([label, value]) => (
+                <div class="case-meta">
+                  <dt>{label}</dt>
+                  <dd>{value}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
         </div>
-        <dl class="case-context__meta" aria-label="Project facts">
-          {(caseStudy.context || contextItems).map(([label, value]) => (
-            <div class="case-meta">
-              <dt>{label}</dt>
-              <dd>{value}</dd>
-            </div>
-          ))}
-        </dl>
-      </div>
-    </div>
-  </section>
+      </section>
+    )
+  }
 
   {
     editorialSections.map((item) => {
@@ -158,7 +184,7 @@ const heroImageSettings = {
                 <div class="case-editorial-gallery__copy reveal">
                   {section.eyebrow && <p class="case-section-label">{section.eyebrow}</p>}
                   {section.title && <h2>{section.title}</h2>}
-                  {section.body && <p>{section.body}</p>}
+                  <Fragment set:html={bodyHtml(section.body)} />
                 </div>
               )}
               <div class="case-editorial-gallery__grid">
@@ -183,8 +209,10 @@ const heroImageSettings = {
           {item.type === "section" && section.type === "statement" && (
             <div class="case-statement reveal">
               {section.eyebrow && <p class="case-section-label">{section.eyebrow}</p>}
-              <h2>{section.title}</h2>
-              {section.body && <p>{section.body}</p>}
+              <div class="case-statement__content">
+                {section.title && <h2>{section.title}</h2>}
+                <Fragment set:html={bodyHtml(section.body)} />
+              </div>
             </div>
           )}
 
@@ -193,7 +221,7 @@ const heroImageSettings = {
               <div class="case-split__copy reveal">
                 {section.eyebrow && <p class="case-section-label">{section.eyebrow}</p>}
                 <h2>{section.title}</h2>
-                {section.body && <p>{section.body}</p>}
+                <Fragment set:html={bodyHtml(section.body)} />
               </div>
               <figure class:list={["case-visual", "reveal", section.scale === "crop" && "case-visual--crop"]}>
                 <button class:list={imageFrameClasses(section)} style={imageFrameStyle(section)} type="button" data-lightbox-image={img(imageSource(section))} data-lightbox-alt={section.alt || `${project.title} case study image ${index + 1}`} aria-label={imageLabel()}>
@@ -210,7 +238,7 @@ const heroImageSettings = {
                 <div class="case-composition__copy reveal">
                   {section.eyebrow && <p class="case-section-label">{section.eyebrow}</p>}
                   {section.title && <h2>{section.title}</h2>}
-                  {section.body && <p>{section.body}</p>}
+                  <Fragment set:html={bodyHtml(section.body)} />
                 </div>
               )}
               <figure class:list={["case-visual", "case-visual--full", "reveal", section.size === "bleed" && "case-visual--bleed", section.crop && "case-visual--crop"]}>
@@ -228,7 +256,7 @@ const heroImageSettings = {
                 <div class="case-composition__copy reveal">
                   {section.eyebrow && <p class="case-section-label">{section.eyebrow}</p>}
                   {section.title && <h2>{section.title}</h2>}
-                  {section.body && <p>{section.body}</p>}
+                  <Fragment set:html={bodyHtml(section.body)} />
                 </div>
               )}
               <div class="case-composition__images">
@@ -245,24 +273,28 @@ const heroImageSettings = {
           )}
 
           {item.type === "section" && section.type === "itemGrid" && (
-            <div class:list={["case-item-block", section.columns && `case-item-block--${section.columns}`]}>
-              {(section.title || section.body) && (
-                <div class="case-item-block__copy reveal">
-                  {section.eyebrow && <p class="case-section-label">{section.eyebrow}</p>}
-                  {section.title && <h2>{section.title}</h2>}
-                  {section.body && <p>{section.body}</p>}
+            <div class:list={["case-statement", "case-statement--items", "reveal"]}>
+              {section.eyebrow && <p class="case-section-label">{section.eyebrow}</p>}
+              <div class:list={["case-statement__content", "case-item-block", section.columns && `case-item-block--${section.columns}`]}>
+                {(section.title || section.body) && (
+                  <div class="case-item-block__copy">
+                    {section.title && (section.headingLevel === "h3" ? <h3>{section.title}</h3> : <h2>{section.title}</h2>)}
+                    <Fragment set:html={bodyHtml(section.body)} />
+                  </div>
+                )}
+                <div class="case-item-grid">
+                  {section.items?.map((gridItem, itemIndex) => (
+                    <article class="case-item reveal">
+                      {section.numbered && <span>{String(itemIndex + 1).padStart(2, "0")}</span>}
+                      <div class="case-item__copy">
+                        <strong>{itemLabel(gridItem)}</strong>
+                        {itemText(gridItem) && <p>{itemText(gridItem)}</p>}
+                      </div>
+                    </article>
+                  ))}
                 </div>
-              )}
-              <div class="case-item-grid">
-                {section.items?.map((gridItem, itemIndex) => (
-                  <article class="case-item reveal">
-                    {section.numbered && <span>{String(itemIndex + 1).padStart(2, "0")}</span>}
-                    <strong>{itemLabel(gridItem)}</strong>
-                    {itemText(gridItem) && <p>{itemText(gridItem)}</p>}
-                  </article>
-                ))}
+                {section.note && <p class="case-note">{section.note}</p>}
               </div>
-              {section.note && <p class="case-note reveal">{section.note}</p>}
             </div>
           )}
         </div>

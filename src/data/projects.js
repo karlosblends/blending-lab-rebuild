@@ -6,71 +6,26 @@ const projectGallery = (folder, count, extension = "png") =>
 
 export const projects = [
   {
-    title: "XCare Admin Portal",
-    slug: "xcare-admin-portal",
+    title: "XCare",
+    slug: "xcare",
     template: "standard",
     description:
-      "An internal platform for support and operations teams to manage warranty claims, customer information, and daily workflows with greater clarity.",
-    role: "Product Designer",
+      "Two and a half years designing the purchase flow, admin platform, and marketing site for an EV extended warranty product.",
+    role: "Product Designer, embedded",
     service: "Product Design",
-    deliverables: "Admin Dashboard, Internal Platform, Design System",
-    expertise: "Dashboard Design, Internal Tools, Information Architecture",
+    deliverables: "Purchase flow, admin platform, client portal, marketing site",
+    expertise: "Product design, claims workflows, conversion UX, product communication",
     industry: "Insurtech",
     company:
-      "The XCare Admin Portal is an internal platform used by support and operations teams to manage warranty claims, customer information and day-to-day workflows.",
+      "XCare sells extended coverage for electric vehicles, with a digital purchase flow and operational tools for the claims that follow.",
     myRole:
-      "Designed the administration platform from the ground up, including dashboards, claims management, detailed workflows and reusable interface components. The focus was on organizing complex operational data into clear, scalable interfaces that improve efficiency for internal teams while supporting the continued growth of the platform.",
-    services: ["Product Design", "UX/UI Design", "Dashboard Design", "Design System", "Information Architecture", "Internal Tools"],
-    coverImage: projectAsset("xcare-admin-portal", "cover.png"),
-    gallery: projectGallery("xcare-admin-portal", 4),
+      "Worked as the embedded product designer across the purchase flow, admin platform, client portal, and marketing site.",
+    services: ["Product Design", "UX/UI Design", "Design System", "Conversion Optimization", "Internal Tools", "Responsive Design"],
+    coverImage: projectAsset("xcare", "cover.png"),
+    gallery: [],
     featured: true,
     archived: false,
-    caseStudyUrl: "xcelerate-auto-admin-portal.html",
-  },
-  {
-    title: "XCare Warranty Purchase Process",
-    slug: "xcare-warranty-purchase-process",
-    template: "standard",
-    description:
-      "A multi-step EV warranty purchase flow designed around clearer decisions, stronger trust, and improved conversion.",
-    role: "Product Designer",
-    service: "Product Design",
-    deliverables: "Multi-step Purchase Flow, Design System, A/B Testing",
-    expertise: "User Flows, CRO, Product UX, Design Systems",
-    industry: "Insurtech",
-    company:
-      "The warranty purchase process is the core conversion flow of the XCare platform, guiding customers from vehicle selection to policy purchase through a streamlined digital experience.",
-    myRole:
-      "Designed a multi-step purchase flow focused on clarity, trust and conversion. The project involved simplifying complex warranty decisions into an intuitive experience, supported by extensive research, iterative design, reusable design system components and ongoing A/B testing. Every screen was refined to reduce friction while helping customers confidently select the right coverage.",
-    services: ["Product Design", "UX/UI Design", "User Flows", "Design System", "Conversion Optimization", "Responsive Design"],
-    coverImage: projectAsset("xcare-warranty-purchase-process", "cover.png"),
-    gallery: projectGallery("xcare-warranty-purchase-process", 4),
-    featured: true,
-    archived: false,
-    caseStudyUrl: "xcare-warranty-purchase-process.html",
-    legacyUrls: ["xcelerate-auto-case-study.html"],
-  },
-  {
-    title: "XCare Website",
-    slug: "xcare-website",
-    template: "standard",
-    description:
-      "An evolving customer-facing website and landing page system for explaining EV warranty products and improving conversion.",
-    role: "Product Designer",
-    service: "Product Design",
-    deliverables: "Website, Landing Pages, Design System, CRO",
-    expertise: "Product Design, Design Systems, Conversion Optimization, A/B Testing",
-    industry: "Insurtech",
-    company:
-      "XCare provides extended warranty plans for electric vehicles across the United States, helping owners protect themselves against unexpected repair costs through a fully digital purchasing experience.",
-    myRole:
-      "Designed and continuously evolved the customer-facing website as part of an ongoing product partnership. My work spans landing pages, feature launches, conversion-focused improvements and a growing design system that supports rapid iteration. Every release is informed by user behavior, experimentation and close collaboration with product, marketing and development teams, with the goal of making complex warranty products easier to understand and purchase.",
-    services: ["Product Design", "UX/UI Design", "Design System", "Conversion Optimization", "Landing Pages", "Responsive Design"],
-    coverImage: projectAsset("xcare-website", "cover.png"),
-    gallery: projectGallery("xcare-website", 4),
-    featured: true,
-    archived: false,
-    caseStudyUrl: "xcare-website.html",
+    caseStudyUrl: "xcare.html",
   },
   {
     title: "Refinance Digital Dashboard",
@@ -279,13 +234,11 @@ export const projects = [
 
 // Curated for breadth: alternate client, project type, and visual/problem framing rather than chronology.
 const curatedProjectOrder = [
-  "xcare-admin-portal",
+  "xcare",
+  "aspromised",
   "humble-hunters",
   "ny-lon",
-  "xcare-warranty-purchase-process",
   "refinance-digital-dashboard",
-  "xcare-website",
-  "aspromised",
   "byte-lab",
   "jvcs",
   "caronwall",
@@ -298,141 +251,263 @@ const curatedProjectRank = new Map(curatedProjectOrder.map((slug, index) => [slu
 projects.sort((a, b) => (curatedProjectRank.get(a.slug) ?? Number.MAX_SAFE_INTEGER) - (curatedProjectRank.get(b.slug) ?? Number.MAX_SAFE_INTEGER));
 
 const caseStudyConfigs = {
-  "xcare-admin-portal": {
-    label: "XCare · Internal product design",
-    headline: "Designing the internal platform behind XCare",
-    summary: "Support and operations workspace for warranty claims, customer records, messages, and daily case work.",
+  xcare: {
+    label: "XCelerate Auto · Product design, 2023-2026",
+    headline: "Designing both sides of an EV warranty business",
+    summary: "XCare sells extended coverage for electric vehicles. I designed how people buy it and how the team behind it handles the claims that follow.",
     heroTreatment: "immersive",
-    intro: {
-      eyebrow: "Operating context",
-      title: "Claims, customers, and daily decisions in one workspace",
-      body:
-        "The admin portal brings claims, customer records, messages, and approvals into one internal workspace.",
-    },
+    heroImage: projectAsset("xcare", "claims-queue.png"),
+    heroAlt: "XCare claims queue showing status and adjuster filters",
+    intro: false,
+    nextProjectSlug: "aspromised",
     context: [
-      ["Role", "Product Designer"],
-      ["Scope", "Admin platform, claims workflows, design system"],
-      ["Focus", "Internal tools, information architecture, operations UX"],
+      ["Role", "Product Designer, embedded"],
+      ["Duration", "2.5 years, ongoing"],
+      ["Surfaces", "Purchase flow, admin platform, client portal, marketing site"],
     ],
     sections: [
       {
-        type: "fullImage",
-        image: projectAsset("xcare-admin-portal", "gallery-01.png"),
-        position: "center top",
-        caption: "Claims overview with status filters.",
-      },
-      {
-        type: "textImage",
-        eyebrow: "Workflow design",
-        title: "Status, ownership, and next action stay visible.",
-        body:
-          "Detail screens keep the current state of the case close to the customer and policy context.",
-        image: projectAsset("xcare-admin-portal", "gallery-02.png"),
-        position: "center top",
-        caption: "Claim detail with customer and policy context.",
-        scale: "wide",
-      },
-      {
-        type: "twoImage",
-        ratio: "primary",
-        title: "A system of connected operational views",
-        body:
-          "The same structure carries across messages, claim details, and operational views.",
-        images: [
-          { src: projectAsset("xcare-admin-portal", "gallery-03.png"), position: "center top" },
-          { src: projectAsset("xcare-admin-portal", "gallery-04.png"), position: "center top" },
+        type: "statement",
+        eyebrow: "Context",
+        title: "A $4,000 promise, sold online",
+        body: [
+          "XCare covers electric vehicles after the manufacturer warranty runs out. Battery, drive unit, drivetrain, electronics, the expensive parts. A plan costs between $2,000 and $5,000, and the customer is usually buying it for a car worth more than they earn in a year.",
+          "That price point sets the terms for everything. Nobody buys a $4,000 warranty on impulse, and nobody forgives a company that makes the claim process painful after taking that money. The product had to be convincing at purchase and calm during a claim, which are two different design problems attached to the same business.",
         ],
       },
-    ],
-  },
-  "xcare-warranty-purchase-process": {
-    label: "XCare · Purchase flow",
-    headline: "Clarifying the EV warranty purchase journey",
-    summary: "A responsive purchase flow for vehicle entry, plan selection, and checkout.",
-    heroTreatment: "immersive",
-    intro: {
-      eyebrow: "Conversion context",
-      title: "A multi-step decision with real financial weight",
-      body:
-        "The purchase flow moves from vehicle details to plan selection and checkout, with product detail introduced only where it matters.",
-    },
-    context: [
-      ["Role", "Product Designer"],
-      ["Scope", "Purchase flow, design system, A/B testing"],
-      ["Focus", "User flows, trust, conversion UX"],
-    ],
-    sections: [
       {
-        type: "fullImage",
-        eyebrow: "Sequence",
-        title: "From vehicle entry to plan selection",
-        body:
-          "Plan differences, pricing, and checkout stay visible as the customer moves through the flow.",
-        image: projectAsset("xcare-warranty-purchase-process", "gallery-01.png"),
-        position: "center top",
-        caption: "Vehicle details and quote entry.",
+        type: "statement",
+        eyebrow: "Starting point",
+        title: "A product that behaved better than it looked",
+        body: [
+          "The company was already good at the actual work. Existing customers were happy, the coverage was real, the support was human. What did not exist was any layer between that and the people who had not bought yet.",
+          "Flows went straight from an idea to a developer, sometimes by way of a Miro board. They were live and functional, built from a basic UI kit and plain HTML elements, but nothing had been designed in Figma, tested for conversion, or checked against how competitors handled the same decisions. No design system. No mobile work.",
+          "Claims ran on a spreadsheet. One master sheet with every field an adjuster might need, scrolling sideways past the edge of the screen.",
+        ],
       },
       {
-        type: "twoImage",
-        ratio: "primary",
-        title: "Coverage selection and purchase states",
-        body: "Related steps are shown in one aligned grid so the flow reads as a connected product.",
-        images: [
-          { src: projectAsset("xcare-warranty-purchase-process", "gallery-02.png"), position: "center top", caption: "Coverage selection." },
-          { src: projectAsset("xcare-warranty-purchase-process", "gallery-03.png"), position: "center top", caption: "Checkout state." },
+        type: "statement",
+        eyebrow: "Approach",
+        title: "Three surfaces, one system",
+        body: [
+          "Most warranty companies treat these as separate departments with separate vendors. Marketing owns the site, a sales team owns the quote, an ops vendor owns the claims software, and the customer feels every seam.",
+          "I worked on all three, which meant the same language, the same components, and the same status vocabulary run from the ad click to the adjuster's screen. A plan called XCare Premium on the homepage is called XCare Premium in the checkout and XCare Premium in the claim record an adjuster opens two years later.",
+          "That continuity is not a flourish. It is the reason a support rep can read a customer's screen over the phone without asking them what they are looking at.",
+        ],
+      },
+      {
+        type: "statement",
+        eyebrow: "01 · Purchase flow",
+        title: "Buying a warranty without being sold to",
+        body: [
+          'The extended warranty industry runs on one model: capture the lead, then call it. You enter your details, you get "an agent will contact you shortly," and then you get contacted shortly, repeatedly, for weeks. The category has a bad reputation and this is most of why.',
+          "We went the other way. Enter your year, make, model and mileage, and real prices appear on the next screen. No email, no phone number, nothing standing between a person and the number they came for.",
         ],
       },
       {
         type: "fullImage",
-        size: "bleed",
-        image: projectAsset("xcare-warranty-purchase-process", "gallery-04.png"),
+        image: projectAsset("xcare", "get-quote-form.png"),
         position: "center top",
-        caption: "Mobile owner details and purchase guidance.",
-      },
-    ],
-  },
-  "xcare-website": {
-    label: "XCare · Website system",
-    headline: "A website system for XCare's EV warranty product",
-    summary: "A customer-facing website and landing-page system for explaining EV warranty products.",
-    heroTreatment: "contained",
-    intro: {
-      eyebrow: "Marketing and product overlap",
-      title: "A website that has to explain, reassure, and convert",
-      body:
-        "The website supports education, landing pages, product launches, and conversion experiments for XCare.",
-    },
-    context: [
-      ["Role", "Product Designer"],
-      ["Scope", "Website, landing pages, design system, CRO"],
-      ["Focus", "Product communication and conversion"],
-    ],
-    sections: [
-      {
-        type: "textImage",
-        eyebrow: "Communication design",
-        title: "Turning a complicated product into a clearer first impression",
-        body:
-          "The homepage puts coverage, price, and quote entry close together instead of hiding them behind long copy.",
-        image: projectAsset("xcare-website", "gallery-01.png"),
-        position: "center top",
-        scale: "wide",
+        alt: "XCare quote entry screen showing vehicle details with no contact fields",
+        caption: "Quote entry. No email, no phone number.",
       },
       {
-        type: "twoImage",
-        title: "Landing pages as part of the product system",
-        body:
-          "Campaign pages reuse the core product language while staying focused on one offer.",
-        images: [
-          { src: projectAsset("xcare-website", "gallery-02.png"), position: "center top" },
-          { src: projectAsset("xcare-website", "gallery-03.png"), position: "center top" },
+        type: "statement",
+        body: [
+          "The reasoning was about trust, not friction. Someone about to spend four thousand dollars on a promise needs evidence early that the company is not playing games. Showing the price with nothing asked in return is the cheapest possible proof that the pricing is fair and the coverage is what it says it is. You earn that at the top of the funnel so it is already established when the money moves.",
+          "We still run gated capture on some paid lead gen campaigns, where the job of the page is different. The ungated quote is the product's front door, not a rule applied everywhere.",
+          "The rest of the flow follows from that. Five steps, visible from step one: select plan, owner information, car verification, review, payment. Nothing hidden, no surprise step six.",
         ],
       },
       {
         type: "fullImage",
-        image: projectAsset("xcare-website", "gallery-04.png"),
+        image: projectAsset("xcare", "plan-selection.png"),
         position: "center top",
-        caption: "Mobile quote and education states.",
+        alt: "XCare plan selection screen with coverage terms and pricing",
+        caption: "Plan selection. Six coverage terms, all visible at once.",
+      },
+      {
+        type: "itemGrid",
+        columns: "rows",
+        headingLevel: "h3",
+        numbered: true,
+        title: "Decisions in the purchase flow",
+        items: [
+          {
+            label: "Plan first, parameters second.",
+            text: "Coverage type (full Premium versus battery and drive unit only) is a different product with a different risk profile. Deductible is a dial inside whichever product you picked. Those two were deliberately separated and ordered, because a customer tuning a deductible before understanding what is covered is optimizing the wrong thing.",
+          },
+          {
+            label: "Term length as a grid, not a dropdown.",
+            text: "Six coverage terms shown at once, each with its end date, mileage cap, and price. Warranty length is inherently a comparison decision, and anything that forces you to hold one option in memory while looking at the next adds friction to a decision that already has real money attached.",
+          },
+          {
+            label: "Payment structure before the price cards.",
+            text: 'One-time payment or eleven monthly installments at zero interest. For a $3,000 purchase, "can I pay this monthly" changes which plan a person even considers, so it comes before the plans rather than at checkout.',
+          },
+          {
+            label: "Coverage explained on demand.",
+            text: "Full plan detail lives in an overlay a person opens when they want it, so the main flow stays a decision instead of turning into a brochure.",
+          },
+        ],
+      },
+      {
+        type: "statement",
+        eyebrow: "02 · Claims, both ends",
+        title: "The workspace behind the claims",
+        body: [
+          "Everything sold in the flow above eventually shows up here.",
+          'A claim is not a support ticket. It runs for weeks, moves between the customer, a service center, and an adjuster, and stalls constantly for reasons that are nobody\'s fault: parts on backorder, a diagnosis pending, a customer who has not sent photos. The design problem is not "display claims." It is "make it obvious which of the open claims needs a human right now."',
+          "The clearest evidence of what was broken came from the adjusters themselves. The master spreadsheet held everything, which meant it was unusable in the two situations that matter most: mid-call with a customer, or mid-claim with a service center. So adjusters quietly built their own private sheets with fewer columns, just enough to work fast. Half the team was operating on a personal copy of the truth.",
+          'That is the actual brief. Not "replace the spreadsheet," but "build the stripped-down view they kept recreating by hand, and make it the real one."',
+        ],
+      },
+      {
+        type: "itemGrid",
+        columns: "rows",
+        headingLevel: "h3",
+        numbered: true,
+        title: "Decisions in the claims work",
+        items: [
+          {
+            label: "Status as the organizing idea.",
+            text: "Under Review, Needs More Info, Escalated, Service and Diagnosis, Authorized. Five states, mapped to who is currently blocking rather than to how far along the claim is. A claim in Needs More Info is waiting on the customer. One in Escalated is waiting on us. That distinction is what makes the list actionable instead of merely informative.",
+          },
+          {
+            label: "Notes as a first-class column.",
+            text: "Real adjuster notes are short, specific, and non-standard: parts on backorder with an estimated arrival, could not replicate the fault, awaiting photos from the claimant. Forcing that into structured fields would have failed, so notes stayed free text and stayed visible in the list, doing the work of a status the system will never have a field for.",
+          },
+          {
+            label: "Unread activity marked at the row.",
+            text: 'A small indicator on the claim ID, so "this customer messaged you and nobody replied" is visible without opening anything. In a queue built around waiting, the most expensive failure is a claim quietly waiting on you.',
+          },
+          {
+            label: "Context next to conversation.",
+            text: 'Vehicle and VIN, adjuster, coverage plan, deductible, and policy dates sit alongside the message thread with the customer. An adjuster answering "is this covered" should not have to leave the conversation to find out.',
+          },
+          {
+            label: "Warranty actions, not just claims.",
+            text: "A policy has a life beyond claims. Owners add a second driver, sell the car and transfer the coverage, or cancel outright. The marketing site sells transferable coverage as a real advantage over legacy providers, and a promise like that has to be carried out by someone on an ordinary Tuesday. Those actions sit in the same customer record as the claim history, so an adjuster taking a call about a transfer is not opening a second tool to do it.",
+          },
+        ],
+      },
+      {
+        type: "fullImage",
+        image: projectAsset("xcare", "claim-detail.png"),
+        position: "center top",
+        alt: "XCare claim detail with policy context beside the customer message thread",
+        caption: "Claim detail. Policy context sits next to the conversation.",
+      },
+      {
+        type: "fullImage",
+        image: projectAsset("xcare", "claim-settings.png"),
+        position: "center top",
+        alt: "XCare customer record with warranty actions for second driver, transfer and cancellation",
+        caption: "Transferring a warranty is a marketing promise on the site and a screen back here.",
+      },
+      {
+        type: "statement",
+        title: "The other end of the same claim",
+        body: [
+          "The customer sees this claim too, from their own side. They start it on their phone, then follow it in their portal: which vehicle, what state it is in, what has been paid, with invoices and health reports as PDFs they can pull themselves instead of emailing someone.",
+          "Signing in is keyed to a VIN or contract number rather than an email and password, because the thing a person can find when their car has stopped working is the car, not an account they created two years ago.",
+        ],
+      },
+      {
+        type: "fullImage",
+        image: projectAsset("xcare", "client-portal-signup.png"),
+        position: "center top",
+        alt: "XCare portal signup using VIN or contract number",
+        caption: "Sign in with the car, not with an account you made two years ago.",
+      },
+      {
+        type: "fullImage",
+        image: projectAsset("xcare", "claim-submission-mobile.png"),
+        position: "center top",
+        alt: "XCare mobile claim submission form",
+        caption: "The customer end of the same claim. What gets submitted here is what lands in the queue above.",
+      },
+      {
+        type: "fullImage",
+        image: projectAsset("xcare", "client-portal-dashboard.png"),
+        position: "center top",
+        alt: "XCare customer portal showing vehicles, active claims and claim history",
+        caption: "The customer's own view. Same status words as the adjuster's screen.",
+      },
+      {
+        type: "statement",
+        body: [
+          "The status vocabulary is deliberately identical on both screens. When an adjuster says a claim is under review, that is the exact phrase the customer is already reading. Support calls get shorter when nobody has to translate between two systems that describe the same thing differently.",
+          {
+            lead: "The payment card.",
+            text: "The usual warranty pattern is that the customer pays the repair shop, files for reimbursement, and waits to be made whole on someone else's schedule. A virtual card issued to the customer lets XCare pay the service center directly, which removes the part of a claim where a person is out of pocket for work they already paid for once. That is a decision about how money moves through a claim rather than about screens, and it came out of sitting with the people handling the claims.",
+          },
+        ],
+      },
+      {
+        type: "fullImage",
+        image: projectAsset("xcare", "client-portal-payment-card.png"),
+        position: "center top",
+        alt: "XCare payment card in the customer portal with past payments",
+        caption: "A virtual card, so the service center gets paid directly.",
+      },
+      {
+        type: "statement",
+        body: "Both the admin portal and the client portal are in development now, and the design continues alongside them rather than ending at handoff.",
+      },
+      {
+        type: "statement",
+        eyebrow: "03 · Marketing site",
+        title: "The site that has to explain all of it",
+        body: "EV warranty is a genuinely confusing purchase. Most people do not know that many traditional providers exclude the battery, which is the most expensive component in the car and the entire reason they are shopping.",
+      },
+      {
+        type: "fullImage",
+        image: projectAsset("xcare", "website-hero.png"),
+        position: "center top",
+        alt: "XCare homepage with the quote calculator in the hero",
+        caption: "The quote calculator sits in the hero, ahead of any argument.",
+      },
+      {
+        type: "statement",
+        body: [
+          "The site closes that gap fast. The quote calculator sits in the hero, so the primary action is available before any argument is made. Two plans are compared side by side rather than sequentially. A comparison table addresses the exclusion problem directly. The claims process is laid out in four steps on the marketing site, before purchase, because how a warranty behaves when you claim on it is the actual product.",
+          "The buying process is spelled out on the site too, ahead of the flow itself. Three steps, and the promise that there is no email capture and no sales call, stated before a person commits to starting. The ungated quote only works as a trust signal if people know it is there.",
+        ],
+      },
+      {
+        type: "fullImage",
+        image: projectAsset("xcare", "website-purchase-steps.png"),
+        position: "center top",
+        alt: "XCare site section showing the three-step buying process",
+        caption: "The no-capture promise, made on the site before anyone enters the flow.",
+      },
+      {
+        type: "fullImage",
+        image: projectAsset("xcare", "website-competitor-comparison.png"),
+        position: "center top",
+        alt: "XCare comparison table against legacy warranty providers",
+        caption: "The battery exclusion problem, addressed directly.",
+      },
+      {
+        type: "statement",
+        body: "Campaign landing pages reuse the same components and the same plan language, so a person arriving from an ad and a person arriving from search end up in the same vocabulary.",
+      },
+      {
+        type: "statement",
+        eyebrow: "Working model",
+        title: "Two and a half years, not a project",
+        body: [
+          "Two and a half years of continuous work, still ongoing, in their tools and on their timeline.",
+          "Small team: me, one developer, one PM, with the CEO, COO, and the adjusters in the room for the decisions that affected them. That size is why the three surfaces are coherent. A studio would have scoped the site, shipped it, and left before anyone discovered that the plan names in the checkout did not match the plan names in the claims database. Staying meant decisions compounded instead of resetting.",
+          "It also meant losing arguments sometimes. Early on I pushed back on how much brand red the plan selection screen was carrying. The COO wanted it, we shipped it his way, and I let it go. Six months later, looking at it fresh, I realized my original argument had been the weak one. It was never about the color being loud. It was that red was doing six jobs at once on that screen, and the filters had ended up visually louder than the buy buttons, which is a conversion problem rather than a taste problem. That is a better argument and I did not have it at the time. It is not near the top of their list right now, so the screen still ships as it is.",
+        ],
+      },
+      {
+        type: "statement",
+        eyebrow: "Next",
+        title: "What I would do next",
+        body: 'The plan selection screen gives six coverage terms equal weight with no recommended option, leaving a $2,000 spread entirely to the customer\'s judgment. The deductible selector changes the price but does not yet show what it changes it by. The two coverage plans are compared one at a time when the decision is inherently side by side. All three are conversion work, all three are measurable, and all three are on the list.',
       },
     ],
   },

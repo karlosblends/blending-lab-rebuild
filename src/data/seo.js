@@ -69,15 +69,26 @@ export const seo = {
     description:
       "Tražite vrhunskog partnera za izradu web stranice? Na tržištu je jako puno konkurencije, stoga nema smisla zadovoljiti se s lošom web stranicom. Na pravom ste mjestu za vrhunsku uslugu.",
   },
-  "xcelerate-auto-case-study.html": {
-    title: "XCelerate Auto Case Study",
+  "xcare.html": {
+    title: "XCare — Designing both sides of an EV warranty business | Blending Lab",
     description:
-      "Case study of XCare, Xcelerate Auto’s EV warranty product—covering UX strategy, product design, and a fresh digital experience built for growth.",
+      "Two and a half years designing the purchase flow, admin platform, and marketing site for XCare, an EV extended warranty product.",
+    ogTitle: "XCare — Designing both sides of an EV warranty business",
+    ogImage: "https://www.blending-lab.com/og-image/og-xcare.jpg",
+  },
+  "xcelerate-auto-case-study.html": {
+    title: "XCare — Designing both sides of an EV warranty business | Blending Lab",
+    description:
+      "Two and a half years designing the purchase flow, admin platform, and marketing site for XCare, an EV extended warranty product.",
+    ogTitle: "XCare — Designing both sides of an EV warranty business",
+    ogImage: "https://www.blending-lab.com/og-image/og-xcare.jpg",
   },
   "xcelerate-auto-admin-portal.html": {
-    title: "Blending Lab - XCelerate Admin Portal - Case Study",
+    title: "XCare — Designing both sides of an EV warranty business | Blending Lab",
     description:
-      "UX/UI case study for XCelerate Auto’s internal claims admin portal, focused on improving EV warranty claim management, communication workflows, operational visibility, and usability for internal teams",
+      "Two and a half years designing the purchase flow, admin platform, and marketing site for XCare, an EV extended warranty product.",
+    ogTitle: "XCare — Designing both sides of an EV warranty business",
+    ogImage: "https://www.blending-lab.com/og-image/og-xcare.jpg",
   },
   "detail_project.html": { title: "Blending Lab" },
   "components.html": { title: "Components" },
@@ -93,23 +104,14 @@ export const seo = {
 };
 
 export function getSeo(page, project) {
-  if (project) {
-    return {
-      ...siteSeo,
-      ...seo[project.caseStudyUrl],
-      title: siteSeo.title,
-      description: siteSeo.description,
-      ogTitle: siteSeo.ogTitle,
-      ogImage: siteSeo.ogImage,
-    };
-  }
+  const pageSeo = project ? seo[project.caseStudyUrl] : seo[page];
 
   return {
     ...siteSeo,
-    ...seo[page],
-    title: siteSeo.title,
-    description: siteSeo.description,
-    ogTitle: siteSeo.ogTitle,
-    ogImage: siteSeo.ogImage,
+    ...pageSeo,
+    title: pageSeo?.title || siteSeo.title,
+    description: pageSeo?.description || siteSeo.description,
+    ogTitle: pageSeo?.ogTitle || pageSeo?.title || siteSeo.ogTitle,
+    ogImage: pageSeo?.ogImage || siteSeo.ogImage,
   };
 }

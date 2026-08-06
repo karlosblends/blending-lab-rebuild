@@ -1373,7 +1373,6 @@ textarea {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
   object-position: var(--case-image-position);
   position: relative;
   z-index: 1;
@@ -1451,8 +1450,8 @@ textarea {
 }
 
 .case-context__meta {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.75rem clamp(1.1rem, 2.6vw, 2.4rem);
   margin: 0;
   padding-top: clamp(0.9rem, 1.6vw, 1.25rem);
@@ -1535,13 +1534,33 @@ textarea {
   padding-top: clamp(1rem, 2vw, 1.65rem);
 }
 
+.case-statement__content {
+  grid-column: 2;
+  display: grid;
+  gap: 0.7rem;
+  max-width: 42rem;
+  min-width: 0;
+}
+
 .case-statement h2 {
   max-width: 26ch;
-  grid-column: 2;
 }
 
 .case-statement .case-section-label {
   grid-row: span 2;
+}
+
+.case-study--xcare .case-statement .case-section-label {
+  color: var(--flamingo);
+}
+
+.case-study--xcare .case-statement .case-section-label::before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 1px;
+  margin-bottom: 0.75rem;
+  background: var(--flamingo);
 }
 
 .case-text-link {
@@ -1632,6 +1651,15 @@ textarea {
   text-wrap: balance;
 }
 
+.case-item-block__copy h3 {
+  max-width: 28ch;
+  color: var(--alabaster);
+  font-size: clamp(1.25rem, 1.75vw, 1.6rem);
+  line-height: 1.16;
+  font-weight: 500;
+  text-wrap: balance;
+}
+
 .case-item-block__copy p {
   max-width: 42rem;
   color: rgba(214, 214, 214, 0.86);
@@ -1689,6 +1717,58 @@ textarea {
 .case-item:not(:has(p)) {
   min-height: 6.75rem;
   align-content: start;
+}
+
+.case-item-block--rows {
+  gap: clamp(1rem, 2vw, 1.5rem);
+}
+
+.case-item-block--rows .case-item-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+.case-item-block--rows .case-item {
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(3rem, 0.16fr) minmax(0, 0.84fr);
+  align-content: start;
+  gap: clamp(1rem, 2vw, 1.75rem);
+  border: 0;
+  border-radius: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.11);
+  padding: clamp(1rem, 1.8vw, 1.5rem) 0;
+  background: transparent;
+}
+
+.case-item-block--rows .case-item:last-child {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.11);
+}
+
+.case-item-block--rows .case-item span {
+  color: var(--flamingo);
+  font-size: clamp(1.65rem, 3vw, 2.5rem);
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.case-item-block--rows .case-item__copy {
+  display: grid;
+  gap: 0.45rem;
+  max-width: 42rem;
+}
+
+.case-item-block--rows .case-item strong {
+  font-size: clamp(1rem, 1.08vw, 1.08rem);
+}
+
+.case-item-block--rows .case-item p {
+  max-width: 42rem;
+  color: rgba(214, 214, 214, 0.86);
+  font-size: clamp(0.98rem, 1.08vw, 1.08rem);
+  line-height: 1.5;
 }
 
 .case-note {
@@ -2716,6 +2796,10 @@ body.reveal-animations-ready .hero__media.reveal.in {
     grid-template-columns: 1fr;
   }
 
+  .case-statement__content {
+    grid-column: 1;
+  }
+
   .case-split--reverse .case-split__copy {
     order: 0;
   }
@@ -3026,8 +3110,14 @@ body.reveal-animations-ready .hero__media.reveal.in {
   .case-composition__copy,
   .case-split__copy,
   .case-editorial-gallery__copy,
+  .case-statement__content,
   .case-item-block__copy {
     gap: 0.55rem;
+  }
+
+  .case-item-block--rows .case-item {
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
   }
 
   .case-composition__images,
@@ -3197,4 +3287,23 @@ body.reveal-animations-ready .hero__media.reveal.in {
   .button--flip:active .button--flip__track {
     transform: none;
   }
+}
+
+.case-study--xcare .case-image-button,
+.case-study--xcare .case-visual--hero .case-image-button,
+.case-study--xcare .case-visual--full .case-image-button,
+.case-study--xcare .case-visual--crop .case-image-button,
+.case-study--xcare .case-split .case-image-button,
+.case-study--xcare .case-composition__images .case-image-button,
+.case-study--xcare .case-editorial-gallery__grid .case-image-button {
+  display: block;
+  aspect-ratio: auto;
+  min-height: 0;
+  max-height: none;
+  height: auto;
+}
+
+.case-study--xcare .case-image-button__image {
+  width: 100%;
+  height: auto;
 }

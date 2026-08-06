@@ -164,7 +164,7 @@ const privacyPage = () => `
 const styleGuidePage = () => `
   <main class="section"><div class="container"><div class="rich-text reveal"><h1>Style Guide</h1><h2>Colors</h2><p>Charcoal, almost black, alabaster, gray, and flamingo orange form the core palette.</p><h2>Buttons</h2><p><a class="button" href="#">Default button</a> <a class="glow-button" href="#"><span>Glowing CTA</span></a></p><h2>Cards</h2></div><div class="feature-grid">${["UX/UI Design", "Webflow Development", "Presentation Design", "Google Ads"].map((x) => `<div class="feature-item"><h4>${x}</h4><p>Reusable dark card sample.</p></div>`).join("")}</div></div></main>`;
 
-const aboutProjects = ["aspromised", "xcare-admin-portal", "refinance-digital-dashboard", "xcare-website"]
+const aboutProjects = ["aspromised", "xcare", "refinance-digital-dashboard", "ny-lon"]
   .map((slug) => projects.find((project) => project.slug === slug))
   .filter(Boolean);
 

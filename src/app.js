@@ -68,15 +68,26 @@ const meta = {
     description:
       "Tražite vrhunskog partnera za izradu web stranice? Na tržištu je jako puno konkurencije, stoga nema smisla zadovoljiti se s lošom web stranicom. Na pravom ste mjestu za vrhunsku uslugu.",
   },
-  "xcelerate-auto-case-study.html": {
-    title: "XCelerate Auto Case Study",
+  "xcare.html": {
+    title: "XCare — Designing both sides of an EV warranty business | Blending Lab",
     description:
-      "Case study of XCare, Xcelerate Auto’s EV warranty product—covering UX strategy, product design, and a fresh digital experience built for growth.",
+      "Two and a half years designing the purchase flow, admin platform, and marketing site for XCare, an EV extended warranty product.",
+    ogTitle: "XCare — Designing both sides of an EV warranty business",
+    ogImage: "https://www.blending-lab.com/og-image/og-xcare.jpg",
+  },
+  "xcelerate-auto-case-study.html": {
+    title: "XCare — Designing both sides of an EV warranty business | Blending Lab",
+    description:
+      "Two and a half years designing the purchase flow, admin platform, and marketing site for XCare, an EV extended warranty product.",
+    ogTitle: "XCare — Designing both sides of an EV warranty business",
+    ogImage: "https://www.blending-lab.com/og-image/og-xcare.jpg",
   },
   "xcelerate-auto-admin-portal.html": {
-    title: "Blending Lab - XCelerate Admin Portal - Case Study",
+    title: "XCare — Designing both sides of an EV warranty business | Blending Lab",
     description:
-      "UX/UI case study for XCelerate Auto’s internal claims admin portal, focused on improving EV warranty claim management, communication workflows, operational visibility, and usability for internal teams",
+      "Two and a half years designing the purchase flow, admin platform, and marketing site for XCare, an EV extended warranty product.",
+    ogTitle: "XCare — Designing both sides of an EV warranty business",
+    ogImage: "https://www.blending-lab.com/og-image/og-xcare.jpg",
   },
   "detail_project.html": { title: "Blending Lab" },
   "components.html": { title: "Components" },
@@ -128,13 +139,14 @@ function ensureHeadAssets() {
 }
 
 function setMeta(page) {
+  const pageMeta = meta[page] || meta["index.html"];
   const data = {
     ...siteSeo,
-    ...(meta[page] || meta["index.html"]),
-    title: siteSeo.title,
-    description: siteSeo.description,
-    ogTitle: siteSeo.ogTitle,
-    ogImage: siteSeo.ogImage,
+    ...pageMeta,
+    title: pageMeta?.title || siteSeo.title,
+    description: pageMeta?.description || siteSeo.description,
+    ogTitle: pageMeta?.ogTitle || pageMeta?.title || siteSeo.ogTitle,
+    ogImage: pageMeta?.ogImage || siteSeo.ogImage,
   };
   document.title = data.title || "Blending Lab";
   upsertMeta("description", data.description || "");
