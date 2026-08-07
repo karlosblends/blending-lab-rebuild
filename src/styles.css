@@ -1967,6 +1967,10 @@ textarea {
   color: var(--alto);
 }
 
+.rich-text h1 {
+  margin-bottom: 1rem;
+}
+
 .rich-text h2 {
   margin-top: 2.5rem;
   margin-bottom: 1rem;
@@ -1974,6 +1978,33 @@ textarea {
 
 .rich-text p {
   margin-bottom: 1rem;
+}
+
+.rich-text ul {
+  margin: 0 0 1.25rem;
+  padding-left: 1.35rem;
+  color: var(--alto);
+}
+
+.rich-text li {
+  margin-bottom: 0.55rem;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.rich-text a {
+  color: var(--alabaster);
+  text-decoration: underline;
+  text-decoration-color: var(--flamingo);
+  text-underline-offset: 0.18em;
+}
+
+.legal-page {
+  padding-top: clamp(4rem, 8vw, 7rem);
+}
+
+.legal-page__updated {
+  color: var(--gray);
 }
 
 .design-frontend-section {

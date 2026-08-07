@@ -50,9 +50,14 @@ export const seo = {
     description: "Estimate a one-time project or ongoing design partnership with Blending Lab.",
   },
   "privacy-policy.html": {
-    title: "Privacy Policy",
+    title: "Privacy Policy | Blending Lab",
     description:
-      "Explore Blending Lab's Privacy Policy and Terms & Conditions. Learn how we protect your data and outline the rules for website usage. Your digital experience, secured.",
+      "Read the Blending Lab Privacy Policy, including how website inquiries, the project estimator, analytics, service providers, and privacy rights are handled.",
+  },
+  "terms.html": {
+    title: "Terms & Conditions | Blending Lab",
+    description:
+      "Read the Terms & Conditions for using the Blending Lab website, including website use, services, estimates, intellectual property, privacy, and liability.",
   },
   "home.html": {
     title: "Web stranice koje podižu kredibilitet i skraćuju put do klijenata | Blending Lab",

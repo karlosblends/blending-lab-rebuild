@@ -57,6 +57,7 @@ const directPages = [
   "home.html",
   "web-stranice-ads.html",
   "privacy-policy.html",
+  "terms.html",
   "style-guide.html",
   "components.html",
   "log-in.html",
@@ -159,7 +160,257 @@ const expectations = (title, imageName = "IMG-9041-from-Lightroom-min.jpg") => {
 };
 
 const privacyPage = () => `
-  <main class="section"><div class="container"><div class="rich-text reveal"><h2>Privacy Policy</h2><p>Explore Blending Lab's Privacy Policy and Terms & Conditions. Learn how we protect your data and outline the rules for website usage. Your digital experience, secured.</p><p>Information submitted through contact forms is used to respond to your inquiry and provide relevant project communication. Analytics and cookie tools may be used to understand site performance and improve the experience.</p><h2>Terms & Conditions</h2><p>By using this website, you agree to use the content and contact forms responsibly. Project terms, deliverables, timelines, and pricing are agreed separately before work begins.</p></div></div></main>`;
+  <main class="section legal-page">
+    <div class="container">
+      <div class="rich-text legal-page__content reveal">
+        <h1>Privacy Policy</h1>
+        <p class="legal-page__updated">Last updated: 7 August 2026</p>
+        <p>This Privacy Policy explains how Blending Lab collects, uses, stores, and handles personal information when you visit this website, submit an inquiry, use an interactive website tool, or otherwise contact Blending Lab.</p>
+        <p>Blending Lab is based in Zagreb, Croatia and processes personal data in accordance with applicable Croatian and European Union data protection requirements, including the General Data Protection Regulation where applicable.</p>
+
+        <h2>1. Who is responsible for your data</h2>
+        <p>Blending Lab is responsible for the personal information collected through this website.</p>
+        <p>For privacy-related questions or requests, contact:</p>
+        <p>Blending Lab<br>Zagreb, Croatia<br><a href="mailto:hello@blending-lab.com">hello@blending-lab.com</a></p>
+
+        <h2>2. Information that may be collected</h2>
+        <p>Depending on how you use the website, Blending Lab may collect information such as:</p>
+        <ul>
+          <li>your name</li>
+          <li>email address</li>
+          <li>company name</li>
+          <li>messages submitted through contact or inquiry forms</li>
+          <li>project details you voluntarily include in a message</li>
+          <li>information you voluntarily provide when contacting Blending Lab</li>
+          <li>information entered into the embedded project estimator, where you choose to use it</li>
+          <li>basic technical information required for the website to function securely and reliably</li>
+        </ul>
+        <p>The current contact form asks for first and last name, email address, company name, and message. The website does not ask for highly sensitive information through its general contact form.</p>
+
+        <h2>3. How personal information is collected</h2>
+        <p>Personal information may be collected when you:</p>
+        <ul>
+          <li>submit a contact or project inquiry form</li>
+          <li>use the website project estimator or similar interactive tool</li>
+          <li>communicate with Blending Lab by email</li>
+          <li>otherwise voluntarily provide information through the website</li>
+        </ul>
+        <p>Some limited technical information may also be processed automatically by the website hosting, analytics, or infrastructure providers as necessary to deliver, measure, and secure the website.</p>
+
+        <h2>4. Why information is used</h2>
+        <p>Personal information may be used to:</p>
+        <ul>
+          <li>respond to inquiries</li>
+          <li>understand project requirements</li>
+          <li>prepare estimates or proposals</li>
+          <li>communicate about potential or active projects</li>
+          <li>provide requested services</li>
+          <li>maintain records of business communication</li>
+          <li>operate, secure, and improve the website</li>
+          <li>comply with applicable legal obligations</li>
+        </ul>
+        <p>Personal information should not be used for unrelated purposes without an appropriate legal basis.</p>
+
+        <h2>5. Legal basis for processing</h2>
+        <p>Where the GDPR applies, personal information may be processed on one or more of the following legal bases:</p>
+        <ul>
+          <li>your consent</li>
+          <li>taking steps at your request before entering into a contract</li>
+          <li>performance of a contract</li>
+          <li>compliance with a legal obligation</li>
+          <li>legitimate interests, where those interests are not overridden by your rights and freedoms</li>
+        </ul>
+        <p>The applicable legal basis depends on the context in which the information was provided and how it is used.</p>
+
+        <h2>6. Contact and inquiry forms</h2>
+        <p>When you submit a form through the website, the information you provide is used primarily to review and respond to your inquiry.</p>
+        <p>The current website contact form is submitted through Formspree. The form includes your name, email address, company name, and message, plus a form subject used to identify the inquiry.</p>
+        <p>Do not submit confidential, highly sensitive, medical, financial, authentication, or other unnecessary sensitive information through general website forms.</p>
+
+        <h2>7. Project estimator</h2>
+        <p>The website includes an embedded project estimate calculator provided through a separate Blending Lab estimator application hosted at blending-estimator.lovable.app.</p>
+        <p>Information entered into that estimator may be processed to generate an indicative project estimate and, where applicable, to support a subsequent inquiry.</p>
+        <p>Estimates generated through the website are indicative only and are not binding quotations.</p>
+        <p>The current Blending Lab website embeds the estimator but does not itself store estimator information in this codebase.</p>
+
+        <h2>8. Analytics and cookies</h2>
+        <p>The current website uses Google Analytics to understand site performance and how visitors interact with the website.</p>
+        <p>The current Astro implementation does not include Meta Pixel, advertising trackers, session recording, heatmaps, marketing cookie tools, or cookie consent software.</p>
+        <p>The website may still use strictly necessary technical storage or processing required for security, hosting, forms, analytics, or core website functionality.</p>
+
+        <h2>9. Service providers</h2>
+        <p>Blending Lab may use third-party service providers to operate the website and business, such as:</p>
+        <ul>
+          <li>Vercel or another website hosting and infrastructure provider</li>
+          <li>Google Analytics for website analytics</li>
+          <li>Formspree for contact form processing</li>
+          <li>Lovable for the embedded project estimator application</li>
+          <li>Sanity for project content management where the website is configured to use it</li>
+          <li>email, domain, and business software providers used to manage inquiries</li>
+        </ul>
+        <p>These providers may process limited personal information on behalf of Blending Lab where necessary to provide their services.</p>
+
+        <h2>10. International data transfers</h2>
+        <p>Some technology providers used by Blending Lab may process data outside Croatia or the European Economic Area.</p>
+        <p>Where applicable, such transfers are handled through legal mechanisms intended to provide an appropriate level of data protection, such as adequacy decisions or approved contractual safeguards.</p>
+
+        <h2>11. Data retention</h2>
+        <p>Personal information is retained only for as long as reasonably necessary for the purpose for which it was collected, including responding to inquiries, managing business relationships, maintaining appropriate records, and complying with legal obligations.</p>
+        <p>Retention periods may vary depending on the nature of the information and the relationship with the person concerned.</p>
+        <p>Information that is no longer reasonably required may be deleted or anonymized.</p>
+
+        <h2>12. Data sharing</h2>
+        <p>Blending Lab does not sell personal information.</p>
+        <p>Personal information may be shared only where reasonably necessary with:</p>
+        <ul>
+          <li>service providers supporting the website or business</li>
+          <li>professional advisers where necessary</li>
+          <li>authorities where disclosure is legally required</li>
+          <li>collaborators or contractors where necessary to deliver an agreed service and where appropriate safeguards apply</li>
+        </ul>
+        <p>Personal information is not shared with third parties for unrelated advertising purposes without an appropriate legal basis.</p>
+
+        <h2>13. Your rights</h2>
+        <p>Where applicable under data protection law, you may have the right to:</p>
+        <ul>
+          <li>request access to your personal information</li>
+          <li>request correction of inaccurate information</li>
+          <li>request deletion of your information</li>
+          <li>request restriction of processing</li>
+          <li>object to certain processing</li>
+          <li>request data portability</li>
+          <li>withdraw consent where processing is based on consent</li>
+          <li>lodge a complaint with a competent data protection authority</li>
+        </ul>
+        <p>These rights may be subject to legal limitations or exceptions.</p>
+        <p>To exercise a privacy right, contact Blending Lab using the email address listed on this page.</p>
+
+        <h2>14. Security</h2>
+        <p>Blending Lab takes reasonable technical and organizational measures to protect personal information against unauthorized access, loss, misuse, alteration, or disclosure.</p>
+        <p>However, no internet transmission, website, or electronic storage system can be guaranteed to be completely secure.</p>
+
+        <h2>15. Third-party links</h2>
+        <p>The website may contain links to external websites and services.</p>
+        <p>Blending Lab is not responsible for the privacy practices, content, or security of third-party websites.</p>
+        <p>When you leave the Blending Lab website, the privacy policies of the relevant third party apply.</p>
+
+        <h2>16. Children's privacy</h2>
+        <p>The Blending Lab website and services are intended for professional and business use and are not directed toward children.</p>
+        <p>Blending Lab does not knowingly seek to collect personal information from children through this website.</p>
+
+        <h2>17. Changes to this Privacy Policy</h2>
+        <p>This Privacy Policy may be updated when the website, services, technology providers, or applicable requirements change.</p>
+        <p>The latest version will be published on this page together with the date of the most recent update.</p>
+
+        <h2>18. Contact</h2>
+        <p>For questions about this Privacy Policy or the handling of personal information, contact:</p>
+        <p>Blending Lab<br>Zagreb, Croatia<br><a href="mailto:hello@blending-lab.com">hello@blending-lab.com</a></p>
+        <p>You can also review the Blending Lab <a href="terms.html">Terms &amp; Conditions</a>.</p>
+      </div>
+    </div>
+  </main>`;
+
+const termsPage = () => `
+  <main class="section legal-page">
+    <div class="container">
+      <div class="rich-text legal-page__content reveal">
+        <h1>Terms &amp; Conditions</h1>
+        <p class="legal-page__updated">Last updated: 7 August 2026</p>
+        <p>These Terms &amp; Conditions govern your use of the Blending Lab website and any information, materials, or functionality available through it.</p>
+        <p>By accessing or using this website, you agree to these Terms &amp; Conditions. If you do not agree with them, please do not use the website.</p>
+
+        <h2>1. About Blending Lab</h2>
+        <p>Blending Lab is an independent design practice providing services including product design, UX/UI design, website design, frontend development, Webflow development, design strategy, and related digital services.</p>
+        <p>For questions regarding these Terms &amp; Conditions, you can contact:</p>
+        <p>Blending Lab<br>Zagreb, Croatia<br><a href="mailto:hello@blending-lab.com">hello@blending-lab.com</a></p>
+
+        <h2>2. Website use</h2>
+        <p>You may use this website for lawful purposes and to learn about Blending Lab, its services, projects, experience, and availability.</p>
+        <p>You may not:</p>
+        <ul>
+          <li>use the website in a way that violates applicable law</li>
+          <li>attempt to gain unauthorized access to the website or its infrastructure</li>
+          <li>intentionally interfere with the operation or security of the website</li>
+          <li>copy, reproduce, distribute, or commercially exploit website content without permission</li>
+          <li>misrepresent Blending Lab's work as your own</li>
+        </ul>
+        <p>Blending Lab may modify, suspend, or discontinue any part of the website at any time.</p>
+
+        <h2>3. Services and inquiries</h2>
+        <p>Information presented on this website is intended to provide a general overview of the services offered by Blending Lab.</p>
+        <p>Submitting an inquiry, requesting an estimate, completing a project calculator, or contacting Blending Lab does not create a contractual relationship or an obligation for either party to proceed with a project.</p>
+        <p>Any project engagement may be subject to a separate proposal, statement of work, service agreement, or other written agreement defining matters such as:</p>
+        <ul>
+          <li>scope of work</li>
+          <li>deliverables</li>
+          <li>responsibilities</li>
+          <li>fees</li>
+          <li>payment terms</li>
+          <li>revisions</li>
+          <li>timelines</li>
+          <li>intellectual property ownership</li>
+          <li>cancellation</li>
+          <li>maintenance and support</li>
+        </ul>
+        <p>If there is any conflict between these website Terms &amp; Conditions and a separately signed client agreement, the signed client agreement takes precedence in relation to that project.</p>
+
+        <h2>4. Estimates and pricing</h2>
+        <p>Any prices, ranges, estimates, timelines, or project calculations shown on the website are indicative only unless expressly stated otherwise.</p>
+        <p>Automated estimates, including estimates generated through website tools or calculators, are intended to provide an approximate indication of potential project cost.</p>
+        <p>Final pricing depends on the actual scope, complexity, technical requirements, timeline, deliverables, and other project-specific factors.</p>
+        <p>A website estimate does not constitute a binding quotation or offer.</p>
+
+        <h2>5. Intellectual property</h2>
+        <p>Unless otherwise stated, the design, layout, text, graphics, visual presentation, code created specifically for this website, branding elements, and other original content on the Blending Lab website are owned by or licensed to Blending Lab.</p>
+        <p>You may view the website for personal or internal business evaluation purposes.</p>
+        <p>You may not reproduce, republish, distribute, modify, sell, license, or commercially exploit substantial portions of the website without prior written permission.</p>
+        <p>Third-party trademarks, product names, company names, screenshots, logos, photographs, and other materials remain the property of their respective owners.</p>
+
+        <h2>6. Portfolio and client work</h2>
+        <p>The website may contain examples of work created for clients, collaborators, employers, personal projects, or other organizations.</p>
+        <p>Presentation of a project on this website does not imply that Blending Lab owns all trademarks, business content, photography, software, data, or other intellectual property displayed within that project.</p>
+        <p>Such materials may be included solely to demonstrate the design, strategy, development, or creative work performed by Blending Lab.</p>
+        <p>Unless explicitly stated, the appearance of a company or project on this website does not imply an ongoing partnership, endorsement, sponsorship, or affiliation.</p>
+
+        <h2>7. Case studies and project information</h2>
+        <p>Case studies are intended to explain selected aspects of project work and may simplify project processes for clarity and presentation.</p>
+        <p>Descriptions of project challenges, responsibilities, design decisions, implementation, and outcomes are based on information available to Blending Lab.</p>
+        <p>Unless supported by verified data, case studies should not be interpreted as guarantees of specific commercial, financial, conversion, traffic, or business results.</p>
+        <p>Past project outcomes do not guarantee future results.</p>
+
+        <h2>8. Website content</h2>
+        <p>Blending Lab aims to keep information on the website accurate and up to date, but does not guarantee that all information will always be complete, current, or error-free.</p>
+        <p>Content may be changed without notice.</p>
+        <p>Nothing on this website constitutes legal, financial, accounting, medical, or other regulated professional advice.</p>
+
+        <h2>9. Third-party websites and services</h2>
+        <p>The website may contain links to third-party websites, platforms, tools, or services.</p>
+        <p>Blending Lab does not control these third parties and is not responsible for their:</p>
+        <ul>
+          <li>availability</li>
+          <li>content</li>
+          <li>privacy practices</li>
+          <li>security</li>
+          <li>accuracy</li>
+          <li>products or services</li>
+        </ul>
+        <p>Accessing third-party websites is at your own discretion and subject to their own terms and policies.</p>
+
+        <h2>10. Availability and technical operation</h2>
+        <p>Blending Lab does not guarantee that the website will always be available, uninterrupted, secure, or free from technical errors.</p>
+        <p>Temporary interruptions may occur because of maintenance, hosting services, third-party systems, software updates, infrastructure issues, or circumstances outside Blending Lab's reasonable control.</p>
+
+        <h2>11. Limitation of liability</h2>
+        <p>To the maximum extent permitted by applicable law, Blending Lab will not be liable for indirect, incidental, consequential, or special damages arising solely from your use of, or inability to use, this website.</p>
+        <p>This includes losses resulting from reliance on website content, interruptions, third-party links, technical issues, or information submitted through the website.</p>
+        <p>Nothing in these Terms &amp; Conditions excludes or limits liability where such exclusion or limitation would not be permitted under applicable law.</p>
+
+        <h2>12. Privacy</h2>
+        <p>Personal information submitted through the website is handled in accordance with the Blending Lab <a href="privacy-policy.html">Privacy Policy</a>.</p>
+        <p>The Privacy Policy explains what information may be collected, why it is collected, and how it is handled.</p>
+      </div>
+    </div>
+  </main>`;
 
 const styleGuidePage = () => `
   <main class="section"><div class="container"><div class="rich-text reveal"><h1>Style Guide</h1><h2>Colors</h2><p>Charcoal, almost black, alabaster, gray, and flamingo orange form the core palette.</p><h2>Buttons</h2><p><a class="button" href="#">Default button</a> <a class="glow-button" href="#"><span>Glowing CTA</span></a></p><h2>Cards</h2></div><div class="feature-grid">${["UX/UI Design", "Webflow Development", "Presentation Design", "Google Ads"].map((x) => `<div class="feature-item"><h4>${x}</h4><p>Reusable dark card sample.</p></div>`).join("")}</div></div></main>`;
@@ -511,6 +762,16 @@ const placeholderPage = () => {
     <>
       <Header active="privacy-policy.html" />
       <Fragment set:html={privacyPage()} />
+      <Footer />
+    </>
+  )
+}
+
+{
+  page === "terms.html" && (
+    <>
+      <Header active="terms.html" />
+      <Fragment set:html={termsPage()} />
       <Footer />
     </>
   )
