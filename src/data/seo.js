@@ -1,4 +1,5 @@
 export const siteSeo = {
+  siteUrl: "https://www.blending-lab.com",
   title: "Blending Lab — Design + code, from one person",
   description:
     "Product design and websites, designed and hand-coded by one person. You get the design and the working, production-ready code — no handoff, no builder lock-in, no team markup.",
@@ -108,15 +109,48 @@ export const seo = {
   "user-account.html": { title: "Blending Lab" },
 };
 
+const absoluteUrl = (path) => {
+  if (!path) return "";
+  if (/^(https?:)?\/\//.test(path)) return path;
+  if (path.startsWith("/")) return `${siteSeo.siteUrl}${path}`;
+  return `${siteSeo.siteUrl}/assets/${path}`;
+};
+
+const pageUrl = (page = "index.html") => {
+  if (page === "index.html") return siteSeo.siteUrl;
+  return `${siteSeo.siteUrl}/${page.replace(/\.html$/, "")}`;
+};
+
+const projectSeo = (project) => {
+  if (!project) return {};
+
+  const headline = project.caseStudy?.headline || project.title;
+  const titleHeadline = headline.replace(/[.!?]+$/, "");
+  const titlePrefix = titleHeadline.toLowerCase().includes(project.title.toLowerCase()) ? titleHeadline : `${project.title} — ${titleHeadline}`;
+  const description = project.caseStudy?.summary || project.description || project.pageIntro || project.company;
+  const ogImage = project.caseStudy?.ogImage || project.ogImage || project.coverImage || project.thumbnail;
+
+  return {
+    title: `${titlePrefix} | Blending Lab`,
+    description,
+    ogTitle: titlePrefix,
+    ogImage: absoluteUrl(ogImage),
+    url: pageUrl(project.caseStudyUrl),
+  };
+};
+
 export function getSeo(page, project) {
-  const pageSeo = project ? seo[project.caseStudyUrl] : seo[page];
+  const projectPageSeo = project ? projectSeo(project) : {};
+  const pageSeo = project ? seo[project.caseStudyUrl] || seo[page] : seo[page];
 
   return {
     ...siteSeo,
+    ...projectPageSeo,
     ...pageSeo,
-    title: pageSeo?.title || siteSeo.title,
-    description: pageSeo?.description || siteSeo.description,
-    ogTitle: pageSeo?.ogTitle || pageSeo?.title || siteSeo.ogTitle,
-    ogImage: pageSeo?.ogImage || siteSeo.ogImage,
+    title: pageSeo?.title || projectPageSeo.title || siteSeo.title,
+    description: pageSeo?.description || projectPageSeo.description || siteSeo.description,
+    ogTitle: pageSeo?.ogTitle || pageSeo?.title || projectPageSeo.ogTitle || siteSeo.ogTitle,
+    ogImage: pageSeo?.ogImage || projectPageSeo.ogImage || siteSeo.ogImage,
+    url: pageSeo?.url || projectPageSeo.url || pageUrl(page),
   };
 }

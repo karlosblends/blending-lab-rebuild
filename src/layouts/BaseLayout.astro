@@ -36,7 +36,9 @@ const bodyClass = project ? "project-detail-page" : "";
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
+    {meta.url && <link rel="canonical" href={meta.url} />}
     <meta property="og:type" content="website" />
+    {meta.url && <meta property="og:url" content={meta.url} />}
     <meta property="og:title" content={socialTitle} />
     {description && <meta property="og:description" content={description} />}
     {meta.ogImage && <meta property="og:image" content={meta.ogImage} />}
