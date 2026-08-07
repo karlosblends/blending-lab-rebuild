@@ -1,5 +1,6 @@
 ---
 import { img } from "../lib/assets.js";
+import { projectImageDimensions } from "../data/project-image-dimensions.js";
 import Header from "./Header.astro";
 import Footer from "./Footer.astro";
 import ContactForm from "./ContactForm.astro";
@@ -67,16 +68,10 @@ const nextProject =
 
 const imageLabel = (label = "Open image larger") => label;
 const imageSource = (imageItem = {}) => imageItem.src || imageItem.image;
-const imageFrameClasses = (imageItem = {}) => [
-  "case-image-button",
-  project.slug !== "xcare" && "case-image-button--visual-cover",
-  imageItem.aspect && `case-image-button--aspect-${imageItem.aspect}`,
-];
-const imageFrameStyle = (imageItem = {}) => {
-  const styles = [];
-  const position = imageItem.objectPosition || imageItem.position;
-  if (position) styles.push(`--case-image-position: ${position}`);
-  return styles.length ? styles.join("; ") : undefined;
+const imageFrameClasses = ["case-image-button"];
+const imageAttributes = (source) => {
+  const dimensions = projectImageDimensions[source];
+  return dimensions ? { src: img(source), width: dimensions.width, height: dimensions.height } : { src: img(source) };
 };
 const itemLabel = (item) => (typeof item === "string" ? item : item.label);
 const itemText = (item) => (typeof item === "string" ? "" : item.text);
@@ -116,8 +111,8 @@ const heroImageSettings = {
       {
         heroImage ? (
           <figure class="case-visual case-visual--hero reveal">
-            <button class:list={imageFrameClasses(heroImageSettings)} style={imageFrameStyle(heroImageSettings)} type="button" data-lightbox-image={img(heroImage)} data-lightbox-alt={heroAlt} aria-label={imageLabel("Open hero image larger")}>
-              <img class="case-image-button__image" src={img(heroImage)} alt={heroAlt} decoding="async" fetchpriority="high" />
+            <button class:list={imageFrameClasses} type="button" data-lightbox-image={img(heroImage)} data-lightbox-alt={heroAlt} aria-label={imageLabel("Open hero image larger")}>
+              <img class="case-image-button__image" {...imageAttributes(heroImage)} alt={heroAlt} decoding="async" fetchpriority="high" />
             </button>
             {caseStudy.heroCaption && <figcaption>{caseStudy.heroCaption}</figcaption>}
           </figure>
@@ -190,16 +185,16 @@ const heroImageSettings = {
               <div class="case-editorial-gallery__grid">
                 {section.images?.map((imageItem, imageIndex) => (
                   <figure class="case-visual reveal">
-                    <button class:list={imageFrameClasses(imageItem)} style={imageFrameStyle(imageItem)} type="button" data-lightbox-image={img(imageSource(imageItem))} data-lightbox-alt={imageItem.alt || `${project.title} related visual ${imageIndex + 1}`} aria-label={imageLabel()}>
-                      <img class="case-image-button__image" src={img(imageSource(imageItem))} alt={imageItem.alt || ""} loading="lazy" decoding="async" />
+                    <button class:list={imageFrameClasses} type="button" data-lightbox-image={img(imageSource(imageItem))} data-lightbox-alt={imageItem.alt || `${project.title} related visual ${imageIndex + 1}`} aria-label={imageLabel()}>
+                      <img class="case-image-button__image" {...imageAttributes(imageSource(imageItem))} alt={imageItem.alt || ""} loading="lazy" decoding="async" />
                     </button>
                     {imageItem.caption && <figcaption>{imageItem.caption}</figcaption>}
                   </figure>
                 ))}
               </div>
               <figure class:list={["case-visual", "case-visual--full", "case-editorial-gallery__feature", "reveal", feature?.crop && "case-visual--crop"]}>
-                <button class:list={imageFrameClasses(feature)} style={imageFrameStyle(feature)} type="button" data-lightbox-image={img(imageSource(feature))} data-lightbox-alt={feature.alt || `${project.title} full project visual`} aria-label={imageLabel()}>
-                  <img class="case-image-button__image" src={img(imageSource(feature))} alt={feature.alt || ""} loading="lazy" decoding="async" />
+                <button class:list={imageFrameClasses} type="button" data-lightbox-image={img(imageSource(feature))} data-lightbox-alt={feature.alt || `${project.title} full project visual`} aria-label={imageLabel()}>
+                  <img class="case-image-button__image" {...imageAttributes(imageSource(feature))} alt={feature.alt || ""} loading="lazy" decoding="async" />
                 </button>
                 {feature.caption && <figcaption>{feature.caption}</figcaption>}
               </figure>
@@ -224,8 +219,8 @@ const heroImageSettings = {
                 <Fragment set:html={bodyHtml(section.body)} />
               </div>
               <figure class:list={["case-visual", "reveal", section.scale === "crop" && "case-visual--crop"]}>
-                <button class:list={imageFrameClasses(section)} style={imageFrameStyle(section)} type="button" data-lightbox-image={img(imageSource(section))} data-lightbox-alt={section.alt || `${project.title} case study image ${index + 1}`} aria-label={imageLabel()}>
-                  <img class="case-image-button__image" src={img(imageSource(section))} alt={section.alt || ""} loading="lazy" decoding="async" />
+                <button class:list={imageFrameClasses} type="button" data-lightbox-image={img(imageSource(section))} data-lightbox-alt={section.alt || `${project.title} case study image ${index + 1}`} aria-label={imageLabel()}>
+                  <img class="case-image-button__image" {...imageAttributes(imageSource(section))} alt={section.alt || ""} loading="lazy" decoding="async" />
                 </button>
                 {section.caption && <figcaption>{section.caption}</figcaption>}
               </figure>
@@ -242,8 +237,8 @@ const heroImageSettings = {
                 </div>
               )}
               <figure class:list={["case-visual", "case-visual--full", "reveal", section.size === "bleed" && "case-visual--bleed", section.crop && "case-visual--crop"]}>
-                <button class:list={imageFrameClasses(section)} style={imageFrameStyle(section)} type="button" data-lightbox-image={img(imageSource(section))} data-lightbox-alt={section.alt || `${project.title} full project visual`} aria-label={imageLabel()}>
-                  <img class="case-image-button__image" src={img(imageSource(section))} alt={section.alt || ""} loading="lazy" decoding="async" />
+                <button class:list={imageFrameClasses} type="button" data-lightbox-image={img(imageSource(section))} data-lightbox-alt={section.alt || `${project.title} full project visual`} aria-label={imageLabel()}>
+                  <img class="case-image-button__image" {...imageAttributes(imageSource(section))} alt={section.alt || ""} loading="lazy" decoding="async" />
                 </button>
                 {section.caption && <figcaption>{section.caption}</figcaption>}
               </figure>
@@ -262,8 +257,8 @@ const heroImageSettings = {
               <div class="case-composition__images">
                 {section.images?.map((imageItem, imageIndex) => (
                   <figure class="case-visual reveal">
-                    <button class:list={imageFrameClasses(imageItem)} style={imageFrameStyle(imageItem)} type="button" data-lightbox-image={img(imageSource(imageItem))} data-lightbox-alt={imageItem.alt || `${project.title} related visual ${imageIndex + 1}`} aria-label={imageLabel()}>
-                      <img class="case-image-button__image" src={img(imageSource(imageItem))} alt={imageItem.alt || ""} loading="lazy" decoding="async" />
+                    <button class:list={imageFrameClasses} type="button" data-lightbox-image={img(imageSource(imageItem))} data-lightbox-alt={imageItem.alt || `${project.title} related visual ${imageIndex + 1}`} aria-label={imageLabel()}>
+                      <img class="case-image-button__image" {...imageAttributes(imageSource(imageItem))} alt={imageItem.alt || ""} loading="lazy" decoding="async" />
                     </button>
                     {imageItem.caption && <figcaption>{imageItem.caption}</figcaption>}
                   </figure>
