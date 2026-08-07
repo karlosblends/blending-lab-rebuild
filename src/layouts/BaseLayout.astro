@@ -357,7 +357,7 @@ const bodyClass = project ? "project-detail-page" : "";
       const nav = document.querySelector("[data-nav]");
       if (nav) {
         const navBar = nav.querySelector(".nav__bar");
-        const logo = nav.querySelector(".nav__logo img");
+        const logoLink = nav.querySelector(".nav__logo");
         const navItems = Array.from(nav.querySelectorAll(".nav__links, .nav__right, .nav__toggle"));
         const desktopQuery = window.matchMedia("(min-width: 992px)");
         const reduceNavMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -383,8 +383,8 @@ const bodyClass = project ? "project-detail-page" : "";
         const metrics = (expanded) => ({
           width: expanded ? expandedWidth() : collapsedWidth(),
           minHeight: expanded ? (desktopQuery.matches ? 72 : 82) : 56,
-          padding: expanded ? (desktopQuery.matches ? "10px 12px" : "16px 32px") : "6px 10px",
-          logoWidth: expanded ? 48 : 38,
+          padding: expanded ? (desktopQuery.matches ? "10px 12px" : "16px 32px") : "4px 10px",
+          marginLeft: expanded || desktopQuery.matches ? "0px" : "22px",
           backgroundColor: expanded ? "rgba(16, 16, 16, 0.78)" : "rgba(16, 16, 16, 0.84)",
           borderColor: expanded ? "rgb(48, 48, 48)" : "rgba(255, 255, 255, 0.1)",
         });
@@ -405,7 +405,13 @@ const bodyClass = project ? "project-detail-page" : "";
         };
 
         const setNavGrid = (expanded) => {
-          navBar.style.gridTemplateColumns = expanded ? (desktopQuery.matches ? "auto auto auto" : "auto auto") : "auto";
+          const isDesktop = desktopQuery.matches;
+          navBar.style.gridTemplateColumns = expanded
+            ? (isDesktop ? "minmax(0, 1fr) auto minmax(0, 1fr)" : "auto auto")
+            : (isDesktop ? "0px auto 0px" : "auto");
+          if (logoLink) {
+            logoLink.style.gridColumn = expanded && !isDesktop ? "1" : isDesktop ? "2" : "1";
+          }
         };
 
         const fadeItems = (visible, instant = false) => {
@@ -428,22 +434,28 @@ const bodyClass = project ? "project-detail-page" : "";
         const animateShell = (expanded, instant = false) => {
           const values = metrics(expanded);
           const duration = instant || reduceNavMotion.matches ? 0 : expanded ? 0.46 : 0.42;
+          const shellAnimation = {
+            width: `${values.width}px`,
+            maxWidth: `${values.width}px`,
+            minHeight: `${values.minHeight}px`,
+            padding: values.padding,
+            backgroundColor: values.backgroundColor,
+            borderColor: values.borderColor,
+          };
+          if (desktopQuery.matches) {
+            navBar.style.marginLeft = "";
+          } else {
+            shellAnimation.marginLeft = values.marginLeft;
+            shellAnimation.marginRight = "auto";
+          }
           if (expanded) setNavGrid(true);
           animations.push(
             animate(
               navBar,
-              {
-                width: `${values.width}px`,
-                maxWidth: `${values.width}px`,
-                minHeight: `${values.minHeight}px`,
-                padding: values.padding,
-                backgroundColor: values.backgroundColor,
-                borderColor: values.borderColor,
-              },
+              shellAnimation,
               { duration, ease }
             )
           );
-          animations.push(animate(logo, { width: `${values.logoWidth}px` }, { duration, ease }));
         };
 
         const setExpanded = (expanded, instant = false) => {
