@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import { projects } from "../src/data/projects.js";
 
 const compactObject = (value) => {
@@ -64,7 +65,7 @@ const toCaseStudy = (caseStudy = {}) => {
 const docs = projects.map((project, index) => {
   const doc = {
     ...project,
-    _id: `project.${project.slug}`,
+    _id: randomUUID(),
     _type: "project",
     slug: { _type: "slug", current: project.slug },
     orderRank: index,

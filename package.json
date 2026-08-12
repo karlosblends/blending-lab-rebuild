@@ -7,8 +7,7 @@
     "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
     "build": "ASTRO_TELEMETRY_DISABLED=1 astro build",
     "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
-    "sanity:export-projects": "node scripts/local-projects-to-sanity.mjs",
-    "sanity:deploy": "sanity deploy"
+    "sanity:export-projects": "node scripts/local-projects-to-sanity.mjs"
   },
   "devDependencies": {
     "astro": "^5.12.0"

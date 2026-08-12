@@ -1,16 +1,5 @@
-import { createClient } from "@sanity/client";
+import { sanityClient } from "sanity:client";
 import { projects as localProjects } from "../data/projects.js";
-
-export const sanityConfig = {
-  projectId: import.meta.env.PUBLIC_SANITY_PROJECT_ID,
-  dataset: import.meta.env.PUBLIC_SANITY_DATASET || "production",
-  apiVersion: import.meta.env.PUBLIC_SANITY_API_VERSION || "2026-08-05",
-  useCdn: import.meta.env.PUBLIC_SANITY_USE_CDN === "true",
-};
-
-export const isSanityConfigured = Boolean(sanityConfig.projectId && sanityConfig.dataset);
-
-const client = isSanityConfigured ? createClient(sanityConfig) : null;
 
 const projectFields = `
   _id,
@@ -114,9 +103,7 @@ const normalizeProject = (project) => {
 };
 
 export async function getProjects() {
-  if (!client) return localProjects;
-
-  projectsPromise ??= client
+  projectsPromise ??= sanityClient
     .fetch(projectsQuery)
     .then((sanityProjects) => (sanityProjects?.length ? sanityProjects.map(normalizeProject) : localProjects))
     .catch((error) => {

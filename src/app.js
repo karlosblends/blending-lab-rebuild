@@ -189,7 +189,7 @@ function nav(active) {
             .map(([href, label]) => `<a class="nav__link ${active === href ? "active" : ""}" href="${href}">${label}</a>`)
             .join("")}
         </div>
-        <a class="nav__logo" href="index.html" aria-label="Blending Lab home"><img src="${img("Logo_1.svg")}" alt="Blending Lab"></a>
+        <a class="nav__logo" href="index.html" aria-label="Blending Lab home"><img src="${img("Blending Lab Logo.jpg")}" alt="Blending Lab"></a>
         <div class="nav__right">
           <a class="nav__link ${active === "design.html" ? "active" : ""}" href="design.html">Design</a>
           <a class="button" href="contact.html">Contact</a>
@@ -398,7 +398,7 @@ function footer() {
       <div class="footer__inner">
         <div class="footer__grid">
           <div>
-            <img class="footer__logo" src="${img("Logo.svg")}" alt="Blending Lab">
+            <img class="footer__logo" src="${img("Blending Lab Logo.jpg")}" alt="Blending Lab">
             <p class="footer__muted" style="font-size:1.1rem;margin-top:1rem">No big teams, no extra costs. Just great design.</p>
             <div class="socials">
               <a href="https://www.linkedin.com/in/karlo-osman" target="_blank" rel="noreferrer"><img src="${img("linkedin.svg")}" alt="LinkedIn"></a>
@@ -745,7 +745,7 @@ function utilityPage(page) {
   return `
     <div class="utility-wrap">
       <div class="utility-card">
-        <img src="${img("Logo.svg")}" alt="Blending Lab" style="width:54px">
+        <img src="${img("Blending Lab Logo.jpg")}" alt="Blending Lab" style="width:54px">
         <h2>${title}</h2>
         <p class="muted">This utility page was preserved from the Webflow export. Connect it to your authentication provider before production use.</p>
         <form><label>Email</label><input type="email" placeholder="john.doe@acme.com"><label>Password</label><input type="password" placeholder="••••••••"><div class="button-row" style="justify-content:flex-start"><button class="button" type="button">${title}</button></div></form>

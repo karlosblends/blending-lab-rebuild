@@ -13,7 +13,7 @@ Astro migration of the Blending Lab website. The project keeps the original page
 - `legacy-static` contains a snapshot of the pre-Astro root HTML/CSS/JS implementation for rollback/reference.
 - `webflow-source` contains the untouched uploaded export for reference.
 - `design.md` documents the design system extracted from the export.
-- `sanity/schemas` contains the Sanity Studio project schema.
+- The standalone Sanity Studio and schema live in the sibling folder `../studio-blending-lab-website`.
 
 ## Run Locally
 
@@ -38,31 +38,37 @@ npm run build
 
 ## Sanity CMS
 
-Copy `.env.example` to `.env` and add your Sanity values:
+The project and dataset are configured by default. To override them for another environment, copy `.env.example` to `.env`:
 
 ```bash
-PUBLIC_SANITY_PROJECT_ID=your-project-id
+PUBLIC_SANITY_PROJECT_ID=13xgtq6v
 PUBLIC_SANITY_DATASET=production
-SANITY_STUDIO_PROJECT_ID=your-project-id
-SANITY_STUDIO_DATASET=production
 ```
 
-When those values exist, the Astro dev server mounts Sanity Studio at:
+The Astro site reads published `project` documents from Sanity at build time. The Studio stays standalone and is not mounted inside Astro.
 
-```text
-http://localhost:4321/studio
-```
-
-The site queries Sanity for `project` documents at build time. If Sanity is not configured or the query fails, the build falls back to `src/data/projects.js`.
-
-To import the current local project content into Sanity:
+Run the Studio from its sibling folder:
 
 ```bash
-npm run sanity:export-projects > sanity/projects.ndjson
-npx sanity dataset import sanity/projects.ndjson production --replace
+cd ../studio-blending-lab-website
+npm run dev
 ```
 
-After the first Studio visit, add the local and production site URLs as allowed CORS origins in Sanity with credentials enabled.
+The Studio runs at `http://localhost:3333` by default.
+
+The site queries published Sanity `project` documents at build time. The public project ID and production dataset are configured by default; environment variables can override them. If the dataset is empty or a query fails, the build falls back to `src/data/projects.js`.
+
+To perform a one-time import of the current local project content into an empty dataset:
+
+```bash
+npm run sanity:export-projects > /tmp/blending-lab-projects.ndjson
+cd ../studio-blending-lab-website
+npx sanity dataset import /tmp/blending-lab-projects.ndjson production
+```
+
+The exporter generates fresh public document IDs. Do not rerun this import against a dataset that already contains these projects, because it would create duplicates.
+
+Only add credentialed CORS origins for Studio or authenticated browser requests on domains you control. Static Astro builds fetch content server-side and do not need frontend CORS access.
 
 ## Notes
 
