@@ -130,7 +130,7 @@ p {
   top: 0;
   z-index: 50;
   padding: 10px 3% 0;
-  --nav-expanded-width: 476px;
+  --nav-expanded-width: 452px;
   --nav-collapsed-width: 72px;
 }
 
@@ -146,7 +146,7 @@ p {
   background: rgba(16, 16, 16, 0.78);
   backdrop-filter: blur(16px);
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  grid-template-columns: auto auto auto;
   align-items: center;
   justify-content: center;
   gap: 0.95rem;

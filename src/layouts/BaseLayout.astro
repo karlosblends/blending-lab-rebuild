@@ -375,7 +375,7 @@ const bodyClass = project ? "project-detail-page" : "";
 
         const expandedWidth = () => {
           if (desktopQuery.matches) {
-            return parseFloat(getComputedStyle(nav).getPropertyValue("--nav-expanded-width")) || 476;
+            return parseFloat(getComputedStyle(nav).getPropertyValue("--nav-expanded-width")) || 452;
           }
           return Math.min(window.innerWidth * 0.9, 1300);
         };
@@ -409,7 +409,7 @@ const bodyClass = project ? "project-detail-page" : "";
         const setNavGrid = (expanded) => {
           const isDesktop = desktopQuery.matches;
           navBar.style.gridTemplateColumns = expanded
-            ? (isDesktop ? "minmax(0, 1fr) auto minmax(0, 1fr)" : "auto auto")
+            ? (isDesktop ? "auto auto auto" : "auto auto")
             : (isDesktop ? "0px auto 0px" : "auto");
           if (logoLink) {
             logoLink.style.gridColumn = expanded && !isDesktop ? "1" : isDesktop ? "2" : "1";
