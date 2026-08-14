@@ -306,7 +306,7 @@ const caseStudyConfigs = {
       },
       {
         type: "fullImage",
-        image: projectAsset("xcare", "get-quote-form.png"),
+        image: projectAsset("xcare", "quote-form-landing.png"),
         position: "center top",
         alt: "XCare quote entry screen showing vehicle details with no contact fields",
         caption: "Quote entry. No email, no phone number.",

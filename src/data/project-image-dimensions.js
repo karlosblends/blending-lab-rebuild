@@ -54,7 +54,7 @@ export const projectImageDimensions = {
   "projects/xcare/client-portal-payment-card.png": { width: 3495, height: 2160 },
   "projects/xcare/client-portal-signup.png": { width: 3495, height: 2160 },
   "projects/xcare/cover.png": { width: 3840, height: 2028 },
-  "projects/xcare/get-quote-form.png": { width: 2880, height: 2160 },
+  "projects/xcare/quote-form-landing.png": { width: 2880, height: 2160 },
   "projects/xcare/pricing-page.png": { width: 3840, height: 2160 },
   "projects/xcare/website-competitor-comparison.png": { width: 3143, height: 2160 },
   "projects/xcare/website-hero.png": { width: 3143, height: 2160 },
