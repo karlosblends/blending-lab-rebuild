@@ -321,7 +321,7 @@ const caseStudyConfigs = {
       },
       {
         type: "fullImage",
-        image: projectAsset("xcare", "plan-selection.png"),
+        image: projectAsset("xcare", "pricing-page.png"),
         position: "center top",
         alt: "XCare plan selection screen with coverage terms and pricing",
         caption: "Plan selection. Six coverage terms, all visible at once.",
