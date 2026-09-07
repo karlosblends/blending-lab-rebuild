@@ -98,7 +98,11 @@ const bodyClass = project ? "project-detail-page" : "";
           window.posthog?.capture("discovery_call_started");
         }
 
-        if (target.closest(".project-card")) {
+        if (target.closest('a[href^="mailto:"]')) {
+          window.posthog?.capture("contact_email_clicked");
+        }
+
+        if (target.closest(".project-card, .about-project-card")) {
           window.posthog?.capture("portfolio_project_selected");
         }
       });
