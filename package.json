@@ -18,6 +18,7 @@
     "@sanity/client": "^7.26.2",
     "@sanity/image-url": "^2.1.1",
     "motion": "^12.42.2",
+    "posthog-js": "^1.427.3",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "sanity": "^6.9.0",

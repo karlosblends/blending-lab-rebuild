@@ -2,6 +2,7 @@
 import "../styles.css";
 import { getSeo } from "../data/seo.js";
 import { img } from "../lib/assets.js";
+import PostHog from "../components/posthog.astro";
 
 const { page = "index.html", project } = Astro.props;
 const meta = getSeo(page, project);
@@ -48,6 +49,7 @@ const bodyClass = project ? "project-detail-page" : "";
     {meta.ogImage && <meta name="twitter:image" content={meta.ogImage} />}
     <link rel="icon" href={img("favicon.png")} />
     <link rel="apple-touch-icon" href={img("webclip.png")} />
+    <PostHog />
   </head>
   <body class={bodyClass}>
     <div class="page">
@@ -83,6 +85,22 @@ const bodyClass = project ? "project-detail-page" : "";
             history.pushState(null, "", `#${targetId}`);
           }
         }
+
+        const estimateLink = target.closest('a[href^="/estimate"]');
+        if (estimateLink) {
+          const estimatePath = new URL(estimateLink.href).searchParams.get("path");
+          window.posthog?.capture("estimate_flow_started", {
+            estimate_type: estimatePath === "retainer" ? "retainer" : "project",
+          });
+        }
+
+        if (target.closest('a[href^="https://calendly.com/"]')) {
+          window.posthog?.capture("discovery_call_started");
+        }
+
+        if (target.closest(".project-card")) {
+          window.posthog?.capture("portfolio_project_selected");
+        }
       });
 
       document.querySelectorAll("[data-contact-form]").forEach((form) => {
@@ -112,6 +130,7 @@ const bodyClass = project ? "project-detail-page" : "";
 
             if (!response.ok) throw new Error("Form submission failed");
 
+            window.posthog?.capture("contact_inquiry_submitted");
             form.reset();
             if (status) {
               status.textContent = "Thanks! Your message has been sent.";
