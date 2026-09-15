@@ -1,7 +1,6 @@
 ---
 import "../styles.css";
 import "../design-system.css";
-import WeeklyPerformanceCard from "../components/WeeklyPerformanceCard.astro";
 
 export const prerender = false;
 
@@ -67,7 +66,6 @@ const componentDescriptions = {
   ProjectsSection: "Featured or complete project listing.",
   SimpleFeatures: "Reusable feature grid section.",
   StandardProjectPage: "Current editorial case-study template.",
-  WeeklyPerformanceCard: "Detailed product UI chart specimen.",
   posthog: "Consent-aware analytics integration.",
 };
 
@@ -213,7 +211,7 @@ const styleReference = (selector) =>
               </article>
             </section>
 
-            <section class="design-system-section" id="patterns" data-search-section="patterns cards faq form chart weekly performance feature">
+            <section class="design-system-section" id="patterns" data-search-section="patterns cards faq form feature">
               <div class="design-system-section__heading">
                 <h2>Interface patterns</h2>
                 <p>Reusable production styles and a rendered source component. Each specimen can be referenced directly in a Codex request.</p>
@@ -225,10 +223,6 @@ const styleReference = (selector) =>
               <article class="design-system-specimen" data-search-item="faq accordion question answer">
                 <div class="design-system-specimen__bar"><h3>FAQ item · <code>.faq-item</code></h3><button class="design-system-copy" type="button" data-copy={componentReference("FaqSection")}>Copy</button></div>
                 <div class="design-system-specimen__canvas"><div class="faq-item open"><button class="faq-question" type="button"><span>What does this component do?</span><span class="faq-icon">+</span></button><div class="faq-answer"><div><p>It shows expandable questions and answers using the production FAQ styles.</p></div></div></div></div>
-              </article>
-              <article class="design-system-specimen" data-search-item="weekly performance card chart product ui">
-                <div class="design-system-specimen__bar"><h3>Weekly performance card · source component</h3><button class="design-system-copy" type="button" data-copy={componentReference("WeeklyPerformanceCard")}>Copy</button></div>
-                <div class="design-system-specimen__canvas"><WeeklyPerformanceCard /></div>
               </article>
             </section>
 
