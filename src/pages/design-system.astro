@@ -305,7 +305,7 @@ const styleReference = (selector) =>
       )
     }
 
-    <script>
+    <script is:inline>
       document.querySelectorAll("[data-design-system-auth]").forEach((form) => {
         form.addEventListener("submit", async (event) => {
           event.preventDefault();
