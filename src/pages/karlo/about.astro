@@ -1,0 +1,69 @@
+---
+import PortfolioLayout from "../../layouts/PortfolioLayout.astro";
+import { img } from "../../lib/assets.js";
+---
+
+<PortfolioLayout active="about">
+  <main class="karlo-about" id="karlo-content">
+    <section class="karlo-about__hero">
+      <h1>One person, all the way through.</h1>
+      <div class="karlo-about__lead">
+        <p>I’m Karlo. I work where product thinking, visual design and frontend meet.</p>
+        <p>I like complicated products, unusually specific businesses and teams that care whether the final two percent actually makes it into production.</p>
+      </div>
+    </section>
+
+    <figure class="karlo-about__portrait">
+      <img src={img("karlo-landscape-office.png")} width="1536" height="1024" alt="Karlo Osman at his workspace" />
+    </figure>
+
+    <section class="karlo-about__sections">
+      <p class="karlo-about__label">The short version</p>
+      <div class="karlo-about__copy">
+        <h2>I design the interface, then stay around long enough to make it behave.</h2>
+        <p>I started in advertising and moved toward design because I wanted to shape the thing people actually use, not only the message around it. Eventually mockups stopped feeling like a satisfying finish line, so I learned to build the frontend too.</p>
+        <p>Today I work directly with founders and product teams across product UX, websites, design systems and production-ready interface code. When heavier engineering is involved, I leave behind clean components and fewer mysteries.</p>
+      </div>
+    </section>
+
+    <section class="karlo-about__sections">
+      <p class="karlo-about__label">A loose timeline</p>
+      <dl class="karlo-about__timeline">
+        <div>
+          <dt>First</dt>
+          <dd>Advertising taught me how positioning, attention and business constraints shape every design decision.</dd>
+        </div>
+        <div>
+          <dt>Then</dt>
+          <dd>Product and web design gave me larger systems to untangle—and made the handoff problem impossible to ignore.</dd>
+        </div>
+        <div>
+          <dt>Now</dt>
+          <dd>I combine product design with frontend implementation through Blending Lab, my independent practice.</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="karlo-about__sections">
+      <p class="karlo-about__label">Useful around</p>
+      <div class="karlo-about__copy">
+        <h2>From the first confusing flow to the component that ships.</h2>
+        <ul class="karlo-about__capabilities">
+          <li>Product strategy</li>
+          <li>UX and information architecture</li>
+          <li>Interface design</li>
+          <li>Design systems</li>
+          <li>Frontend development</li>
+          <li>Webflow development</li>
+          <li>Art direction</li>
+          <li>Motion direction</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="karlo-about__cta">
+      <h2>Have something complicated?</h2>
+      <a href="mailto:hello@blending-lab.com">Put it in my inbox</a>
+    </section>
+  </main>
+</PortfolioLayout>

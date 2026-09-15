@@ -4,12 +4,12 @@ import { getSeo } from "../data/seo.js";
 import { img } from "../lib/assets.js";
 import PostHog from "../components/posthog.astro";
 
-const { page = "index.html", project } = Astro.props;
-const meta = getSeo(page, project);
+const { page = "index.html", project, seoOverride = {}, bodyClass: suppliedBodyClass = "" } = Astro.props;
+const meta = { ...getSeo(page, project), ...seoOverride };
 const title = meta.title || "Blending Lab";
 const description = meta.description || "";
 const socialTitle = meta.ogTitle || title;
-const bodyClass = project ? "project-detail-page" : "";
+const bodyClass = [project ? "project-detail-page" : "", suppliedBodyClass].filter(Boolean).join(" ");
 ---
 
 <!doctype html>

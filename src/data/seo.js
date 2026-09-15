@@ -41,6 +41,16 @@ export const seo = {
     description:
       "Scroll through and get to know me better. I'm sharing my distinctive career journey, passions, and personal insights.",
   },
+  "karlo.html": {
+    title: "Karlo Osman | Product designer and design engineer",
+    description: "Selected product design, websites, design systems, and frontend work by Karlo Osman.",
+    url: "https://www.blending-lab.com/karlo",
+  },
+  "karlo/about.html": {
+    title: "About Karlo Osman | Product designer and design engineer",
+    description: "About Karlo Osman: product designer, design engineer, and the person behind Blending Lab.",
+    url: "https://www.blending-lab.com/karlo/about",
+  },
   "try-for-free.html": {
     title: "Try a Free Screen Redesign | Blending Lab",
     description:

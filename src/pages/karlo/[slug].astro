@@ -1,0 +1,33 @@
+---
+import PortfolioLayout from "../../layouts/PortfolioLayout.astro";
+import StandardProjectPage from "../../components/StandardProjectPage.astro";
+import { getProjects } from "../../lib/sanity.js";
+import { getPortfolioProjects, portfolioEntries } from "../../data/portfolio.js";
+
+export async function getStaticPaths() {
+  const projects = await getProjects();
+  const selectedSlugs = new Set(portfolioEntries.map((entry) => entry.slug));
+
+  return projects
+    .filter((project) => selectedSlugs.has(project.slug) && !project.archived)
+    .map((project) => ({ params: { slug: project.slug }, props: { project, projects } }));
+}
+
+const { project, projects } = Astro.props;
+const portfolioProjects = getPortfolioProjects(projects);
+const canonical = `https://www.blending-lab.com/${project.caseStudyUrl.replace(/\.html$/, "")}`;
+---
+
+<PortfolioLayout
+  active="project"
+  page={`karlo/${project.slug}.html`}
+  project={project}
+  projectTitle={project.title}
+  title={`${project.title} — ${project.caseStudy?.headline || project.description} | Karlo Osman`}
+  description={project.caseStudy?.summary || project.description}
+  canonical={canonical}
+>
+  <div id="karlo-content">
+    <StandardProjectPage project={project} projects={portfolioProjects} chrome="portfolio" routeBase="/karlo" />
+  </div>
+</PortfolioLayout>

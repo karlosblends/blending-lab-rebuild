@@ -1,0 +1,22 @@
+---
+import PortfolioLayout from "../../layouts/PortfolioLayout.astro";
+import PortfolioGrid from "../../components/portfolio/PortfolioGrid.astro";
+import { getProjects } from "../../lib/sanity.js";
+import { getPortfolioProjects } from "../../data/portfolio.js";
+
+const projects = getPortfolioProjects(await getProjects());
+---
+
+<PortfolioLayout active="work">
+  <main class="karlo-work" id="karlo-content">
+    <header class="karlo-work__intro">
+      <h1>Work that made it to the screen.</h1>
+      <p>Selected product systems, websites and experiments—designed with the business in mind, then carried close enough to code that the details survived.</p>
+    </header>
+    <PortfolioGrid projects={projects} />
+    <footer class="karlo-footer-note">
+      <span>Made carefully in Zagreb.</span>
+      <a href="/projects">See the complete Blending Lab archive</a>
+    </footer>
+  </main>
+</PortfolioLayout>

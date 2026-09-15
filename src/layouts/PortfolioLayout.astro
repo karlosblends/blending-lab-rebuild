@@ -1,0 +1,104 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import ProfileRail from "../components/portfolio/ProfileRail.astro";
+import PortfolioNav from "../components/portfolio/PortfolioNav.astro";
+import "../portfolio.css";
+
+const {
+  active = "work",
+  project,
+  projectTitle = "",
+  page = active === "about" ? "karlo/about.html" : "karlo.html",
+  title = active === "about" ? "About Karlo Osman | Product designer and design engineer" : "Karlo Osman | Product designer and design engineer",
+  description = active === "about"
+    ? "About Karlo Osman: product designer, design engineer, and the person behind Blending Lab."
+    : "Selected product design, websites, design systems, and frontend work by Karlo Osman.",
+  canonical = active === "about" ? "https://www.blending-lab.com/karlo/about" : "https://www.blending-lab.com/karlo",
+} = Astro.props;
+---
+
+<BaseLayout
+  page={page}
+  project={project}
+  bodyClass="karlo-portfolio-page"
+  seoOverride={{ title, description, ogTitle: title, url: canonical }}
+>
+  <a class="karlo-skip-link" href="#karlo-content">Skip to work</a>
+  <div class="karlo-shell">
+    <ProfileRail />
+    <div class="karlo-content-column">
+      <PortfolioNav active={active} projectTitle={projectTitle} />
+      <slot />
+    </div>
+  </div>
+
+  <script>
+    const timeNodes = document.querySelectorAll("[data-karlo-time]");
+    const updateLocalTime = () => {
+      timeNodes.forEach((node) => {
+        const timezone = node.getAttribute("data-timezone") || "Europe/Zagreb";
+        node.textContent = new Intl.DateTimeFormat("en-GB", {
+          timeZone: timezone,
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        }).format(new Date());
+      });
+    };
+    updateLocalTime();
+    window.setInterval(updateLocalTime, 30_000);
+
+    const hoverCapable = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    document.querySelectorAll("[data-preview-card]").forEach((card) => {
+      const frames = Array.from(card.querySelectorAll(".karlo-project__frame"));
+      const counter = card.querySelector("[data-preview-index]");
+      let activeIndex = 0;
+
+      const ensureFrame = (frame) => {
+        if (!(frame instanceof HTMLImageElement) || frame.src) return;
+        const source = frame.dataset.previewSrc;
+        if (source) frame.src = source;
+      };
+
+      const setFrame = (index) => {
+        const nextIndex = Math.max(0, Math.min(frames.length - 1, index));
+        if (nextIndex === activeIndex) return;
+        ensureFrame(frames[nextIndex]);
+        frames[activeIndex]?.classList.remove("is-active");
+        frames[nextIndex]?.classList.add("is-active");
+        activeIndex = nextIndex;
+        if (counter) counter.textContent = String(activeIndex + 1).padStart(2, "0");
+      };
+
+      if (hoverCapable.matches && frames.length > 1) {
+        card.addEventListener("pointerenter", () => ensureFrame(frames[1]));
+        card.addEventListener("pointermove", (event) => {
+          const rect = card.getBoundingClientRect();
+          const progress = (event.clientX - rect.left) / Math.max(rect.width, 1);
+          setFrame(Math.min(frames.length - 1, Math.floor(progress * frames.length)));
+        });
+        card.addEventListener("pointerleave", () => setFrame(0));
+      }
+
+      if (!reduceMotion.matches && hoverCapable.matches) {
+        const preloadObserver = new IntersectionObserver(
+          (entries, observer) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              ensureFrame(frames[1]);
+              observer.unobserve(entry.target);
+            });
+          },
+          { rootMargin: "240px" }
+        );
+        preloadObserver.observe(card);
+      }
+    });
+
+    document.querySelectorAll("[data-karlo-project]").forEach((link) => {
+      link.addEventListener("click", () => window.posthog?.capture("portfolio_project_selected", { surface: "karlo" }));
+    });
+  </script>
+</BaseLayout>

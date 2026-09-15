@@ -1,0 +1,201 @@
+---
+import HrLayout from "../layouts/HrLayout.astro";
+import HrHeader from "../components/hr/HrHeader.astro";
+import ProjectCarousel from "../components/hr/ProjectCarousel.astro";
+import { hrContent, hrProjects } from "../data/hr-content.js";
+---
+
+<HrLayout>
+  <div class="hr-page" id="vrh">
+    <HrHeader />
+    <main>
+      <section class="hero hr-hero">
+        <div class="container--medium">
+        <div class="hero__content reveal">
+          <div class="eyebrow"><span class="pulse"></span>{hrContent.hero.eyebrow}</div>
+          <h1>{hrContent.hero.title}</h1>
+          <p class="hero__lead">{hrContent.hero.lead}</p>
+          <div class="button-row">
+            <a class="glow-button" href="#kontakt"><span>Razgovarajmo</span></a>
+            <a class="button button--text" href="#radovi">Pogledaj radove ↓</a>
+          </div>
+        </div>
+        <div class="hr-hero__visual reveal">
+          <figure class="hr-hero__art hr-hero__art--primary"><img src="/assets/projects/ny-lon/cover.png" alt="NY/LON Psychology web stranica" /></figure>
+          <figure class="hr-hero__art hr-hero__art--secondary"><img src="/assets/projects/humble-hunters/cover.png" alt="Humble Hunters web stranica" /></figure>
+          <figure class="hr-hero__art hr-hero__art--tertiary"><img src="/assets/projects/caronwall/cover.png" alt="Caronwall webshop" /></figure>
+        </div>
+        </div>
+      </section>
+
+      <section class="hr-section hr-context">
+        <div class="hr-container">
+          <div class="hr-section-heading" data-reveal>
+            <div class="eyebrow">Kada je vrijeme za novi web?</div>
+            <h2>Nije uvijek riječ o redizajnu.<br /><em>Riječ je o promjeni.</em></h2>
+          </div>
+          <div class="hr-context__list">
+            {hrContent.situations.map(([number, title, text]) => (
+              <article class="hr-context__item" data-reveal>
+                <span>{number}</span><h3>{title}</h3><p>{text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section class="hr-section hr-layers" id="pristup">
+        <div class="hr-container hr-layers__grid">
+          <div class="hr-layers__sticky" data-reveal>
+            <div class="eyebrow">Jedan povezani proces</div>
+            <h2>5 slojeva za kompletan projekt.</h2>
+            <div class="hr-layer-stack" aria-hidden="true">
+              {hrContent.layers.map((_, index) => <div class="hr-layer-card" style={`--layer:${index}`}></div>)}
+            </div>
+          </div>
+          <div class="hr-layers__copy">
+            {hrContent.layers.map(([title, text], index) => (
+              <article data-reveal><span>0{index + 1}</span><div><h3>{title}</h3><p>{text}</p></div></article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section class="hr-section hr-work" id="radovi">
+        <div class="hr-container">
+          <div class="section-title hr-work__heading reveal">
+            <h2>Odabrani radovi</h2>
+          </div>
+          <div class="hr-work__list">
+            {hrProjects.map((project, index) => <ProjectCarousel project={project} index={index} />)}
+          </div>
+        </div>
+      </section>
+
+      <section class="hr-section hr-process">
+        <div class="hr-container">
+          <div class="hr-section-heading hr-section-heading--split" data-reveal>
+            <div><div class="eyebrow">Kako izgleda suradnja</div><h2>Bez crne kutije.<br /><em>Znate što slijedi.</em></h2></div>
+            <p>Većina projekata traje približno 3 do 8 tjedana, ovisno o opsegu. Fokusirani marketinški web od 5 do 6 stranica može biti gotov za oko 3 tjedna kada sadržaj, povratne informacije i odobrenja stižu prema dogovoru.</p>
+          </div>
+          <ol class="hr-process__steps">
+            {hrContent.process.map(([number, title, text]) => <li data-reveal><span>{number}</span><h3>{title}</h3><p>{text}</p></li>)}
+          </ol>
+        </div>
+      </section>
+
+      <section class="hr-section hr-team" id="tim">
+        <div class="hr-container">
+          <div class="hr-section-heading" data-reveal>
+            <div class="eyebrow">Mali, fokusirani studio</div>
+            <h2>Osobna odgovornost.<br /><em>Širok raspon izvedbe.</em></h2>
+          </div>
+          <div class="hr-team__grid">
+            <article class="hr-person" data-reveal>
+              <div class="hr-person__photo"><img src="/assets/images/About-me.webp" alt="Karlo Osman" /></div>
+              <div><div class="eyebrow">Osnivač · voditelj projekta</div><h3>Karlo Osman</h3><p>Karlo osobno vodi strategiju, strukturu, dizajn i development. To znači manje prijenosa informacija i izravnu odgovornost za svaku važnu odluku.</p></div>
+            </article>
+            <article class="hr-person" data-reveal>
+              <!-- TODO: Replace this placeholder with Lea's approved portrait. -->
+              <div class="hr-person__photo hr-person__photo--placeholder" role="img" aria-label="Fotografija Lee bit će uskoro dodana"><span>Lea</span><small>fotografija u pripremi</small></div>
+              <div><div class="eyebrow">Partnerstva s klijentima</div><h3>Lea</h3><p>Lea vodi prve razgovore, upoznaje kontekst tvrtke i pomaže procijeniti je li projekt dobar izbor za Blending Lab.</p></div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section hr-contact" id="kontakt">
+        <div class="container">
+        <div class="contact-grid">
+          <div class="contact-side reveal">
+            <div>
+              <h2>Razmišljate o novom webu?</h2>
+              <p class="hero__lead">Kratko nam opišite gdje ste sada i što želite napraviti. Javit ćemo se s nekoliko konkretnih pitanja i prijedlogom sljedećeg koraka.</p>
+              <p class="hr-contact__note">Prvi razgovor služi da razumijemo projekt. Bez generičke prezentacije i unaprijed pripremljenog paketa.</p>
+            </div>
+            <div class="contact-cards">
+              <a class="contact-card" href="mailto:hello@blending-lab.com"><span><span class="muted">E-mail</span><br />hello@blending-lab.com</span></a>
+            </div>
+          </div>
+          <div class="form-card reveal">
+          <h2>Opišite nam projekt</h2>
+          <form data-hr-form style="margin-top:2rem">
+            <div class="form-grid">
+              <div><label>Ime</label><input type="text" name="name" autocomplete="name" required /></div>
+              <div><label>Tvrtka</label><input type="text" name="company" autocomplete="organization" required /></div>
+              <div><label>Email</label><input type="email" name="email" autocomplete="email" required /></div>
+              <div><label>Telefon <span class="muted">(nije obavezno)</span></label><input type="tel" name="phone" autocomplete="tel" /></div>
+              <div class="field--full"><label>Što vam je potrebno?</label><textarea name="message" rows="4" required></textarea></div>
+            </div>
+            <p class="form-note" role="status" data-hr-form-status></p>
+            <div class="button-row" style="justify-content:flex-start"><button class="button" type="submit">Pošalji upit</button></div>
+          </form>
+          </div>
+        </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer hr-footer">
+      <div class="footer__inner">
+        <div class="footer__grid">
+          <div>
+            <img class="footer__logo" src="/assets/images/Blending Lab Logo.jpg" alt="Blending Lab" />
+            <p class="footer__muted" style="font-size:1.1rem;margin-top:1rem">Mali studio za strategiju, dizajn i development.</p>
+          </div>
+          <div class="footer__links"><span class="footer__muted">Kontakt</span><a href="mailto:hello@blending-lab.com">hello@blending-lab.com</a><span>Zagreb, Hrvatska</span></div>
+          <div class="footer__links"><span class="footer__muted">Pravno</span><a href="/privacy-policy.html">Pravila privatnosti</a></div>
+        </div>
+        <div class="footer__bottom">{new Date().getFullYear()} Blending Lab. Sva prava pridržana.</div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const nav = document.querySelector("[data-nav]");
+    const toggle = document.querySelector("[data-nav-toggle]");
+    toggle?.addEventListener("click", () => {
+      const open = nav?.classList.toggle("open") ?? false;
+      toggle.setAttribute("aria-expanded", String(open));
+    });
+    document.querySelectorAll(".nav__mobile-menu a").forEach((link) => link.addEventListener("click", () => {
+      nav?.classList.remove("open");
+      toggle?.setAttribute("aria-expanded", "false");
+    }));
+
+    document.querySelectorAll("[data-carousel]").forEach((carousel) => {
+      const rail = carousel.querySelector("[data-carousel-rail]");
+      const slides = Array.from(carousel.querySelectorAll(".hr-project__slide"));
+      const count = carousel.querySelector("[data-carousel-count]");
+      const move = (direction) => {
+        if (!(rail instanceof HTMLElement) || !slides.length) return;
+        rail.scrollBy({ left: direction * rail.clientWidth, behavior: "smooth" });
+      };
+      carousel.querySelector("[data-carousel-prev]")?.addEventListener("click", () => move(-1));
+      carousel.querySelector("[data-carousel-next]")?.addEventListener("click", () => move(1));
+      rail?.addEventListener("scroll", () => {
+        if (!(rail instanceof HTMLElement) || !count) return;
+        const current = Math.min(slides.length, Math.round(rail.scrollLeft / rail.clientWidth) + 1);
+        count.textContent = `${String(current).padStart(2, "0")} / ${String(slides.length).padStart(2, "0")}`;
+      }, { passive: true });
+    });
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!reduceMotion && "IntersectionObserver" in window) {
+      const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
+        if (entry.isIntersecting) { entry.target.classList.add("is-visible"); observer.unobserve(entry.target); }
+      }), { threshold: 0.12 });
+      document.querySelectorAll("[data-reveal]").forEach((element) => observer.observe(element));
+    } else {
+      document.querySelectorAll("[data-reveal]").forEach((element) => element.classList.add("is-visible"));
+    }
+
+    document.querySelector("[data-hr-form]")?.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const form = event.currentTarget;
+      if (!(form instanceof HTMLFormElement)) return;
+      const status = form.querySelector("[data-hr-form-status]");
+      if (status) status.textContent = "Hvala — forma je spremna za povezivanje nakon prve revizije. Za sada nam se javite izravno na hello@blending-lab.com.";
+    });
+  </script>
+</HrLayout>

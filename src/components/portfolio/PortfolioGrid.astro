@@ -1,0 +1,17 @@
+---
+import PortfolioCard from "./PortfolioCard.astro";
+
+const { projects = [] } = Astro.props;
+---
+
+<div class="karlo-projects">
+  {projects.map((project, index) => <PortfolioCard project={project} priority={index === 0} />)}
+
+  <article class="karlo-signoff">
+    <div>
+      <span>Still here?</span>
+      <h2>Good. You probably care about the details too.</h2>
+    </div>
+    <a href="mailto:hello@blending-lab.com">Tell me what you’re making <span aria-hidden="true">↗</span></a>
+  </article>
+</div>

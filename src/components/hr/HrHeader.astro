@@ -1,0 +1,24 @@
+---
+import { img } from "../../lib/assets.js";
+import { hrContent } from "../../data/hr-content.js";
+---
+
+<nav class="nav hr-local-nav" data-nav>
+  <div class="nav__bar">
+    <div class="nav__links">
+      {hrContent.nav.slice(0, 2).map(([href, label]) => <a class="nav__link" href={href}>{label}</a>)}
+    </div>
+    <a class="nav__logo" href="#vrh" aria-label="Blending Lab — vrh stranice">
+      <img src={img("Blending Lab Logo.jpg")} alt="Blending Lab" />
+    </a>
+    <div class="nav__right">
+      {hrContent.nav.slice(2).map(([href, label]) => <a class="nav__link" href={href}>{label}</a>)}
+      <a class="button" href="#kontakt">Razgovarajmo</a>
+    </div>
+    <button class="nav__toggle" type="button" aria-label="Otvori izbornik" aria-expanded="false" data-nav-toggle><span></span></button>
+    <div class="nav__mobile-menu">
+      {hrContent.nav.map(([href, label]) => <a class="nav__link" href={href}>{label}</a>)}
+      <a class="button" href="#kontakt">Razgovarajmo</a>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,336 @@
+---
+import "../styles.css";
+import "../design-system.css";
+import WeeklyPerformanceCard from "../components/WeeklyPerformanceCard.astro";
+
+export const prerender = false;
+
+const cookieName = "bl_design_system";
+const configuredPassword = import.meta.env.DESIGN_SYSTEM_PASSWORD;
+const encoder = new TextEncoder();
+const digest = async (value) => {
+  const buffer = await crypto.subtle.digest("SHA-256", encoder.encode(`blending-lab-design-system:${value}`));
+  return Array.from(new Uint8Array(buffer), (byte) => byte.toString(16).padStart(2, "0")).join("");
+};
+const matches = (left = "", right = "") => {
+  if (left.length !== right.length) return false;
+  let difference = 0;
+  for (let index = 0; index < left.length; index += 1) difference |= left.charCodeAt(index) ^ right.charCodeAt(index);
+  return difference === 0;
+};
+
+Astro.response.headers.set("Cache-Control", "private, no-store, max-age=0");
+Astro.response.headers.set("X-Robots-Tag", "noindex, nofollow, noarchive");
+
+const expectedToken = configuredPassword ? await digest(configuredPassword) : "";
+let isAuthorized = Boolean(expectedToken && matches(Astro.cookies.get(cookieName)?.value, expectedToken));
+let authError = "";
+
+if (Astro.request.method === "POST") {
+  const form = await Astro.request.formData();
+  const intent = String(form.get("intent") || "login");
+
+  if (intent === "logout") {
+    Astro.cookies.delete(cookieName, { path: "/" });
+    return Astro.redirect("/design-system", 303);
+  }
+
+  const submittedPassword = String(form.get("password") || "");
+  const submittedToken = submittedPassword ? await digest(submittedPassword) : "";
+  isAuthorized = Boolean(expectedToken && matches(submittedToken, expectedToken));
+
+  if (isAuthorized) {
+    Astro.cookies.set(cookieName, expectedToken, {
+      httpOnly: true,
+      sameSite: "strict",
+      secure: !import.meta.env.DEV,
+      path: "/",
+      maxAge: 60 * 60 * 24 * 30,
+    });
+    return Astro.redirect("/design-system", 303);
+  }
+
+  authError = configuredPassword ? "That password doesn’t match." : "Protection has not been configured yet.";
+}
+
+const colors = [
+  ["charcoal", "#101010"],
+  ["almost-black", "#171616"],
+  ["cod-gray", "#1d1c1a"],
+  ["coco", "#1e1d1a"],
+  ["onyx", "#303030"],
+  ["mine-shaft", "#3e3e3e"],
+  ["gray", "#919191"],
+  ["alto", "#d6d6d6"],
+  ["seashell", "#f1f1f1"],
+  ["alabaster", "#f8f8f8"],
+  ["white", "#ffffff"],
+  ["cinnamon", "#e1541d"],
+  ["flamingo", "#f45f26"],
+  ["ember", "#fc4f1c"],
+];
+
+const radii = [
+  ["radius-s", "6px"],
+  ["radius-m", "8px"],
+  ["radius-l", "12px"],
+];
+
+const layoutTokens = [
+  ["container", "95.5rem", "Maximum content width"],
+  ["section", "clamp(3rem, 6vw, 5rem)", "Responsive section rhythm"],
+];
+
+const componentDescriptions = {
+  ContactForm: "Contact details and Formspree inquiry form.",
+  CustomCaseStudy: "Legacy XCare case-study composition.",
+  DesignFrontendSection: "Design-to-code proof section and component preview.",
+  FaqSection: "Expandable question-and-answer list.",
+  Footer: "Global site footer, social links, and legal navigation.",
+  Gallery: "Responsive project image gallery.",
+  Header: "Global responsive navigation.",
+  Hero: "Primary page hero with actions and optional media.",
+  PageRenderer: "Legacy page routing and composition layer.",
+  ProjectCard: "Project preview with responsive media.",
+  ProjectsSection: "Featured or complete project listing.",
+  SimpleFeatures: "Reusable feature grid section.",
+  StandardProjectPage: "Current editorial case-study template.",
+  WeeklyPerformanceCard: "Detailed product UI chart specimen.",
+  posthog: "Consent-aware analytics integration.",
+};
+
+const componentNames = Object.keys(import.meta.glob("../components/*.astro"))
+  .map((file) => file.split("/").pop()?.replace(".astro", ""))
+  .filter(Boolean)
+  .sort((a, b) => a.localeCompare(b));
+
+const componentReference = (name) =>
+  `Use the existing ${name} component from src/components/${name}.astro. Reuse its current API and styling; do not recreate it.`;
+const tokenReference = (name) =>
+  `Use the existing CSS token var(--${name}) from src/styles.css.`;
+const styleReference = (selector) =>
+  `Use the existing ${selector} style from src/styles.css. Preserve its current states and behavior.`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow, noarchive" />
+    <title>Design System · Blending Lab</title>
+  </head>
+  <body class={isAuthorized ? "design-system-page" : "design-system-login"}>
+    {
+      !isAuthorized ? (
+        <main class="design-system-login__card">
+          <div class="design-system-login__mark" aria-hidden="true" />
+          <p class="design-system-kicker">Private library</p>
+          <h1>Blending Lab system</h1>
+          <p>Enter your password to open the component and token catalog.</p>
+          {
+            configuredPassword ? (
+              <form method="post">
+                <input type="hidden" name="intent" value="login" />
+                <label for="password">Password</label>
+                <input id="password" name="password" type="password" autocomplete="current-password" required autofocus />
+                {authError && <p class="design-system-login__error" role="alert">{authError}</p>}
+                <button class="button" type="submit">Open library</button>
+              </form>
+            ) : (
+              <div class="design-system-login__setup">
+                <strong>One setup step remains</strong>
+                <p>Add <code>DESIGN_SYSTEM_PASSWORD</code> to the Vercel project’s environment variables, then redeploy.</p>
+              </div>
+            )
+          }
+        </main>
+      ) : (
+        <div class="design-system-shell">
+          <aside class="design-system-sidebar">
+            <a class="design-system-brand" href="#top"><span class="design-system-brand__mark" />Blending Lab / System</a>
+            <label for="system-search">Find an element</label>
+            <input class="design-system-search" id="system-search" type="search" placeholder="Button, ember, card…" autocomplete="off" />
+            <nav class="design-system-nav" aria-label="Design system sections">
+              <a href="#colors">Colors</a>
+              <a href="#typography">Typography</a>
+              <a href="#layout">Layout</a>
+              <a href="#actions">Actions</a>
+              <a href="#patterns">Patterns</a>
+              <a href="#components">Components</a>
+            </nav>
+            <div class="design-system-sidebar__footer">
+              <form method="post">
+                <input type="hidden" name="intent" value="logout" />
+                <button class="design-system-logout" type="submit">Lock and sign out</button>
+              </form>
+            </div>
+          </aside>
+
+          <main class="design-system-main" id="top">
+            <header class="design-system-intro">
+              <p class="design-system-kicker">Living reference · {componentNames.length} source components</p>
+              <h1>Your interface, in one place.</h1>
+              <p>Every copy button produces a complete instruction you can paste into Codex. The previews use the production CSS, so changes to the source system show up here.</p>
+            </header>
+
+            <section class="design-system-section" id="colors" data-search-section="colors palette tokens brand">
+              <div class="design-system-section__heading">
+                <h2>Color tokens</h2>
+                <p>Primitive colors currently defined in <code>src/styles.css</code>. Copying a color references the token rather than its raw value.</p>
+              </div>
+              <div class="design-system-grid">
+                {colors.map(([name, value]) => (
+                  <article class="design-system-card" data-search-item={`${name} ${value} color token`}>
+                    <div class:list={["design-system-swatch", ["alto", "seashell", "alabaster", "white"].includes(name) && "design-system-swatch--light"]} style={`--swatch:var(--${name})`} />
+                    <div class="design-system-card__top">
+                      <div><h3>{name}</h3><code>var(--{name}) · {value}</code></div>
+                      <button class="design-system-copy" type="button" data-copy={tokenReference(name)}>Copy</button>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </section>
+
+            <section class="design-system-section" id="typography" data-search-section="typography type heading body eyebrow">
+              <div class="design-system-section__heading">
+                <h2>Typography</h2>
+                <p>Satoshi Variable is the site typeface. These are the live global heading and body styles.</p>
+              </div>
+              <div class="design-system-type-list">
+                <article class="design-system-type-row" data-search-item="h1 heading display"><code>h1 / Display</code><h1>Design with intent.</h1><button class="design-system-copy" type="button" data-copy={styleReference("global h1")}>Copy</button></article>
+                <article class="design-system-type-row" data-search-item="h2 heading"><code>h2 / Section</code><h2>Built to be clear.</h2><button class="design-system-copy" type="button" data-copy={styleReference("global h2")}>Copy</button></article>
+                <article class="design-system-type-row" data-search-item="h3 heading"><code>h3 / Title</code><h3>Product thinking</h3><button class="design-system-copy" type="button" data-copy={styleReference("global h3")}>Copy</button></article>
+                <article class="design-system-type-row" data-search-item="h4 heading"><code>h4 / Label</code><h4>Reusable component</h4><button class="design-system-copy" type="button" data-copy={styleReference("global h4")}>Copy</button></article>
+                <article class="design-system-type-row" data-search-item="paragraph body copy"><code>p / Body</code><p>Clear interfaces connect product thinking, visual detail, and frontend implementation.</p><button class="design-system-copy" type="button" data-copy={styleReference("global paragraph")}>Copy</button></article>
+                <article class="design-system-type-row" data-search-item="eyebrow kicker label pulse"><code>.eyebrow</code><div class="eyebrow"><span class="pulse" />Available for new work</div><button class="design-system-copy" type="button" data-copy={styleReference(".eyebrow with .pulse")}>Copy</button></article>
+              </div>
+            </section>
+
+            <section class="design-system-section" id="layout" data-search-section="layout radius spacing container section">
+              <div class="design-system-section__heading">
+                <h2>Layout tokens</h2>
+                <p>Shared geometry for content width, section rhythm, and surface rounding.</p>
+              </div>
+              <div class="design-system-grid">
+                {radii.map(([name, value]) => (
+                  <article class="design-system-card" data-search-item={`${name} ${value} radius`}>
+                    <div class="design-system-radius" style={`--radius:var(--${name})`} />
+                    <div class="design-system-card__top"><div><h3>{name}</h3><code>{value}</code></div><button class="design-system-copy" type="button" data-copy={tokenReference(name)}>Copy</button></div>
+                  </article>
+                ))}
+                {layoutTokens.map(([name, value, description]) => (
+                  <article class="design-system-card" data-search-item={`${name} ${value} ${description}`}>
+                    <div class="design-system-card__top"><div><h3>{name}</h3><code>var(--{name}) · {value}</code></div><button class="design-system-copy" type="button" data-copy={tokenReference(name)}>Copy</button></div>
+                    <p style="margin-top:1rem">{description}</p>
+                  </article>
+                ))}
+              </div>
+            </section>
+
+            <section class="design-system-section" id="actions" data-search-section="buttons actions links primary ghost glow text flip">
+              <div class="design-system-section__heading">
+                <h2>Actions</h2>
+                <p>Production button styles shown in their resting state. Hover and press them to inspect their real interaction behavior.</p>
+              </div>
+              <article class="design-system-specimen" data-search-item="button primary ghost text glow flip actions">
+                <div class="design-system-specimen__bar"><h3>Button family</h3><button class="design-system-copy" type="button" data-copy={styleReference("button family: .button, .button--ghost, .button--text, .glow-button, and .button--flip")}>Copy family</button></div>
+                <div class="design-system-specimen__canvas">
+                  <div class="button-row">
+                    <button class="button" type="button">Primary</button>
+                    <button class="button button--ghost" type="button">Ghost</button>
+                    <button class="button button--text" type="button">Text action</button>
+                    <button class="glow-button" type="button"><span>Glow action</span></button>
+                    <button class="button button--flip" type="button"><span class="button--flip__track"><span class="button--flip__line"><span>Flip action</span><span class="button--flip__arrow">→</span></span><span class="button--flip__line"><span>Flip action</span><span class="button--flip__arrow">→</span></span></span></button>
+                  </div>
+                </div>
+              </article>
+            </section>
+
+            <section class="design-system-section" id="patterns" data-search-section="patterns cards faq form chart weekly performance feature">
+              <div class="design-system-section__heading">
+                <h2>Interface patterns</h2>
+                <p>Reusable production styles and a rendered source component. Each specimen can be referenced directly in a Codex request.</p>
+              </div>
+              <article class="design-system-specimen" data-search-item="card feature item">
+                <div class="design-system-specimen__bar"><h3>Feature item · <code>.feature-item</code></h3><button class="design-system-copy" type="button" data-copy={styleReference(".feature-item")}>Copy</button></div>
+                <div class="design-system-specimen__canvas"><div class="feature-item"><h4>Reusable components</h4><p>One source of truth, used throughout the product.</p></div></div>
+              </article>
+              <article class="design-system-specimen" data-search-item="faq accordion question answer">
+                <div class="design-system-specimen__bar"><h3>FAQ item · <code>.faq-item</code></h3><button class="design-system-copy" type="button" data-copy={componentReference("FaqSection")}>Copy</button></div>
+                <div class="design-system-specimen__canvas"><div class="faq-item open"><button class="faq-question" type="button"><span>What does this component do?</span><span class="faq-icon">+</span></button><div class="faq-answer"><div><p>It shows expandable questions and answers using the production FAQ styles.</p></div></div></div></div>
+              </article>
+              <article class="design-system-specimen" data-search-item="weekly performance card chart product ui">
+                <div class="design-system-specimen__bar"><h3>Weekly performance card · source component</h3><button class="design-system-copy" type="button" data-copy={componentReference("WeeklyPerformanceCard")}>Copy</button></div>
+                <div class="design-system-specimen__canvas"><WeeklyPerformanceCard /></div>
+              </article>
+            </section>
+
+            <section class="design-system-section" id="components" data-search-section="components astro source inventory">
+              <div class="design-system-section__heading">
+                <h2>Component inventory</h2>
+                <p>This list is generated from <code>src/components</code>, so newly added Astro components appear automatically after the next deployment.</p>
+              </div>
+              <div class="design-system-component-grid">
+                {componentNames.map((name) => (
+                  <article class="design-system-card design-system-component-card" data-search-item={`${name} component astro ${componentDescriptions[name] || ""}`}>
+                    <div class="design-system-card__top"><div><h3>{name}</h3><code>src/components/{name}.astro</code></div><button class="design-system-copy" type="button" data-copy={componentReference(name)}>Copy</button></div>
+                    <p>{componentDescriptions[name] || "Astro source component."}</p>
+                  </article>
+                ))}
+              </div>
+            </section>
+
+            <p class="design-system-empty" id="system-empty">No system entries match that search.</p>
+          </main>
+        </div>
+
+        <script>
+          const copyButtons = document.querySelectorAll("[data-copy]");
+          copyButtons.forEach((button) => {
+            button.addEventListener("click", async () => {
+              const content = button.getAttribute("data-copy") || "";
+              try {
+                await navigator.clipboard.writeText(content);
+                const original = button.textContent;
+                button.textContent = "Copied";
+                button.classList.add("is-copied");
+                window.setTimeout(() => {
+                  button.textContent = original;
+                  button.classList.remove("is-copied");
+                }, 1400);
+              } catch {
+                button.textContent = "Select text";
+              }
+            });
+          });
+
+          document.querySelectorAll(".faq-question").forEach((button) => {
+            button.addEventListener("click", () => button.closest(".faq-item")?.classList.toggle("open"));
+          });
+
+          const search = document.querySelector("#system-search");
+          const sections = [...document.querySelectorAll("[data-search-section]")];
+          const empty = document.querySelector("#system-empty");
+          search?.addEventListener("input", () => {
+            const query = search.value.trim().toLowerCase();
+            let visibleCount = 0;
+            sections.forEach((section) => {
+              const items = [...section.querySelectorAll("[data-search-item]")];
+              let matchingItems = 0;
+              items.forEach((item) => {
+                const matches = !query || item.getAttribute("data-search-item")?.toLowerCase().includes(query);
+                item.hidden = !matches;
+                if (matches) matchingItems += 1;
+              });
+              const sectionMatches = !query || section.getAttribute("data-search-section")?.toLowerCase().includes(query);
+              section.hidden = Boolean(query && !sectionMatches && matchingItems === 0);
+              if (!section.hidden) visibleCount += matchingItems || 1;
+            });
+            empty?.classList.toggle("is-visible", visibleCount === 0);
+          });
+        </script>
+      )
+    }
+  </body>
+</html>

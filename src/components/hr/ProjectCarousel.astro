@@ -1,0 +1,30 @@
+---
+const { project, index } = Astro.props;
+const carouselId = `projekt-${index}`;
+---
+
+<article class="hr-project reveal">
+  <div class="hr-project__meta">
+    <div>
+      <p class="hr-kicker">{project.eyebrow}</p>
+      <h3>{project.title}</h3>
+    </div>
+    <p>{project.description}</p>
+  </div>
+  <div class="hr-project__viewer" data-carousel>
+    <div class="hr-project__rail" id={carouselId} data-carousel-rail tabindex="0" aria-label={`Galerija projekta ${project.title}`}>
+      {project.images.map((src, imageIndex) => (
+        <figure class="hr-project__slide">
+          <img src={src} alt={`${project.title} — prikaz ${imageIndex + 1}`} loading={index > 0 ? "lazy" : "eager"} />
+        </figure>
+      ))}
+    </div>
+    <div class="hr-project__controls">
+      <span data-carousel-count>01 / {String(project.images.length).padStart(2, "0")}</span>
+      <div>
+        <button class="button button--ghost hr-carousel-button" type="button" aria-label="Prethodna slika" data-carousel-prev>←</button>
+        <button class="button button--ghost hr-carousel-button" type="button" aria-label="Sljedeća slika" data-carousel-next>→</button>
+      </div>
+    </div>
+  </div>
+</article>

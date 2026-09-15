@@ -1,0 +1,29 @@
+---
+import { img } from "../../lib/assets.js";
+import { portfolioProfile } from "../../data/portfolio.js";
+---
+
+<aside class="karlo-profile" aria-label="About Karlo">
+  <div class="karlo-profile__top">
+    <a class="karlo-identity" href="/karlo" aria-label="Karlo Osman — selected work">
+      <img class="karlo-identity__avatar" src={img("circle-karlo.png")} width="201" height="201" alt="Karlo Osman" />
+      <span class="karlo-identity__name">{portfolioProfile.name}</span>
+      <span class="karlo-identity__role">{portfolioProfile.role}</span>
+    </a>
+
+    <p class="karlo-status"><span aria-hidden="true"></span>{portfolioProfile.status}</p>
+    <p class="karlo-profile__bio">{portfolioProfile.bio}</p>
+
+    <nav class="karlo-socials" aria-label="Contact and social links">
+      <a href={`mailto:${portfolioProfile.email}`}>Email</a>
+      {portfolioProfile.links.map((link) => <a href={link.href} target="_blank" rel="noreferrer">{link.label}</a>)}
+    </nav>
+
+    <p class="karlo-practice">Blending Lab is my independent practice.</p>
+  </div>
+
+  <div class="karlo-profile__bottom">
+    <span>{portfolioProfile.location}</span>
+    <span><time data-karlo-time data-timezone={portfolioProfile.timezone}>--:--</time> local time</span>
+  </div>
+</aside>

@@ -1,0 +1,37 @@
+---
+import { img } from "../../lib/assets.js";
+
+const { project, priority = false } = Astro.props;
+const presentation = project.portfolio;
+const media = presentation.media?.length ? presentation.media : [project.coverImage].filter(Boolean);
+const titleId = `portfolio-project-${project.slug}`;
+---
+
+<article class:list={["karlo-project", `karlo-project--${presentation.format || "standard"}`]}>
+  <a class="karlo-project__link" href={`/karlo/${project.slug}`} aria-labelledby={titleId} data-karlo-project>
+    <div class="karlo-project__media" data-preview-card data-frame-count={media.length}>
+      {media.map((source, index) => (
+        <img
+          class:list={["karlo-project__frame", index === 0 && "is-active"]}
+          src={index === 0 ? img(source) : undefined}
+          data-preview-src={index > 0 ? img(source) : undefined}
+          alt=""
+          loading={index === 0 && priority ? "eager" : "lazy"}
+          decoding="async"
+          fetchpriority={index === 0 && priority ? "high" : "auto"}
+        />
+      ))}
+      <div class="karlo-project__counter" aria-hidden="true"><span data-preview-index>01</span><span>/</span><span>{String(media.length).padStart(2, "0")}</span></div>
+      <span class="karlo-project__action" aria-hidden="true">View case</span>
+    </div>
+    <div class="karlo-project__caption">
+      <div>
+        <h2 id={titleId}>{project.title}</h2>
+        <ul aria-label="Project disciplines">
+          {presentation.tags.map((tag) => <li>{tag}</li>)}
+        </ul>
+      </div>
+      <p>{presentation.summary}</p>
+    </div>
+  </a>
+</article>

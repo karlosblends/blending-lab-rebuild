@@ -1,6 +1,7 @@
 import { defineConfig } from "astro/config";
 import react from "@astrojs/react";
 import sanity from "@sanity/astro";
+import vercel from "@astrojs/vercel";
 import { loadEnv } from "vite";
 
 const env = loadEnv(process.env.NODE_ENV ?? "development", process.cwd(), "");
@@ -9,6 +10,7 @@ const dataset = env.PUBLIC_SANITY_DATASET || "production";
 
 export default defineConfig({
   output: "static",
+  adapter: vercel(),
   build: {
     format: "file",
   },

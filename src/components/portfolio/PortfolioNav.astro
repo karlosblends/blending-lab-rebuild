@@ -1,0 +1,21 @@
+---
+const { active = "work", projectTitle = "" } = Astro.props;
+---
+
+<nav class="karlo-nav" aria-label="Personal portfolio">
+  {
+    active === "project" ? (
+      <div class="karlo-breadcrumb">
+        <a href="/karlo">Work</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">{projectTitle}</span>
+      </div>
+    ) : (
+      <>
+        <a class:list={[active === "work" && "is-active"]} href="/karlo" aria-current={active === "work" ? "page" : undefined}>Work</a>
+        <a class:list={[active === "about" && "is-active"]} href="/karlo/about" aria-current={active === "about" ? "page" : undefined}>About</a>
+      </>
+    )
+  }
+  <a class="karlo-nav__contact" href="mailto:hello@blending-lab.com">Start a conversation</a>
+</nav>
