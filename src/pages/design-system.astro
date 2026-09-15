@@ -23,35 +23,7 @@ Astro.response.headers.set("Cache-Control", "private, no-store, max-age=0");
 Astro.response.headers.set("X-Robots-Tag", "noindex, nofollow, noarchive");
 
 const expectedToken = configuredPassword ? await digest(configuredPassword) : "";
-let isAuthorized = Boolean(expectedToken && matches(Astro.cookies.get(cookieName)?.value, expectedToken));
-let authError = "";
-
-if (Astro.request.method === "POST") {
-  const form = await Astro.request.formData();
-  const intent = String(form.get("intent") || "login");
-
-  if (intent === "logout") {
-    Astro.cookies.delete(cookieName, { path: "/" });
-    return Astro.redirect("/design-system", 303);
-  }
-
-  const submittedPassword = String(form.get("password") || "");
-  const submittedToken = submittedPassword ? await digest(submittedPassword) : "";
-  isAuthorized = Boolean(expectedToken && matches(submittedToken, expectedToken));
-
-  if (isAuthorized) {
-    Astro.cookies.set(cookieName, expectedToken, {
-      httpOnly: true,
-      sameSite: "strict",
-      secure: !import.meta.env.DEV,
-      path: "/",
-      maxAge: 60 * 60 * 24 * 30,
-    });
-    return Astro.redirect("/design-system", 303);
-  }
-
-  authError = configuredPassword ? "That password doesn’t match." : "Protection has not been configured yet.";
-}
+const isAuthorized = Boolean(expectedToken && matches(Astro.cookies.get(cookieName)?.value, expectedToken));
 
 const colors = [
   ["charcoal", "#101010"],
@@ -130,11 +102,11 @@ const styleReference = (selector) =>
           <p>Enter your password to open the component and token catalog.</p>
           {
             configuredPassword ? (
-              <form method="post">
+              <form data-design-system-auth>
                 <input type="hidden" name="intent" value="login" />
                 <label for="password">Password</label>
                 <input id="password" name="password" type="password" autocomplete="current-password" required autofocus />
-                {authError && <p class="design-system-login__error" role="alert">{authError}</p>}
+                <p class="design-system-login__error" role="alert" data-auth-error hidden></p>
                 <button class="button" type="submit">Open library</button>
               </form>
             ) : (
@@ -160,7 +132,7 @@ const styleReference = (selector) =>
               <a href="#components">Components</a>
             </nav>
             <div class="design-system-sidebar__footer">
-              <form method="post">
+              <form data-design-system-auth>
                 <input type="hidden" name="intent" value="logout" />
                 <button class="design-system-logout" type="submit">Lock and sign out</button>
               </form>
@@ -332,5 +304,47 @@ const styleReference = (selector) =>
         </script>
       )
     }
+
+    <script>
+      document.querySelectorAll("[data-design-system-auth]").forEach((form) => {
+        form.addEventListener("submit", async (event) => {
+          event.preventDefault();
+          const submit = form.querySelector('button[type="submit"]');
+          const errorMessage = form.querySelector("[data-auth-error]");
+          const originalLabel = submit?.textContent || "Submit";
+
+          if (submit) {
+            submit.disabled = true;
+            submit.textContent = form.querySelector('[name="intent"]')?.value === "logout" ? "Locking…" : "Checking…";
+          }
+          if (errorMessage) {
+            errorMessage.hidden = true;
+            errorMessage.textContent = "";
+          }
+
+          try {
+            const payload = Object.fromEntries(new FormData(form));
+            const response = await fetch("/api/design-system-session", {
+              method: "POST",
+              credentials: "same-origin",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload),
+            });
+            const result = await response.json();
+            if (!response.ok) throw new Error(result.error || "Unable to update your session.");
+            window.location.assign("/design-system");
+          } catch (error) {
+            if (errorMessage) {
+              errorMessage.textContent = error instanceof Error ? error.message : "Unable to sign in.";
+              errorMessage.hidden = false;
+            }
+            if (submit) {
+              submit.disabled = false;
+              submit.textContent = originalLabel;
+            }
+          }
+        });
+      });
+    </script>
   </body>
 </html>
