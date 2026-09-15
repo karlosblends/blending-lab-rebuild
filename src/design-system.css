@@ -298,6 +298,14 @@
   background-size: 1.5rem 1.5rem;
 }
 
+.design-system-specimen__canvas--chrome {
+  padding: 0;
+}
+
+.design-system-specimen__canvas--chrome .nav {
+  position: static;
+}
+
 .design-system-specimen + .design-system-specimen {
   margin-top: 1rem;
 }

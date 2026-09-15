@@ -1,6 +1,8 @@
 ---
 import "../styles.css";
 import "../design-system.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
 
 export const prerender = false;
 
@@ -33,10 +35,8 @@ const colors = [
   ["mine-shaft", "#3e3e3e"],
   ["gray", "#919191"],
   ["alto", "#d6d6d6"],
-  ["seashell", "#f1f1f1"],
   ["alabaster", "#f8f8f8"],
   ["white", "#ffffff"],
-  ["cinnamon", "#e1541d"],
   ["flamingo", "#f45f26"],
   ["ember", "#fc4f1c"],
 ];
@@ -146,7 +146,7 @@ const styleReference = (selector) =>
               <div class="design-system-grid">
                 {colors.map(([name, value]) => (
                   <article class="design-system-card" data-search-item={`${name} ${value} color token`}>
-                    <div class:list={["design-system-swatch", ["alto", "seashell", "alabaster", "white"].includes(name) && "design-system-swatch--light"]} style={`--swatch:var(--${name})`} />
+                    <div class:list={["design-system-swatch", ["alto", "alabaster", "white"].includes(name) && "design-system-swatch--light"]} style={`--swatch:var(--${name})`} />
                     <div class="design-system-card__top">
                       <div><h3>{name}</h3><code>var(--{name}) · {value}</code></div>
                       <button class="design-system-copy" type="button" data-copy={tokenReference(name)}>Copy</button>
@@ -223,6 +223,21 @@ const styleReference = (selector) =>
               <article class="design-system-specimen" data-search-item="faq accordion question answer">
                 <div class="design-system-specimen__bar"><h3>FAQ item · <code>.faq-item</code></h3><button class="design-system-copy" type="button" data-copy={componentReference("FaqSection")}>Copy</button></div>
                 <div class="design-system-specimen__canvas"><div class="faq-item open"><button class="faq-question" type="button"><span>What does this component do?</span><span class="faq-icon">+</span></button><div class="faq-answer"><div><p>It shows expandable questions and answers using the production FAQ styles.</p></div></div></div></div>
+              </article>
+            </section>
+
+            <section class="design-system-section" id="chrome" data-search-section="chrome navigation navbar header footer site chrome">
+              <div class="design-system-section__heading">
+                <h2>Site chrome</h2>
+                <p>Reusable navigation and footer components used across the public site.</p>
+              </div>
+              <article class="design-system-specimen" data-search-item="navbar header navigation site chrome">
+                <div class="design-system-specimen__bar"><h3>Navbar · <code>Header.astro</code></h3><button class="design-system-copy" type="button" data-copy={componentReference("Header")}>Copy</button></div>
+                <div class="design-system-specimen__canvas design-system-specimen__canvas--chrome"><Header active="index.html" /></div>
+              </article>
+              <article class="design-system-specimen" data-search-item="footer site chrome">
+                <div class="design-system-specimen__bar"><h3>Footer · <code>Footer.astro</code></h3><button class="design-system-copy" type="button" data-copy={componentReference("Footer")}>Copy</button></div>
+                <div class="design-system-specimen__canvas design-system-specimen__canvas--chrome"><Footer /></div>
               </article>
             </section>
 
