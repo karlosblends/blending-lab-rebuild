@@ -16,7 +16,7 @@ export const hrContent = {
     ["01", "Firma se promijenila. Web nije.", "Ponuda, publika i ambicije otišle su dalje, ali prvi digitalni dojam još uvijek priča staru priču."],
     ["02", "Web postoji, ali je postao teret.", "Teško ga je ažurirati, ključne informacije su skrivene, a osoba koja ga je izradila više nije dostupna."],
     ["03", "Kvaliteta se ne vidi online.", "Klijenti dobiju ozbiljnu uslugu, ali web im prije prvog razgovora daje sasvim drukčiji signal."],
-    ["04", "Vrijeme je za nešto sposobnije.", "Novi webshop, jasnija prodajna priča ili digitalni proizvod koji može pratiti sljedeću fazu poslovanja."],
+    ["04", "Prodajni tim nema dobru podlogu.", "Web ne objašnjava dovoljno jasno što nudite, kome pomažete i zašto bi vam se netko javio."],
   ],
   layers: [
     ["Strategija", "Prvo definiramo kome se obraćamo, što mora biti jasno i koju odluku stranica treba olakšati."],
@@ -59,6 +59,18 @@ export const hrProjects = [
     eyebrow: "E-commerce · automotive",
     description: "Premium webshop fokusiran na preglednu prezentaciju proizvoda i jednostavan put od otkrivanja do kupnje.",
     images: Array.from({ length: 4 }, (_, i) => `/assets/projects/caronwall/gallery-${String(i + 1).padStart(2, "0")}.png`),
+  },
+  {
+    title: "Byte Lab",
+    eyebrow: "Tehnologija · embedded systems",
+    description: "Jasnija struktura i snažniji prodajni putevi za inženjersku tvrtku koja radi na granici hardvera i softvera.",
+    images: Array.from({ length: 5 }, (_, i) => `/assets/projects/byte-lab/gallery-${String(i + 1).padStart(2, "0")}.png`),
+  },
+  {
+    title: "AsPromised",
+    eyebrow: "SaaS · conversion optimization",
+    description: "Alat za procjenu koliko landing page drži obećanje oglasa — od ideje i proizvoda do koda i naplate.",
+    images: Array.from({ length: 4 }, (_, i) => `/assets/projects/aspromised/gallery-${String(i + 1).padStart(2, "0")}.png`),
   },
 ];
 

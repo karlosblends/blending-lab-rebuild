@@ -16,14 +16,17 @@ import { hrContent, hrProjects } from "../data/hr-content.js";
           <h1>{hrContent.hero.title}</h1>
           <p class="hero__lead">{hrContent.hero.lead}</p>
           <div class="button-row">
-            <a class="glow-button" href="#kontakt"><span>Razgovarajmo</span></a>
+            <a class="button" href="#kontakt">Razgovarajmo</a>
             <a class="button button--text" href="#radovi">Pogledaj radove ↓</a>
           </div>
         </div>
-        <div class="hr-hero__visual reveal">
-          <figure class="hr-hero__art hr-hero__art--primary"><img src="/assets/projects/ny-lon/cover.png" alt="NY/LON Psychology web stranica" /></figure>
-          <figure class="hr-hero__art hr-hero__art--secondary"><img src="/assets/projects/humble-hunters/cover.png" alt="Humble Hunters web stranica" /></figure>
-          <figure class="hr-hero__art hr-hero__art--tertiary"><img src="/assets/projects/caronwall/cover.png" alt="Caronwall webshop" /></figure>
+        <div class="hr-hero__visual reveal" data-hero-slideshow aria-label="Odabrani projekti Blending Laba">
+          <figure class="hr-hero__frame">
+            <img class="is-active" src="/assets/projects/ny-lon/cover.png" alt="NY/LON Psychology web stranica" />
+            <img src="/assets/projects/humble-hunters/cover.png" alt="Humble Hunters web stranica" />
+            <img src="/assets/projects/caronwall/cover.png" alt="Caronwall webshop" />
+            <span class="hr-hero__frame-label">Odabrani radovi · 01—03</span>
+          </figure>
         </div>
         </div>
       </section>
@@ -46,7 +49,7 @@ import { hrContent, hrProjects } from "../data/hr-content.js";
 
       <section class="hr-section hr-layers" id="pristup">
         <div class="hr-container hr-layers__grid">
-          <div class="hr-layers__sticky" data-reveal>
+          <div class="hr-layers__sticky">
             <div class="eyebrow">Jedan povezani proces</div>
             <h2>5 slojeva za kompletan projekt.</h2>
             <div class="hr-layer-stack" aria-hidden="true">
@@ -55,7 +58,7 @@ import { hrContent, hrProjects } from "../data/hr-content.js";
           </div>
           <div class="hr-layers__copy">
             {hrContent.layers.map(([title, text], index) => (
-              <article data-reveal><span>0{index + 1}</span><div><h3>{title}</h3><p>{text}</p></div></article>
+              <article><span>0{index + 1}</span><div><h3>{title}</h3><p>{text}</p></div></article>
             ))}
           </div>
         </div>
@@ -141,7 +144,7 @@ import { hrContent, hrProjects } from "../data/hr-content.js";
         <div class="footer__grid">
           <div>
             <img class="footer__logo" src="/assets/images/Blending Lab Logo.jpg" alt="Blending Lab" />
-            <p class="footer__muted" style="font-size:1.1rem;margin-top:1rem">Mali studio za strategiju, dizajn i development.</p>
+            <p class="footer__muted" style="font-size:1.1rem;margin-top:1rem">Studio za strategiju, dizajn i development.</p>
           </div>
           <div class="footer__links"><span class="footer__muted">Kontakt</span><a href="mailto:hello@blending-lab.com">hello@blending-lab.com</a><span>Zagreb, Hrvatska</span></div>
           <div class="footer__links"><span class="footer__muted">Pravno</span><a href="/privacy-policy.html">Pravila privatnosti</a></div>
@@ -181,6 +184,29 @@ import { hrContent, hrProjects } from "../data/hr-content.js";
     });
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const heroSlideshow = document.querySelector("[data-hero-slideshow]");
+    const heroSlides = heroSlideshow ? Array.from(heroSlideshow.querySelectorAll("img")) : [];
+    let heroTimer;
+    let heroIsVisible = true;
+    const showHeroSlide = (index) => heroSlides.forEach((slide, slideIndex) => slide.classList.toggle("is-active", slideIndex === index));
+    const stopHeroSlideshow = () => { if (heroTimer) window.clearInterval(heroTimer); heroTimer = undefined; };
+    const startHeroSlideshow = () => {
+      if (reduceMotion || heroSlides.length < 2 || heroTimer) return;
+      heroTimer = window.setInterval(() => {
+        const activeIndex = Math.max(0, heroSlides.findIndex((slide) => slide.classList.contains("is-active")));
+        showHeroSlide((activeIndex + 1) % heroSlides.length);
+      }, 400);
+    };
+    if (heroSlideshow && !reduceMotion && "IntersectionObserver" in window) {
+      const heroObserver = new IntersectionObserver(([entry]) => {
+        heroIsVisible = entry.isIntersecting;
+        if (heroIsVisible) startHeroSlideshow(); else stopHeroSlideshow();
+      }, { threshold: 0.1 });
+      heroObserver.observe(heroSlideshow);
+    }
+    if (heroIsVisible) startHeroSlideshow();
+
     if (!reduceMotion && "IntersectionObserver" in window) {
       const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
         if (entry.isIntersecting) { entry.target.classList.add("is-visible"); observer.unobserve(entry.target); }

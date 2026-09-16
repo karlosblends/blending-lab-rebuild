@@ -38,16 +38,24 @@
 }
 
 .hr-local-nav .nav__bar {
+  width: fit-content;
+  max-width: calc(100vw - 2rem);
+  padding: 6px 8px;
   grid-template-columns: auto auto auto;
+  gap: 0.45rem;
 }
 
 .hr-local-nav .nav__right {
-  gap: 6px;
+  gap: 0.35rem;
+}
+
+.hr-local-nav .nav__link {
+  padding: 8px 8px;
 }
 
 .hr-local-nav .button {
-  margin-left: 0.35rem;
-  padding-inline: 1.2rem;
+  margin-left: 0.2rem;
+  padding: 0.65rem 1.15rem;
 }
 
 .hr-local-nav .nav__mobile-menu .button {
@@ -81,42 +89,46 @@
 .hr-hero__visual {
   position: relative;
   width: min(100%, 68rem);
-  min-height: clamp(28rem, 48vw, 42rem);
+  min-height: clamp(22rem, 40vw, 34rem);
   margin: clamp(4rem, 7vw, 6rem) auto 0;
 }
 
-.hr-hero__art {
-  position: absolute;
-  margin: 0;
+.hr-hero__frame {
+  position: relative;
+  height: clamp(22rem, 40vw, 34rem);
   overflow: hidden;
-  border: 1px solid var(--onyx);
-  border-radius: var(--radius-m);
-  background: var(--cod-gray);
-  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.3);
+  margin: 0;
+  border: 1px solid rgba(244, 95, 38, 0.42);
+  border-radius: var(--radius-l);
+  background: #211510;
+  box-shadow: inset 0 0 0 1px rgba(255, 154, 112, 0.08), inset 0 40px 100px rgba(244, 95, 38, 0.14), 0 28px 80px rgba(0, 0, 0, 0.44);
 }
 
-.hr-hero__art img {
-  width: 100%;
-  height: auto;
+.hr-hero__frame img {
+  position: absolute;
+  inset: 6% 6%;
+  width: 88%;
+  height: 88%;
   object-fit: contain;
+  opacity: 0;
+  transform: scale(0.985);
+  transition: opacity 160ms ease-out, transform 160ms ease-out;
 }
 
-.hr-hero__art--primary {
-  width: 74%;
-  inset: 0 auto auto 4%;
-  z-index: 1;
+.hr-hero__frame img.is-active {
+  opacity: 1;
+  transform: scale(1);
 }
 
-.hr-hero__art--secondary {
-  width: 42%;
-  inset: 23% 0 auto auto;
-  z-index: 2;
-}
-
-.hr-hero__art--tertiary {
-  width: 42%;
-  inset: auto auto 0 0;
-  z-index: 3;
+.hr-hero__frame-label {
+  position: absolute;
+  left: 1.4rem;
+  bottom: 1.2rem;
+  color: rgba(255, 235, 225, 0.72);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .hr-section-heading {
@@ -194,7 +206,7 @@
   text-wrap: pretty;
 }
 
-/* Motion-ready layer structure; no new motion is introduced in this pass. */
+/* Static layer stack: five skewed modules, intentionally free of scroll motion. */
 .hr-layers__grid {
   display: grid;
   grid-template-columns: minmax(25rem, 1fr) minmax(24rem, 0.75fr);
@@ -202,8 +214,7 @@
 }
 
 .hr-layers__sticky {
-  position: sticky;
-  top: 8rem;
+  position: static;
   height: fit-content;
 }
 
@@ -213,22 +224,43 @@
 
 .hr-layer-stack {
   position: relative;
-  height: 24rem;
+  height: 27rem;
   margin-top: 4rem;
-  perspective: 900px;
+  perspective: 1200px;
 }
 
 .hr-layer-card {
   position: absolute;
-  inset: calc(var(--layer) * 1.35rem) calc((4 - var(--layer)) * 1.4rem) auto calc(var(--layer) * 1.4rem);
-  height: 13.5rem;
+  top: 0;
+  left: 8%;
+  width: 84%;
+  height: 6.5rem;
+  transform: translateX(calc(var(--layer) * 0.35rem)) skewY(-8deg) translateY(calc(var(--layer) * 2.75rem));
+  transform-origin: bottom center;
+  transition: none;
+}
+
+.hr-layer-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 12%;
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: var(--radius-l);
-  background: rgba(6, 2, 19, 0.76);
-  box-shadow: inset 0 1px rgba(255, 255, 255, 0.08), inset 0 -30px 55px rgba(244, 95, 38, 0.18), 0 18px 55px rgba(0, 0, 0, 0.36);
-  backdrop-filter: blur(10px);
-  transform: rotateX(55deg) translateZ(calc(var(--layer) * 12px));
-  transform-origin: bottom center;
+  background: linear-gradient(165deg, rgba(255, 117, 77, 0.46) 0%, rgba(244, 95, 38, 0.24) 18%, rgba(14, 10, 10, 0.58) 74%);
+  -webkit-backdrop-filter: blur(14px) saturate(1.35);
+  backdrop-filter: blur(14px) saturate(1.35);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.34), inset 0 0 10px 3px rgba(255, 255, 255, 0.08), inset 0 -24px 42px rgba(0, 0, 0, 0.3), 0 16px 40px rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+}
+
+.hr-layer-card::after {
+  content: "";
+  position: absolute;
+  inset: 0 12%;
+  border-radius: var(--radius-l);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), transparent 28%, rgba(255, 94, 52, 0.08) 62%, rgba(0, 0, 0, 0.12));
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.18), inset 0 -1px rgba(255, 122, 84, 0.18);
+  pointer-events: none;
 }
 
 .hr-layers__copy article {
@@ -274,7 +306,7 @@
   display: grid;
   grid-template-columns: 1fr minmax(18rem, 0.75fr);
   gap: 1rem;
-  align-items: start;
+  align-items: end;
   margin: 1rem 0 1.5rem;
 }
 
@@ -409,6 +441,8 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
+  width: min(100%, 60rem);
+  margin-inline: auto;
 }
 
 .hr-person {
@@ -514,6 +548,18 @@
   transform: none;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .hr-hero__frame img,
+  .hr-layer-card,
+  [data-reveal] {
+    transition: none;
+  }
+
+  .hr-layer-card {
+    filter: none !important;
+  }
+}
+
 @media (max-width: 991px) {
   .hr-container {
     width: min(100% - 2.5rem, var(--container));
@@ -524,6 +570,9 @@
   }
 
   .hr-local-nav .nav__bar {
+    width: min(100%, 1300px);
+    max-width: none;
+    padding: 1rem 2rem;
     grid-template-columns: auto auto;
   }
 
@@ -592,22 +641,12 @@
   }
 
   .hr-hero__visual {
-    min-height: 25rem;
+    min-height: 21rem;
     margin-top: 3rem;
   }
 
-  .hr-hero__art--primary {
-    width: 88%;
-    left: 0;
-  }
-
-  .hr-hero__art--secondary {
-    width: 56%;
-    top: 31%;
-  }
-
-  .hr-hero__art--tertiary {
-    width: 55%;
+  .hr-hero__frame {
+    height: 21rem;
   }
 
   .hr-section-heading {
@@ -629,13 +668,15 @@
   }
 
   .hr-layer-stack {
-    height: 18rem;
+    height: 19rem;
     margin-top: 2rem;
   }
 
   .hr-layer-card {
-    inset: calc(var(--layer) * 1rem) calc((4 - var(--layer)) * 0.75rem) auto calc(var(--layer) * 0.75rem);
-    height: 10rem;
+    left: 4%;
+    width: 92%;
+    height: 5.25rem;
+    transform: translateX(calc(var(--layer) * 0.2rem)) skewY(-7deg) translateY(calc(var(--layer) * 1.85rem));
   }
 
   .hr-layers__copy article {
