@@ -17,7 +17,7 @@ import { hrContent, hrProjects } from "../data/hr-content.js";
           <p class="hero__lead">{hrContent.hero.lead}</p>
           <div class="button-row">
             <a class="button" href="#kontakt">Razgovarajmo</a>
-            <a class="button button--text" href="#radovi">Pogledaj radove ↓</a>
+            <a class="button button--ghost" href="#radovi">Pogledaj radove</a>
           </div>
         </div>
         <div class="hr-hero__visual reveal" data-hero-slideshow aria-label="Odabrani projekti Blending Laba">
@@ -25,7 +25,8 @@ import { hrContent, hrProjects } from "../data/hr-content.js";
             <img class="is-active" src="/assets/projects/ny-lon/cover.png" alt="NY/LON Psychology web stranica" />
             <img src="/assets/projects/humble-hunters/cover.png" alt="Humble Hunters web stranica" />
             <img src="/assets/projects/caronwall/cover.png" alt="Caronwall webshop" />
-            <span class="hr-hero__frame-label">Odabrani radovi · 01—03</span>
+            <img src="/assets/projects/byte-lab/cover.png" alt="Byte Lab web stranica" />
+            <img src="/assets/projects/aspromised/cover.png" alt="AsPromised web aplikacija" />
           </figure>
         </div>
         </div>
@@ -52,8 +53,8 @@ import { hrContent, hrProjects } from "../data/hr-content.js";
           <div class="hr-layers__sticky">
             <div class="eyebrow">Jedan povezani proces</div>
             <h2>5 slojeva za kompletan projekt.</h2>
-            <div class="hr-layer-stack" aria-hidden="true">
-              {hrContent.layers.map((_, index) => <div class="hr-layer-card" style={`--layer:${index}`}></div>)}
+            <div class="hr-layer-stack" data-layer-stack aria-hidden="true">
+              {hrContent.layers.map((_, index) => <div class="hr-layer-card" data-layer={index}></div>)}
             </div>
           </div>
           <div class="hr-layers__copy">
@@ -117,7 +118,8 @@ import { hrContent, hrProjects } from "../data/hr-content.js";
               <p class="hr-contact__note">Prvi razgovor služi da razumijemo projekt. Bez generičke prezentacije i unaprijed pripremljenog paketa.</p>
             </div>
             <div class="contact-cards">
-              <a class="contact-card" href="mailto:hello@blending-lab.com"><span><span class="muted">E-mail</span><br />hello@blending-lab.com</span></a>
+              <a class="contact-card" href="mailto:karlo@blending-lab.com"><span><span class="muted">Karlo</span><br />karlo@blending-lab.com</span></a>
+              <a class="contact-card" href="mailto:lea@blending-lab.co"><span><span class="muted">Lea</span><br />lea@blending-lab.co</span></a>
             </div>
           </div>
           <div class="form-card reveal">
@@ -146,7 +148,7 @@ import { hrContent, hrProjects } from "../data/hr-content.js";
             <img class="footer__logo" src="/assets/images/Blending Lab Logo.jpg" alt="Blending Lab" />
             <p class="footer__muted" style="font-size:1.1rem;margin-top:1rem">Studio za strategiju, dizajn i development.</p>
           </div>
-          <div class="footer__links"><span class="footer__muted">Kontakt</span><a href="mailto:hello@blending-lab.com">hello@blending-lab.com</a><span>Zagreb, Hrvatska</span></div>
+          <div class="footer__links"><span class="footer__muted">Kontakt</span><a href="mailto:karlo@blending-lab.com">karlo@blending-lab.com</a><a href="mailto:lea@blending-lab.co">lea@blending-lab.co</a><span>Zagreb, Hrvatska</span></div>
           <div class="footer__links"><span class="footer__muted">Pravno</span><a href="/privacy-policy.html">Pravila privatnosti</a></div>
         </div>
         <div class="footer__bottom">{new Date().getFullYear()} Blending Lab. Sva prava pridržana.</div>
@@ -196,7 +198,7 @@ import { hrContent, hrProjects } from "../data/hr-content.js";
       heroTimer = window.setInterval(() => {
         const activeIndex = Math.max(0, heroSlides.findIndex((slide) => slide.classList.contains("is-active")));
         showHeroSlide((activeIndex + 1) % heroSlides.length);
-      }, 400);
+      }, 3000);
     };
     if (heroSlideshow && !reduceMotion && "IntersectionObserver" in window) {
       const heroObserver = new IntersectionObserver(([entry]) => {
@@ -206,6 +208,34 @@ import { hrContent, hrProjects } from "../data/hr-content.js";
       heroObserver.observe(heroSlideshow);
     }
     if (heroIsVisible) startHeroSlideshow();
+
+    const layerSection = document.querySelector(".hr-layers");
+    const layerCards = Array.from(document.querySelectorAll("[data-layer]"));
+    let layerFrame;
+    const updateLayerStack = () => {
+      layerFrame = undefined;
+      if (!(layerSection instanceof HTMLElement) || !layerCards.length) return;
+      const compactLayout = window.matchMedia("(max-width: 991px)").matches;
+      const rect = layerSection.getBoundingClientRect();
+      const travel = Math.max(1, rect.height - window.innerHeight);
+      const progress = reduceMotion || compactLayout ? 1 : Math.min(1, Math.max(0, -rect.top / travel));
+      const horizontalSpacing = compactLayout ? 3.2 : 5.6;
+      const verticalSpacing = compactLayout ? 30 : 44;
+      layerCards.forEach((card, index) => {
+        if (!(card instanceof HTMLElement)) return;
+        card.style.setProperty("--layer-x", `${index * horizontalSpacing * progress}px`);
+        card.style.setProperty("--layer-y", `${index * verticalSpacing * progress}px`);
+      });
+    };
+    const requestLayerUpdate = () => {
+      if (layerFrame) return;
+      layerFrame = window.requestAnimationFrame(updateLayerStack);
+    };
+    updateLayerStack();
+    if (!reduceMotion) {
+      window.addEventListener("scroll", requestLayerUpdate, { passive: true });
+      window.addEventListener("resize", requestLayerUpdate, { passive: true });
+    }
 
     if (!reduceMotion && "IntersectionObserver" in window) {
       const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
@@ -221,7 +251,7 @@ import { hrContent, hrProjects } from "../data/hr-content.js";
       const form = event.currentTarget;
       if (!(form instanceof HTMLFormElement)) return;
       const status = form.querySelector("[data-hr-form-status]");
-      if (status) status.textContent = "Hvala — forma je spremna za povezivanje nakon prve revizije. Za sada nam se javite izravno na hello@blending-lab.com.";
+      if (status) status.textContent = "Hvala — forma je spremna za povezivanje nakon prve revizije. Za sada nam se javite izravno na karlo@blending-lab.com.";
     });
   </script>
 </HrLayout>
