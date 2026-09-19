@@ -406,6 +406,8 @@ const bodyClass = [project ? "project-detail-page" : "", suppliedBodyClass].filt
         let isFocused = false;
         let isExpanded = true;
         let lastScrollY = window.scrollY;
+        let mobileScrollAnchorY = window.scrollY;
+        let mobileScrollDirection = 0;
         let collapseTimer;
         let revealTimer;
         let animations = [];
@@ -547,10 +549,27 @@ const bodyClass = [project ? "project-detail-page" : "", suppliedBodyClass].filt
           } else {
             isScrolled = false;
             const menuOpen = nav.classList.contains("open");
-            if (currentScrollY <= 72 || isScrollingUp || menuOpen || isFocused) {
+            const scrollDelta = currentScrollY - lastScrollY;
+            const direction = scrollDelta > 2 ? 1 : scrollDelta < -2 ? -1 : 0;
+
+            if (currentScrollY <= 72 || menuOpen || isFocused) {
               nav.classList.remove("is-hidden");
-            } else if (currentScrollY > 120 && isScrollingDown) {
-              nav.classList.add("is-hidden");
+              mobileScrollAnchorY = currentScrollY;
+              mobileScrollDirection = direction;
+            } else if (direction) {
+              if (direction !== mobileScrollDirection) {
+                mobileScrollDirection = direction;
+                mobileScrollAnchorY = currentScrollY;
+              }
+
+              const directionalTravel = currentScrollY - mobileScrollAnchorY;
+              if (direction > 0 && currentScrollY > 120 && directionalTravel > 48) {
+                nav.classList.add("is-hidden");
+                mobileScrollAnchorY = currentScrollY;
+              } else if (direction < 0 && directionalTravel < -24) {
+                nav.classList.remove("is-hidden");
+                mobileScrollAnchorY = currentScrollY;
+              }
             }
           }
 
@@ -582,6 +601,8 @@ const bodyClass = [project ? "project-detail-page" : "", suppliedBodyClass].filt
         desktopQuery.addEventListener("change", () => {
           nav.classList.remove("is-hidden");
           isScrolled = false;
+          mobileScrollAnchorY = window.scrollY;
+          mobileScrollDirection = 0;
           updateNavState(true);
         });
         window.addEventListener("resize", () => {
