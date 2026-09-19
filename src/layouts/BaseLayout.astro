@@ -48,6 +48,7 @@ const bodyClass = [project ? "project-detail-page" : "", suppliedBodyClass].filt
     <meta name="twitter:title" content={socialTitle} />
     {description && <meta name="twitter:description" content={description} />}
     {meta.ogImage && <meta name="twitter:image" content={meta.ogImage} />}
+    <link rel="preload" href="/assets/fonts/Satoshi-Variable.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="icon" href={img("favicon.png")} />
     <link rel="apple-touch-icon" href={img("webclip.png")} />
     <PostHog />
@@ -220,9 +221,11 @@ const bodyClass = [project ? "project-detail-page" : "", suppliedBodyClass].filt
 
           const rawText = element.textContent || "";
           const readableText = rawText.trim().replace(/\s+/g, " ");
-          const accentText = element.querySelector(".fill-accent")?.textContent || "";
+          const accentElement = element.querySelector(".fill-accent");
+          const accentText = accentElement?.textContent || "";
           const accentStart = accentText ? rawText.indexOf(accentText) : -1;
           const accentEnd = accentStart + accentText.length;
+          const accentStartsOwnLine = getComputedStyle(element).getPropertyValue("--accent-new-line").trim() === "1";
 
           const positionAt = (index) => {
             const match = textNodes.find((item) => index >= item.start && index <= item.end) || textNodes[textNodes.length - 1];
@@ -238,7 +241,7 @@ const bodyClass = [project ? "project-detail-page" : "", suppliedBodyClass].filt
             while (index < rawText.length && isBreakSpace(rawText[index])) index += 1;
             const start = index;
             while (index < rawText.length && !isBreakSpace(rawText[index])) index += 1;
-            if (start < index) tokens.push({ start, end: index });
+            if (start < index) tokens.push({ start, end: index, forceLine: accentStartsOwnLine && start === accentStart });
           }
 
           const range = document.createRange();
@@ -252,7 +255,7 @@ const bodyClass = [project ? "project-detail-page" : "", suppliedBodyClass].filt
             if (!rect) return;
 
             const current = lines[lines.length - 1];
-            if (!current || Math.abs(rect.top - current.top) > 4) {
+            if (!current || token.forceLine || Math.abs(rect.top - current.top) > 4) {
               lines.push({ start: token.start, end: token.end, top: rect.top });
             } else {
               current.end = token.end;
@@ -365,11 +368,21 @@ const bodyClass = [project ? "project-detail-page" : "", suppliedBodyClass].filt
           }
         };
 
-        fillSetups.forEach((setup) => {
-          splitStatement(setup);
-          setup.element.closest(".section, .about-section")?.querySelector("[data-chip-reveal]")?.classList.add("is-ready");
-        });
-        requestFillUpdate();
+        const prepareFillStatements = async () => {
+          try {
+            await document.fonts?.load('500 2.8rem "Satoshi Variable"');
+          } catch {
+            // Keep the unsplit, readable statement if the font cannot be loaded.
+          }
+
+          fillSetups.forEach((setup) => {
+            splitStatement(setup);
+            setup.element.closest(".section, .about-section")?.querySelector("[data-chip-reveal]")?.classList.add("is-ready");
+          });
+          requestFillUpdate();
+        };
+
+        void prepareFillStatements();
         window.addEventListener("scroll", requestFillUpdate, { passive: true });
         window.addEventListener("resize", () => {
           clearTimeout(fillResizeTimer);

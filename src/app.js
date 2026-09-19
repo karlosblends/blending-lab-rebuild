@@ -915,9 +915,11 @@ function attachBehavior() {
 
       const rawText = element.textContent || "";
       const readableText = rawText.trim().replace(/\s+/g, " ");
-      const accentText = element.querySelector(".fill-accent")?.textContent || "";
+      const accentElement = element.querySelector(".fill-accent");
+      const accentText = accentElement?.textContent || "";
       const accentStart = accentText ? rawText.indexOf(accentText) : -1;
       const accentEnd = accentStart + accentText.length;
+      const accentStartsOwnLine = getComputedStyle(element).getPropertyValue("--accent-new-line").trim() === "1";
 
       const positionAt = (index) => {
         const match = textNodes.find((item) => index >= item.start && index <= item.end) || textNodes[textNodes.length - 1];
@@ -933,7 +935,7 @@ function attachBehavior() {
         while (index < rawText.length && isBreakSpace(rawText[index])) index += 1;
         const start = index;
         while (index < rawText.length && !isBreakSpace(rawText[index])) index += 1;
-        if (start < index) tokens.push({ start, end: index });
+        if (start < index) tokens.push({ start, end: index, forceLine: accentStartsOwnLine && start === accentStart });
       }
 
       const range = document.createRange();
@@ -947,7 +949,7 @@ function attachBehavior() {
         if (!rect) return;
 
         const current = lines[lines.length - 1];
-        if (!current || Math.abs(rect.top - current.top) > 4) {
+        if (!current || token.forceLine || Math.abs(rect.top - current.top) > 4) {
           lines.push({ start: token.start, end: token.end, top: rect.top });
         } else {
           current.end = token.end;
@@ -1032,11 +1034,21 @@ function attachBehavior() {
       }
     };
 
-    fillSetups.forEach((setup) => {
-      splitStatement(setup);
-      setup.element.closest(".section")?.querySelector("[data-chip-reveal]")?.classList.add("is-ready");
-    });
-    requestFillUpdate();
+    const prepareFillStatements = async () => {
+      try {
+        await document.fonts?.load('500 2.8rem "Satoshi Variable"');
+      } catch {
+        // Keep the unsplit, readable statement if the font cannot be loaded.
+      }
+
+      fillSetups.forEach((setup) => {
+        splitStatement(setup);
+        setup.element.closest(".section")?.querySelector("[data-chip-reveal]")?.classList.add("is-ready");
+      });
+      requestFillUpdate();
+    };
+
+    void prepareFillStatements();
     window.addEventListener("scroll", requestFillUpdate, { passive: true });
     window.addEventListener("resize", () => {
       clearTimeout(fillResizeTimer);
