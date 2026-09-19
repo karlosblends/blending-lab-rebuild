@@ -276,11 +276,12 @@
 }
 
 .hr-work {
-  background: #0a0a0a;
+  background: var(--charcoal);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .hr-work__heading {
-  margin-bottom: clamp(5rem, 9vw, 9rem);
+  margin-bottom: clamp(2.75rem, 5vw, 4.75rem);
 }
 
 .hr-work__heading h2 {

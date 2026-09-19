@@ -15,7 +15,7 @@ const carouselId = `projekt-${index}`;
     <div class="hr-project__rail" id={carouselId} data-carousel-rail tabindex="0" aria-label={`Galerija projekta ${project.title}`}>
       {project.images.map((src, imageIndex) => (
         <figure class="hr-project__slide">
-          <img src={src} alt={`${project.title} — prikaz ${imageIndex + 1}`} loading={index > 0 ? "lazy" : "eager"} />
+          <img src={src} alt={`${project.title} — prikaz ${imageIndex + 1}`} loading="eager" decoding="async" />
         </figure>
       ))}
     </div>

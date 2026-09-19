@@ -247,7 +247,7 @@ function largeText() {
     <section class="section reveal">
       <div class="container">
         <div class="section-title"><div class="eyebrow"><span class="pulse"></span>Today's market situation</div></div>
-        <div class="large-copy large-copy--fill" data-fill-statement>Strong SaaS and AI products need more than static&nbsp;screens. They need <strong>product thinking</strong>, polished interface detail, and frontend implementation your team can wire into the real product. That is the design engineer layer: <span class="fill-accent">UX, UI and clean components moving together.</span></div>
+        <div class="large-copy large-copy--fill" data-fill-statement>Strong SaaS and AI products need more than static&nbsp;screens. They need <strong>product thinking</strong>, polished interface detail, and frontend implementation. That is the design engineer layer: <span class="fill-accent">UX, UI and clean components moving together.</span></div>
         <div class="mini-grid" data-chip-reveal>
           ${[
             ["images/Icon/icon-design-frontend.svg", "Design + frontend"],
@@ -264,13 +264,13 @@ function largeText() {
 function projectCard(project) {
   const href = project.caseStudyUrl || "projects.html";
   const image = project.thumbnail || project.coverImage;
-  const sizes = "(max-width: 767px) calc(100vw - 4rem), min(calc(100vw - 8rem), 90rem)";
+  const sizes = "(max-width: 767px) 100vw, min(calc(100vw - 8rem), 90rem)";
   const media = image
     ? `<img src="${img(image)}" ${imgSrcset(image) ? `srcset="${imgSrcset(image)}" sizes="${sizes}"` : ""} alt="" loading="lazy" decoding="async">`
     : `<div class="project-card__placeholder"><span>${project.service || "Project"}</span></div>`;
   return `
     <a class="project-card reveal" href="${href}">
-      <div class="project-card__media">${media}</div>
+      <div class="project-card__media ${image ? "project-card__media--image" : ""}">${media}</div>
       <div class="project-card__text">
         <h3 class="project-card__title">${project.title}</h3>
         <p>${project.description}</p>
@@ -418,7 +418,7 @@ function homePage() {
     ${nav("index.html")}
     ${hero({
       title: "A design engineer for your product and the site around it.",
-      lead: "Product UX and interfaces, hand-coded into working, production-ready frontend, built clean for your team to wire up. One person, no handoff, no builder lock-in.",
+      lead: "Product UX and interfaces, designed and hand-coded for production. One person, no handoff.",
       primary: { label: "Let's talk", href: "contact.html" },
       secondary: { label: "Free Audit", href: "try-for-free.html" },
       media: { image: "IMG-9214-from-Lightroom-1.jpg" },
@@ -1074,14 +1074,21 @@ function attachBehavior() {
 
   const heroMedia = document.querySelector(".hero__media");
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const desktopHeroMotion = window.matchMedia("(min-width: 768px)");
   if (heroMedia && !reduceMotion.matches) {
     let ticking = false;
     const updateHeroMediaScale = () => {
-      const scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
-      const travel = Math.max(1, heroMedia.offsetTop * 0.72);
-      const progress = Math.min(1, Math.max(0, scrollY / travel));
+      if (!desktopHeroMotion.matches) {
+        heroMedia.style.setProperty("--hero-media-scale", "1");
+        ticking = false;
+        return;
+      }
+      const mediaTop = heroMedia.getBoundingClientRect().top;
+      const start = window.innerHeight * 0.92;
+      const end = window.innerHeight * 0.5;
+      const progress = Math.min(1, Math.max(0, (start - mediaTop) / Math.max(1, start - end)));
       const eased = 1 - Math.pow(1 - progress, 3);
-      const scale = 0.8 + eased * 0.2;
+      const scale = 0.93 + eased * 0.07;
       heroMedia.style.setProperty("--hero-media-scale", scale.toFixed(4));
       ticking = false;
     };
@@ -1094,6 +1101,7 @@ function attachBehavior() {
     updateHeroMediaScale();
     window.addEventListener("scroll", requestHeroMediaScale, { passive: true });
     window.addEventListener("resize", requestHeroMediaScale);
+    desktopHeroMotion.addEventListener("change", requestHeroMediaScale);
   } else if (heroMedia) {
     heroMedia.style.setProperty("--hero-media-scale", "1");
   }
