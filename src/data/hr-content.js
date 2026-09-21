@@ -43,6 +43,18 @@ export const hrContent = {
 
 export const hrProjects = [
   {
+    title: "Visit Šibenik",
+    eyebrow: "Turizam · digitalna platforma",
+    description: "Višejezična destinacijska platforma koja povezuje priče, doživljaje, događanja, lokalne poslovne subjekte i praktično planiranje posjeta.",
+    images: [
+      "/assets/projects/visit-sibenik/cover.jpg",
+      "/assets/projects/visit-sibenik/gallery-01.jpg",
+      "/assets/projects/visit-sibenik/gallery-02.png",
+      "/assets/projects/visit-sibenik/gallery-03.png",
+      "/assets/projects/visit-sibenik/gallery-04.png",
+    ],
+  },
+  {
     title: "Humble Hunters",
     eyebrow: "Tehnologija · zapošljavanje",
     description: "Kompletan marketinški web i sustav sadržaja za grupu koja gradi specijalizirane međunarodne recruitment brendove.",
@@ -79,5 +91,3 @@ export const hrProjects = [
     images: Array.from({ length: 4 }, (_, i) => `/assets/projects/JVCS/gallery-${String(i + 1).padStart(2, "0")}.png`),
   },
 ];
-
-// TODO: Add Visit Šibenik when approved project assets are available.

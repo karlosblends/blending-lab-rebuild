@@ -105,7 +105,15 @@ const normalizeProject = (project) => {
 export async function getProjects() {
   projectsPromise ??= sanityClient
     .fetch(projectsQuery)
-    .then((sanityProjects) => (sanityProjects?.length ? sanityProjects.map(normalizeProject) : localProjects))
+    .then((sanityProjects) => {
+      if (!sanityProjects?.length) return localProjects;
+
+      const normalizedProjects = sanityProjects.map(normalizeProject);
+      const sanitySlugs = new Set(normalizedProjects.map((project) => project.slug));
+      const localOnlyProjects = localProjects.filter((project) => !sanitySlugs.has(project.slug));
+
+      return [...normalizedProjects, ...localOnlyProjects];
+    })
     .catch((error) => {
       console.warn("Sanity content could not be loaded. Falling back to local project data.", error);
       return localProjects;

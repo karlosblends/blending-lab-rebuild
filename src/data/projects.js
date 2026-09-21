@@ -28,6 +28,36 @@ export const projects = [
     caseStudyUrl: "xcare.html",
   },
   {
+    title: "Visit Šibenik",
+    slug: "visit-sibenik",
+    template: "standard",
+    description:
+      "A multilingual destination platform that connects stories, places, events, local businesses, and practical trip-planning information in one system.",
+    role: "UX/UI Designer & Webflow Developer at MOA'TI",
+    service: "UX/UI Design & Webflow Development",
+    deliverables: "Destination platform, CMS architecture, multilingual website, business directory, events calendar",
+    expertise: "Information architecture, Webflow development, CMS, multilingual UX, motion design",
+    industry: "Tourism / Civic",
+    platform: "Webflow",
+    company:
+      "The Šibenik Tourist Board promotes the city and coordinates the information visitors need to discover, understand, and navigate the destination.",
+    myRole:
+      "At MOA'TI, designed and built the platform in Webflow—from information architecture and the visual system to multilingual CMS structures and the final responsive experience.",
+    services: ["Strategy", "Information Architecture", "UX/UI Design", "Webflow Development", "CMS Architecture", "Multilingual UX", "Motion Design"],
+    coverImage: projectAsset("visit-sibenik", "cover.jpg"),
+    gallery: [
+      projectAsset("visit-sibenik", "gallery-01.jpg"),
+      projectAsset("visit-sibenik", "gallery-02.png"),
+      projectAsset("visit-sibenik", "gallery-03.png"),
+      projectAsset("visit-sibenik", "gallery-04.png"),
+    ],
+    featured: true,
+    archived: false,
+    caseStudyUrl: "visit-sibenik.html",
+    liveUrl: "https://www.visitsibenik.hr/en",
+    liveLabel: "Visit the live platform →",
+  },
+  {
     title: "Refinance Digital Dashboard",
     slug: "refinance-digital-dashboard",
     template: "standard",
@@ -235,6 +265,7 @@ export const projects = [
 // Curated for breadth: alternate client, project type, and visual/problem framing rather than chronology.
 const curatedProjectOrder = [
   "xcare",
+  "visit-sibenik",
   "aspromised",
   "humble-hunters",
   "ny-lon",
@@ -258,7 +289,12 @@ const caseStudyConfigs = {
     heroTreatment: "immersive",
     heroImage: projectAsset("xcare", "claims-queue.png"),
     heroAlt: "XCare claims queue showing status and adjuster filters",
-    intro: false,
+    intro: {
+      eyebrow: "Project context",
+      title: "One platform for the whole destination",
+      body:
+        "At MOA'TI, I designed and built a destination platform that could carry Šibenik from first impression to practical trip planning—and give the tourist board a system it could keep expanding after launch.",
+    },
     nextProjectSlug: "aspromised",
     context: [
       ["Role", "Product Designer, embedded"],
@@ -508,6 +544,133 @@ const caseStudyConfigs = {
         eyebrow: "Next",
         title: "What I would do next",
         body: 'The plan selection screen gives six coverage terms equal weight with no recommended option, leaving a $2,000 spread entirely to the customer\'s judgment. The deductible selector changes the price but does not yet show what it changes it by. The two coverage plans are compared one at a time when the decision is inherently side by side. All three are conversion work, all three are measurable, and all three are on the list.',
+      },
+    ],
+  },
+  "visit-sibenik": {
+    label: "Visit Šibenik · Destination platform, 2026",
+    headline: "Turning a tourism website into city infrastructure",
+    summary:
+      "A multilingual destination platform that brings the stories, places, events, businesses, and practical details of Šibenik into one connected system.",
+    heroTreatment: "immersive",
+    heroImage: projectAsset("visit-sibenik", "cover.jpg"),
+    heroAlt: "Visit Šibenik editorial story card featuring St. Nicholas Fortress",
+    intro: false,
+    nextProjectSlug: "aspromised",
+    context: [
+      ["Role", "UX/UI design and Webflow development at MOA'TI"],
+      ["Scope", "Strategy, information architecture, visual system, CMS, and responsive build"],
+      ["Scale", "4 languages · 2,000+ localized URLs · 300+ listings and experiences"],
+    ],
+    sections: [
+      {
+        type: "statement",
+        eyebrow: "Context",
+        title: "Not a brochure. A working layer for the destination.",
+        body: [
+          "A city website has to do two jobs at once. It needs to make a place feel worth visiting, then become useful the moment someone decides to go. Šibenik had the raw material—two UNESCO sites, a medieval centre, four fortresses, inhabited islands, festivals, beaches, national parks, gastronomy, and hundreds of local businesses—but the digital experience needed one coherent way to hold all of it.",
+          "The brief grew beyond a conventional tourism site. We were designing a destination platform: a system that could inspire a first-time visitor, answer practical questions during a trip, keep a live calendar useful, and give the tourist board a maintainable structure for years of new content.",
+        ],
+      },
+      {
+        type: "fullImage",
+        image: projectAsset("visit-sibenik", "cover.jpg"),
+        alt: "Visit Šibenik UNESCO story module for St. Nicholas Fortress",
+        caption: "The editorial system pairs a strong destination image with a small amount of context and a clear path deeper.",
+      },
+      {
+        type: "statement",
+        eyebrow: "Information architecture",
+        title: "Start with the visitor's question, not the organisation chart",
+        body: [
+          "Tourism organisations naturally think in departments, stakeholders, and content owners. Visitors do not. They arrive with simpler questions: Why Šibenik? What can I do today? What is nearby? How do I get there? Is it open, accessible, expensive, or suitable for children?",
+          "The primary structure follows that sequence. Stories build desire. Explore and experience turns interest into possible days. Events answer what is happening now. Surroundings widens the trip. Planning content takes over when inspiration becomes logistics. The platform feels broad because the destination is broad, but the route through it stays legible.",
+        ],
+      },
+      {
+        type: "itemGrid",
+        columns: "rows",
+        headingLevel: "h3",
+        numbered: true,
+        title: "One system, five different kinds of intent",
+        items: [
+          {
+            label: "Stories explain why.",
+            text: "Long-form editorial content gives history, culture, food, islands, and local habits enough room to feel specific rather than becoming generic destination copy.",
+          },
+          {
+            label: "Experiences make it actionable.",
+            text: "Attractions, gastronomy, beaches, culture, and activities are structured as things a visitor can actually choose, compare, and fit into a day.",
+          },
+          {
+            label: "Events create a reason to act now.",
+            text: "A live calendar connects dates, locations, and event detail instead of leaving timely information scattered across announcements and social channels.",
+          },
+          {
+            label: "Practical metadata removes doubt.",
+            text: "Accessibility, visit duration, approach difficulty, distance, price range, and visit recommendations appear where they influence the decision—not in a separate information archive.",
+          },
+          {
+            label: "The directory connects the local economy.",
+            text: "Business profiles give accommodation, food, services, and local operators a consistent place inside the destination rather than treating them as an external list of links.",
+          },
+        ],
+      },
+      {
+        type: "fullImage",
+        image: projectAsset("visit-sibenik", "gallery-01.jpg"),
+        alt: "Aerial view of Šibenik and St. James Cathedral used in the platform's opening film",
+        caption: "The opening film establishes scale and place before the interface asks the visitor to choose a path.",
+      },
+      {
+        type: "textImage",
+        eyebrow: "Visual direction",
+        title: "The city is the stage",
+        body: [
+          "The visual system takes its cues from Šibenik rather than from the category. Condensed display typography has the directness of a cultural poster. Warm stone, deep Adriatic blue, and a sharp red-orange accent create a palette that can move between heritage, sea, nightlife, and practical information without losing identity.",
+          "Photography is allowed to carry the emotion. The interface frames it with generous surfaces, rounded editorial panels, small categorical signals, and restrained motion. The point was not to decorate every block, but to make radically different subjects feel like chapters of the same city.",
+        ],
+        image: projectAsset("visit-sibenik", "gallery-02.png"),
+        alt: "Sculpture detail at St. James Cathedral in warm evening light",
+        caption: "Heritage imagery is treated as living atmosphere, not as an archive thumbnail.",
+        align: "left",
+        scale: "wide",
+      },
+      {
+        type: "statement",
+        eyebrow: "Content system",
+        title: "The CMS is the product behind the product",
+        body: [
+          "The public site spans more than 2,000 localized URLs across Croatian, English, German, and Italian. That scale only works when content is structured before it is styled. Stories, experiences, destinations, events, businesses, accommodation, official documents, media, and legal pages each needed their own model, while still sharing the same language for images, categories, locations, related content, and practical details.",
+          "Reusable CMS patterns let the tourist board publish an item once and have it appear in the right overviews, recommendations, and related-content paths. Editors manage the city as connected information, not as a collection of hand-built pages. The visitor gets a consistent experience; the team behind it gets something that can keep growing without redesigning the site every season.",
+        ],
+      },
+      {
+        type: "twoImage",
+        title: "One destination, several scales",
+        body:
+          "The same system has to hold the intimacy of a carved detail and the geographic scale of a fortress in the channel. Keeping that range coherent became one of the central art-direction decisions.",
+        images: [
+          {
+            src: projectAsset("visit-sibenik", "gallery-03.png"),
+            alt: "Aerial view of St. Nicholas Fortress and the surrounding channel",
+            caption: "Destination content can move from one landmark to the wider landscape around it.",
+          },
+          {
+            src: projectAsset("visit-sibenik", "gallery-04.png"),
+            alt: "St. Michael Fortress above Šibenik at sunset",
+            caption: "The image system stays recognisable across heritage, nature, and contemporary city life.",
+          },
+        ],
+      },
+      {
+        type: "statement",
+        eyebrow: "Outcome",
+        title: "A platform that can keep pace with the city",
+        body: [
+          "The finished platform brings destination stories, current events, local businesses, Šibenik Card, attractions, surrounding places, and trip-planning detail into one multilingual experience. More than 300 businesses and visitor experiences have a structured presence inside the same system.",
+          "The important result is not simply that Šibenik has a new website. It has a digital foundation the tourist board can continue to extend—with new services for visitors and hosts—without breaking the logic visitors already understand.",
+        ],
       },
     ],
   },

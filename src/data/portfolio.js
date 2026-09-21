@@ -25,6 +25,17 @@ export const portfolioEntries = [
     ],
   },
   {
+    slug: "visit-sibenik",
+    format: "wide",
+    summary: "A tourism website rebuilt as destination infrastructure—four languages, connected content, and a CMS made to hold a whole city.",
+    tags: ["Destination platform", "Webflow", "Multilingual CMS"],
+    media: [
+      "projects/visit-sibenik/cover.jpg",
+      "projects/visit-sibenik/gallery-03.png",
+      "projects/visit-sibenik/gallery-04.png",
+    ],
+  },
+  {
     slug: "aspromised",
     format: "standard",
     summary: "A CRO diagnostic product I took from an empty file to a live, paid tool—idea, interface, frontend and all.",
