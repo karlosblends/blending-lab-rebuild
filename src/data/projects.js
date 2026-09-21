@@ -289,12 +289,7 @@ const caseStudyConfigs = {
     heroTreatment: "immersive",
     heroImage: projectAsset("xcare", "claims-queue.png"),
     heroAlt: "XCare claims queue showing status and adjuster filters",
-    intro: {
-      eyebrow: "Project context",
-      title: "One platform for the whole destination",
-      body:
-        "At MOA'TI, I designed and built a destination platform that could carry Šibenik from first impression to practical trip planning—and give the tourist board a system it could keep expanding after launch.",
-    },
+    intro: false,
     nextProjectSlug: "aspromised",
     context: [
       ["Role", "Product Designer, embedded"],
@@ -555,7 +550,12 @@ const caseStudyConfigs = {
     heroTreatment: "immersive",
     heroImage: projectAsset("visit-sibenik", "cover.jpg"),
     heroAlt: "Visit Šibenik editorial story card featuring St. Nicholas Fortress",
-    intro: false,
+    intro: {
+      eyebrow: "Project context",
+      title: "One platform for the whole destination",
+      body:
+        "At MOA'TI, I designed and built a destination platform that could carry Šibenik from first impression to practical trip planning—and give the tourist board a system it could keep expanding after launch.",
+    },
     nextProjectSlug: "aspromised",
     context: [
       ["Role", "UX/UI design and Webflow development at MOA'TI"],
