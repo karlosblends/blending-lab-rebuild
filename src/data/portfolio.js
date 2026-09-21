@@ -31,8 +31,8 @@ export const portfolioEntries = [
     tags: ["Destination platform", "Webflow", "Multilingual CMS"],
     media: [
       "projects/visit-sibenik/cover.jpg",
-      "projects/visit-sibenik/gallery-03.png",
-      "projects/visit-sibenik/gallery-04.png",
+      "projects/visit-sibenik/gallery-01.jpg",
+      "projects/visit-sibenik/gallery-05.jpg",
     ],
   },
   {

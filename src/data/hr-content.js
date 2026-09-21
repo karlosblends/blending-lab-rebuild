@@ -49,9 +49,10 @@ export const hrProjects = [
     images: [
       "/assets/projects/visit-sibenik/cover.jpg",
       "/assets/projects/visit-sibenik/gallery-01.jpg",
-      "/assets/projects/visit-sibenik/gallery-02.png",
-      "/assets/projects/visit-sibenik/gallery-03.png",
-      "/assets/projects/visit-sibenik/gallery-04.png",
+      "/assets/projects/visit-sibenik/gallery-02.jpg",
+      "/assets/projects/visit-sibenik/gallery-03.jpg",
+      "/assets/projects/visit-sibenik/gallery-04.jpg",
+      "/assets/projects/visit-sibenik/gallery-05.jpg",
     ],
   },
   {

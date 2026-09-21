@@ -112,7 +112,7 @@ export async function getProjects() {
       const sanitySlugs = new Set(normalizedProjects.map((project) => project.slug));
       const localOnlyProjects = localProjects.filter((project) => !sanitySlugs.has(project.slug));
 
-      return [...normalizedProjects, ...localOnlyProjects];
+      return [...localOnlyProjects, ...normalizedProjects];
     })
     .catch((error) => {
       console.warn("Sanity content could not be loaded. Falling back to local project data.", error);
