@@ -1561,27 +1561,24 @@ textarea {
 
 .case-split {
   display: grid;
-  grid-template-columns: minmax(12rem, 0.24fr) minmax(0, 0.76fr);
-  gap: clamp(1.5rem, 3.5vw, 4rem);
-  align-items: center;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(1.5rem, 2.6vw, 2.5rem);
+  align-items: start;
   min-width: 0;
 }
 
 .case-split--reverse {
-  grid-template-columns: minmax(0, 0.76fr) minmax(12rem, 0.24fr);
-}
-
-.case-split--reverse .case-split__copy {
-  order: 2;
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .case-split--wide-image {
-  grid-template-columns: minmax(12rem, 0.22fr) minmax(0, 0.78fr);
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .case-split__copy {
   display: grid;
   gap: 1rem;
+  max-width: 48rem;
   min-width: 0;
 }
 
