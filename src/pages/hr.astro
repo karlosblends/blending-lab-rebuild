@@ -1,6 +1,7 @@
 ---
 import HrLayout from "../layouts/HrLayout.astro";
 import HrHeader from "../components/hr/HrHeader.astro";
+import NarrativeBig from "../components/hr/NarrativeBig.astro";
 import ProjectCarousel from "../components/hr/ProjectCarousel.astro";
 import { hrContent, hrProjects } from "../data/hr-content.js";
 ---
@@ -49,14 +50,12 @@ import { hrContent, hrProjects } from "../data/hr-content.js";
         </div>
       </section>
 
-      <section class="hr-section hr-layers" id="pristup">
+      <section class="hr-section hr-layers" id="pristup" data-narrative-scene>
         <div class="hr-container hr-layers__grid">
           <div class="hr-layers__sticky">
             <div class="eyebrow">Jedan povezani proces</div>
             <h2>5 slojeva za kompletan projekt.</h2>
-            <div class="hr-layer-stack" data-layer-stack aria-hidden="true" hidden>
-              {hrContent.layers.map((_, index) => <div class="hr-layer-card" data-layer={index}></div>)}
-            </div>
+            <div class="hr-layer-graphic"><NarrativeBig /></div>
           </div>
           <div class="hr-layers__copy">
             {hrContent.layers.map(([title, text], index) => (
@@ -175,6 +174,54 @@ import { hrContent, hrProjects } from "../data/hr-content.js";
     });
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
+    const narrativeScene = document.querySelector("[data-narrative-scene]");
+    const narrativeTraces = narrativeScene ? Array.from(narrativeScene.querySelectorAll("[data-trace]")) : [];
+    const narrativeCenter = narrativeScene?.querySelector("[data-center-on]");
+    let narrativeTicking = false;
+
+    const renderNarrative = () => {
+      if (!(narrativeScene instanceof HTMLElement)) return;
+      const rect = narrativeScene.getBoundingClientRect();
+      const scrollable = Math.max(1, narrativeScene.offsetHeight - window.innerHeight);
+      const progress = clamp(-rect.top / scrollable);
+
+      narrativeTraces.forEach((trace, index) => {
+        if (!(trace instanceof SVGElement)) return;
+        const start = index * 0.13;
+        const end = start + 0.38;
+        const local = clamp((progress - start) / (end - start));
+        trace.style.strokeDashoffset = String(1 - local);
+        trace.style.opacity = String(local);
+      });
+
+      if (narrativeCenter instanceof SVGElement) {
+        narrativeCenter.style.opacity = String(clamp((progress - 0.82) / 0.18));
+      }
+      narrativeTicking = false;
+    };
+
+    const requestNarrativeRender = () => {
+      if (narrativeTicking) return;
+      narrativeTicking = true;
+      window.requestAnimationFrame(renderNarrative);
+    };
+
+    if (narrativeScene && narrativeTraces.length && narrativeCenter) {
+      if (reduceMotion) {
+        narrativeTraces.forEach((trace) => {
+          if (!(trace instanceof SVGElement)) return;
+          trace.style.strokeDashoffset = "0";
+          trace.style.opacity = "1";
+        });
+        if (narrativeCenter instanceof SVGElement) narrativeCenter.style.opacity = "1";
+      } else {
+        window.addEventListener("scroll", requestNarrativeRender, { passive: true });
+        window.addEventListener("resize", requestNarrativeRender);
+        renderNarrative();
+      }
+    }
 
     const heroSlideshow = document.querySelector("[data-hero-slideshow]");
     const heroSlides = heroSlideshow ? Array.from(heroSlideshow.querySelectorAll("img")) : [];

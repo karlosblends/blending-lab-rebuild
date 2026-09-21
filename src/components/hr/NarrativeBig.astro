@@ -1,0 +1,76 @@
+<svg
+  id="narrative-graphic"
+  data-scroll-svg="true"
+  fill="none"
+  width="100%"
+  height="100%"
+  viewBox="0 0 885 581"
+  role="img"
+  aria-labelledby="narrative-title narrative-description"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="narrative-title">Pet povezanih slojeva Blending Lab procesa</title>
+  <desc id="narrative-description">Pet koncentričnih slojeva koji se ispunjavaju narančastom bojom tijekom pomicanja stranice.</desc>
+  <defs>
+    <linearGradient id="bl-trace" x1="10" y1="264" x2="874" y2="264" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FC4F1C"></stop>
+      <stop offset="0.5" stop-color="#7E270E"></stop>
+      <stop offset="1" stop-color="#FC4F1C"></stop>
+    </linearGradient>
+    <filter id="bl-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="6" result="blur"></feGaussianBlur>
+      <feMerge>
+        <feMergeNode in="blur"></feMergeNode>
+        <feMergeNode in="SourceGraphic"></feMergeNode>
+      </feMerge>
+    </filter>
+    <style is:inline>
+      .bl-base-ring {
+        fill: none;
+        stroke: #2e2e2e;
+        stroke-width: 2;
+        vector-effect: non-scaling-stroke;
+      }
+      .bl-trace {
+        fill: none;
+        stroke: url(#bl-trace);
+        stroke-width: 4;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-dasharray: 1;
+        stroke-dashoffset: 1;
+        opacity: 0;
+        vector-effect: non-scaling-stroke;
+      }
+      .bl-center-on { opacity: 0; }
+    </style>
+  </defs>
+
+  <path fill="#0E0E0E" stroke="#2D2D2D" stroke-width="2" d="M12 264V312L422 550H462L873 308V264L462 500H422L12 264Z"></path>
+  <path fill="#0D0D0D" stroke="#2D2D2D" stroke-width="2" d="M442.5 6 873 264 442.5 522 12 264 442.5 6Z"></path>
+
+  <g aria-label="Pet ugniježđenih slojeva">
+    <path class="bl-base-ring" d="M442.5 6 873 264 442.5 522 12 264 442.5 6Z"></path>
+    <path class="bl-base-ring" d="M442.5 47 803 264 442.5 481 82 264 442.5 47Z"></path>
+    <path class="bl-base-ring" d="M442.5 88 733 264 442.5 440 152 264 442.5 88Z"></path>
+    <path class="bl-base-ring" d="M442.5 129 663 264 442.5 399 222 264 442.5 129Z"></path>
+    <path class="bl-base-ring" d="M442.5 170 593 264 442.5 358 292 264 442.5 170Z"></path>
+  </g>
+
+  <g aria-label="Napredak kroz slojeve" filter="url(#bl-glow)">
+    <path class="bl-trace" data-trace="0" pathLength="1" d="M442.5 6 873 264 442.5 522 12 264 442.5 6Z"></path>
+    <path class="bl-trace" data-trace="1" pathLength="1" d="M442.5 47 803 264 442.5 481 82 264 442.5 47Z"></path>
+    <path class="bl-trace" data-trace="2" pathLength="1" d="M442.5 88 733 264 442.5 440 152 264 442.5 88Z"></path>
+    <path class="bl-trace" data-trace="3" pathLength="1" d="M442.5 129 663 264 442.5 399 222 264 442.5 129Z"></path>
+    <path class="bl-trace" data-trace="4" pathLength="1" d="M442.5 170 593 264 442.5 358 292 264 442.5 170Z"></path>
+  </g>
+
+  <path fill="#2E2E2E" d="M442.5 204 547 264 442.5 324 338 264 442.5 204Z"></path>
+  <path
+    class="bl-center-on"
+    data-center-on="true"
+    fill="#FC4F1C"
+    filter="url(#bl-glow)"
+    d="M442.5 204 547 264 442.5 324 338 264 442.5 204Z"
+  ></path>
+</svg>
