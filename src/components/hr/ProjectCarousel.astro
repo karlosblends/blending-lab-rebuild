@@ -7,7 +7,13 @@ const carouselId = `projekt-${index}`;
   <div class="hr-project__meta">
     <div>
       <p class="hr-kicker">{project.eyebrow}</p>
-      <h3>{project.title}</h3>
+      <h3>
+        {project.url ? (
+          <a class="hr-project__title-link" href={project.url} target="_blank" rel="noreferrer">
+            {project.title}<span aria-hidden="true">↗</span>
+          </a>
+        ) : project.title}
+      </h3>
     </div>
     <p>{project.description}</p>
   </div>
@@ -15,7 +21,13 @@ const carouselId = `projekt-${index}`;
     <div class="hr-project__rail" id={carouselId} data-carousel-rail tabindex="0" aria-label={`Galerija projekta ${project.title}`}>
       {project.images.map((src, imageIndex) => (
         <figure class="hr-project__slide">
-          <img src={src} alt={`${project.title} — prikaz ${imageIndex + 1}`} loading="eager" decoding="async" />
+          {project.url ? (
+            <a class="hr-project__image-link" href={project.url} target="_blank" rel="noreferrer" aria-label={`Otvori live web projekta ${project.title}`}>
+              <img src={src} alt={`${project.title} — prikaz ${imageIndex + 1}`} loading="eager" decoding="async" />
+            </a>
+          ) : (
+            <img src={src} alt={`${project.title} — prikaz ${imageIndex + 1}`} loading="eager" decoding="async" />
+          )}
         </figure>
       ))}
     </div>

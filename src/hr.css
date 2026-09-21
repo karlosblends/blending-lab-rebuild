@@ -336,6 +336,17 @@
   font-size: clamp(1.8rem, 2.8vw, 3rem);
 }
 
+.hr-project__title-link {
+  display: inline-flex;
+  gap: 0.55rem;
+  align-items: baseline;
+}
+
+.hr-project__title-link span {
+  color: var(--flamingo);
+  font-size: 0.6em;
+}
+
 .hr-project__meta > p {
   color: var(--gray);
   font-size: 1rem;
@@ -350,6 +361,7 @@
   display: flex;
   align-items: flex-start;
   overflow-x: auto;
+  overflow-y: hidden;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
   overscroll-behavior-inline: contain;
@@ -362,16 +374,18 @@
 .hr-project__slide {
   flex: 0 0 100%;
   min-width: 0;
-  height: clamp(28rem, 62vh, 44rem);
   margin: 0;
   scroll-snap-align: start;
 }
 
+.hr-project__image-link {
+  display: block;
+}
+
 .hr-project__slide img {
+  display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
+  height: auto;
   border: 1px solid var(--onyx);
   border-radius: var(--radius-m);
   background: transparent;
@@ -731,10 +745,6 @@
 
   .hr-project__slide img {
     width: 100%;
-  }
-
-  .hr-project__slide {
-    height: clamp(20rem, 56vh, 30rem);
   }
 
   .hr-project__controls {
