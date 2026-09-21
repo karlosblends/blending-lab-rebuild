@@ -72,6 +72,12 @@ export const hrProjects = [
     description: "Alat za procjenu koliko landing page drži obećanje oglasa — od ideje i proizvoda do koda i naplate.",
     images: Array.from({ length: 4 }, (_, i) => `/assets/projects/aspromised/gallery-${String(i + 1).padStart(2, "0")}.png`),
   },
+  {
+    title: "JVCS",
+    eyebrow: "Recruitment · međunarodno tržište",
+    description: "Futuristički marketinški web za globalni workforce brend, oblikovan kroz snažan vizualni identitet i motion-led smjer sučelja.",
+    images: Array.from({ length: 4 }, (_, i) => `/assets/projects/JVCS/gallery-${String(i + 1).padStart(2, "0")}.png`),
+  },
 ];
 
 // TODO: Add Visit Šibenik when approved project assets are available.

@@ -86,6 +86,33 @@
   text-wrap: pretty;
 }
 
+.hr-hero .pulse {
+  position: relative;
+  width: 0.65rem;
+  height: 0.65rem;
+  flex: 0 0 auto;
+  box-shadow: none;
+}
+
+.hr-hero .pulse::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: rgba(252, 79, 28, 0.42);
+  opacity: 0;
+  transform: scale(1);
+}
+
+.hr-hero .pulse.is-pulsing::after {
+  animation: hr-status-pulse 1.8s ease-out infinite;
+}
+
+@keyframes hr-status-pulse {
+  0% { opacity: 0.7; transform: scale(1); }
+  75%, 100% { opacity: 0; transform: scale(2.8); }
+}
+
 .hr-hero__visual {
   position: relative;
   width: min(100%, 68rem);
@@ -343,7 +370,8 @@
 .hr-project__slide img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
+  object-position: center top;
   border: 1px solid var(--onyx);
   border-radius: var(--radius-m);
   background: transparent;
@@ -433,14 +461,15 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
-  width: min(100%, 60rem);
+  width: min(100%, 78rem);
   margin-inline: auto;
 }
 
 .hr-person {
   display: grid;
-  grid-template-rows: auto 1fr;
-  gap: 0;
+  grid-template-columns: minmax(9rem, 11rem) 1fr;
+  gap: 1.25rem;
+  align-items: stretch;
   padding: 1rem;
   border: 1px solid var(--onyx);
   border-radius: var(--radius-m);
@@ -448,7 +477,7 @@
 }
 
 .hr-person__photo {
-  aspect-ratio: 4 / 3;
+  min-height: 13.5rem;
   overflow: hidden;
   border-radius: var(--radius-s);
   background: var(--cod-gray);
@@ -461,8 +490,11 @@
   object-position: center top;
 }
 
-.hr-person > div:last-child {
-  padding: 1.5rem 1rem 1rem;
+.hr-person__content {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  padding: 0.5rem 0.5rem 0.35rem 0;
 }
 
 .hr-person .eyebrow {
@@ -470,14 +502,25 @@
 }
 
 .hr-person h3 {
-  margin: 0.75rem 0;
-  font-size: 2rem;
+  margin: 0.65rem 0;
+  font-size: 1.8rem;
 }
 
-.hr-person p:last-child {
+.hr-person__content > p {
   max-width: 31rem;
   color: var(--gray);
   text-wrap: pretty;
+}
+
+.hr-person__email {
+  width: fit-content;
+  margin-top: auto;
+  padding-top: 1rem;
+  color: var(--alto);
+  font-size: 0.95rem;
+  text-decoration: underline;
+  text-decoration-color: rgba(244, 95, 38, 0.7);
+  text-underline-offset: 0.2em;
 }
 
 .hr-person__photo--placeholder {
@@ -523,6 +566,12 @@
 .hr-contact label .muted {
   font-size: 0.85rem;
   font-weight: 400;
+}
+
+.hr-contact input::placeholder,
+.hr-contact textarea::placeholder {
+  color: rgba(145, 145, 145, 0.72);
+  opacity: 1;
 }
 
 .hr-footer .footer__grid {
@@ -708,12 +757,28 @@
     grid-template-columns: 1fr;
   }
 
+  .hr-person {
+    grid-template-columns: 7.5rem minmax(0, 1fr);
+  }
+
   .hr-person__photo {
-    aspect-ratio: 4 / 3;
+    min-height: 10rem;
+  }
+
+  .hr-person__photo--placeholder span {
+    font-size: 2.25rem;
+  }
+
+  .hr-person__photo--placeholder small {
+    display: none;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .hr-hero .pulse::after {
+    animation: none;
+  }
+
   [data-reveal] {
     opacity: 1;
     transform: none;

@@ -12,7 +12,7 @@ import { hrContent, hrProjects } from "../data/hr-content.js";
       <section class="hero hr-hero">
         <div class="container--medium">
         <div class="hero__content reveal">
-          <div class="eyebrow"><span class="pulse"></span>{hrContent.hero.eyebrow}</div>
+          <div class="eyebrow"><span class="pulse" data-pulse></span>{hrContent.hero.eyebrow}</div>
           <h1>{hrContent.hero.title}</h1>
           <p class="hero__lead">{hrContent.hero.lead}</p>
           <div class="button-row">
@@ -53,7 +53,7 @@ import { hrContent, hrProjects } from "../data/hr-content.js";
           <div class="hr-layers__sticky">
             <div class="eyebrow">Jedan povezani proces</div>
             <h2>5 slojeva za kompletan projekt.</h2>
-            <div class="hr-layer-stack" data-layer-stack aria-hidden="true">
+            <div class="hr-layer-stack" data-layer-stack aria-hidden="true" hidden>
               {hrContent.layers.map((_, index) => <div class="hr-layer-card" data-layer={index}></div>)}
             </div>
           </div>
@@ -85,12 +85,12 @@ import { hrContent, hrProjects } from "../data/hr-content.js";
           <div class="hr-team__grid">
             <article class="hr-person" data-reveal>
               <div class="hr-person__photo"><img src="/assets/images/About-me.webp" alt="Karlo Osman" /></div>
-              <div><div class="eyebrow">Osnivač · voditelj projekta</div><h3>Karlo Osman</h3><p>Karlo osobno vodi strategiju, strukturu, dizajn i development. To znači manje prijenosa informacija i izravnu odgovornost za svaku važnu odluku.</p></div>
+              <div class="hr-person__content"><div class="eyebrow">Osnivač · voditelj projekta</div><h3>Karlo Osman</h3><p>Karlo osobno vodi strategiju, strukturu, dizajn i development. To znači manje prijenosa informacija i izravnu odgovornost za svaku važnu odluku.</p><a class="hr-person__email" href="mailto:karlo@blending-lab.com">karlo@blending-lab.com</a></div>
             </article>
             <article class="hr-person" data-reveal>
               <!-- TODO: Replace this placeholder with Lea's approved portrait. -->
               <div class="hr-person__photo hr-person__photo--placeholder" role="img" aria-label="Fotografija Lee bit će uskoro dodana"><span>Lea</span><small>fotografija u pripremi</small></div>
-              <div><div class="eyebrow">Partnerstva s klijentima</div><h3>Lea</h3><p>Lea vodi prve razgovore, upoznaje kontekst tvrtke i pomaže procijeniti je li projekt dobar izbor za Blending Lab.</p></div>
+              <div class="hr-person__content"><div class="eyebrow">Partnerstva s klijentima</div><h3>Lea</h3><p>Lea vodi prve razgovore, upoznaje kontekst tvrtke i pomaže procijeniti je li projekt dobar izbor za Blending Lab.</p><a class="hr-person__email" href="mailto:lea@blending-lab.co">lea@blending-lab.co</a></div>
             </article>
           </div>
         </div>
@@ -114,11 +114,11 @@ import { hrContent, hrProjects } from "../data/hr-content.js";
           <h2>Opišite nam projekt</h2>
           <form data-hr-form style="margin-top:2rem">
             <div class="form-grid">
-              <div><label>Ime</label><input type="text" name="name" autocomplete="name" required /></div>
-              <div><label>Tvrtka</label><input type="text" name="company" autocomplete="organization" required /></div>
-              <div><label>Email</label><input type="email" name="email" autocomplete="email" required /></div>
-              <div><label>Telefon <span class="muted">(nije obavezno)</span></label><input type="tel" name="phone" autocomplete="tel" /></div>
-              <div class="field--full"><label>Što vam je potrebno?</label><textarea name="message" rows="4" required></textarea></div>
+              <div><label>Ime</label><input type="text" name="name" autocomplete="name" placeholder="Ime i prezime" required /></div>
+              <div><label>Tvrtka</label><input type="text" name="company" autocomplete="organization" placeholder="Naziv tvrtke" required /></div>
+              <div><label>Email</label><input type="email" name="email" autocomplete="email" placeholder="ime@tvrtka.com" required /></div>
+              <div><label>Telefon <span class="muted">(nije obavezno)</span></label><input type="tel" name="phone" autocomplete="tel" placeholder="+385 91 234 5678" /></div>
+              <div class="field--full"><label>Što vam je potrebno?</label><textarea name="message" rows="4" placeholder="Ukratko opišite projekt, cilj i okvirni rok." required></textarea></div>
             </div>
             <p class="form-note" role="status" data-hr-form-status></p>
             <div class="button-row" style="justify-content:flex-start"><button class="button" type="submit">Pošalji upit</button></div>
@@ -197,32 +197,12 @@ import { hrContent, hrProjects } from "../data/hr-content.js";
     }
     if (heroIsVisible) startHeroSlideshow();
 
-    const layerSection = document.querySelector(".hr-layers");
-    const layerCards = Array.from(document.querySelectorAll("[data-layer]"));
-    let layerFrame;
-    const updateLayerStack = () => {
-      layerFrame = undefined;
-      if (!(layerSection instanceof HTMLElement) || !layerCards.length) return;
-      const compactLayout = window.matchMedia("(max-width: 991px)").matches;
-      const rect = layerSection.getBoundingClientRect();
-      const travel = Math.max(1, rect.height - window.innerHeight);
-      const progress = reduceMotion || compactLayout ? 1 : Math.min(1, Math.max(0, -rect.top / travel));
-      const horizontalSpacing = compactLayout ? 3.2 : 5.6;
-      const verticalSpacing = compactLayout ? 30 : 44;
-      layerCards.forEach((card, index) => {
-        if (!(card instanceof HTMLElement)) return;
-        card.style.setProperty("--layer-x", `${index * horizontalSpacing * progress}px`);
-        card.style.setProperty("--layer-y", `${index * verticalSpacing * progress}px`);
+    const pulse = document.querySelector("[data-pulse]");
+    if (pulse && !reduceMotion && "IntersectionObserver" in window) {
+      const pulseObserver = new IntersectionObserver(([entry]) => {
+        pulse.classList.toggle("is-pulsing", entry.isIntersecting);
       });
-    };
-    const requestLayerUpdate = () => {
-      if (layerFrame) return;
-      layerFrame = window.requestAnimationFrame(updateLayerStack);
-    };
-    updateLayerStack();
-    if (!reduceMotion) {
-      window.addEventListener("scroll", requestLayerUpdate, { passive: true });
-      window.addEventListener("resize", requestLayerUpdate, { passive: true });
+      pulseObserver.observe(pulse);
     }
 
     if (!reduceMotion && "IntersectionObserver" in window) {
