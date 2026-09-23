@@ -475,6 +475,12 @@
   object-position: center top;
 }
 
+.hr-person__photo--lea img {
+  object-position: 50% 24%;
+  transform: scale(2.2);
+  transform-origin: 50% 24%;
+}
+
 .hr-person__content {
   display: flex;
   min-width: 0;
