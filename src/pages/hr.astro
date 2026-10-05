@@ -175,6 +175,9 @@ import { hrContent, hrProjects } from "../data/hr-content.js";
 
     const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
     const narrativeScene = document.querySelector("[data-narrative-scene]");
+    const narrativeGrid = narrativeScene?.querySelector(".hr-layers__grid");
+    const narrativeSticky = narrativeScene?.querySelector(".hr-layers__sticky");
+    const narrativeGraphic = narrativeScene?.querySelector(".hr-layer-graphic");
     const narrativeTraces = narrativeScene ? Array.from(narrativeScene.querySelectorAll("[data-trace]")) : [];
     const narrativeCenter = narrativeScene?.querySelector("[data-center-on]");
     let narrativeTicking = false;
@@ -182,8 +185,23 @@ import { hrContent, hrProjects } from "../data/hr-content.js";
     const renderNarrative = () => {
       if (!(narrativeScene instanceof HTMLElement)) return;
       const rect = narrativeScene.getBoundingClientRect();
-      const scrollable = Math.max(1, narrativeScene.offsetHeight - window.innerHeight);
-      const progress = clamp(-rect.top / scrollable);
+      let progress;
+
+      if (
+        narrativeGrid instanceof HTMLElement
+        && narrativeSticky instanceof HTMLElement
+        && narrativeGraphic instanceof HTMLElement
+        && getComputedStyle(narrativeSticky).position === "sticky"
+      ) {
+        const stickyTop = Number.parseFloat(getComputedStyle(narrativeSticky).top) || 0;
+        const stickyTravel = Math.max(0, narrativeGrid.offsetHeight - narrativeSticky.offsetHeight);
+        const graphicExitDistance = narrativeGraphic.offsetTop + stickyTop;
+        const scrollDuration = Math.max(1, stickyTravel + graphicExitDistance);
+        progress = clamp((stickyTop - narrativeGrid.getBoundingClientRect().top) / scrollDuration);
+      } else {
+        const scrollable = Math.max(1, narrativeScene.offsetHeight - window.innerHeight);
+        progress = clamp(-rect.top / scrollable);
+      }
 
       narrativeTraces.forEach((trace, index) => {
         if (!(trace instanceof SVGElement)) return;
