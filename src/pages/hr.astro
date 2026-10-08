@@ -4,6 +4,7 @@ import HrHeader from "../components/hr/HrHeader.astro";
 import NarrativeBig from "../components/hr/NarrativeBig.astro";
 import ProjectCarousel from "../components/hr/ProjectCarousel.astro";
 import { hrContent, hrProjects } from "../data/hr-content.js";
+import { isPriceListPublishable } from "../data/service-price-list.js";
 ---
 
 <HrLayout>
@@ -135,7 +136,7 @@ import { hrContent, hrProjects } from "../data/hr-content.js";
             <p class="footer__muted" style="font-size:1.1rem;margin-top:1rem">Studio za strategiju, dizajn i development.</p>
           </div>
           <div class="footer__links"><span class="footer__muted">Kontakt</span><a href="mailto:karlo@blending-lab.com">karlo@blending-lab.com</a><a href="mailto:lea@blending-lab.co">lea@blending-lab.co</a><span>Zagreb, Hrvatska</span></div>
-          <div class="footer__links"><span class="footer__muted">Pravno</span><a href="/privacy-policy.html">Pravila privatnosti</a></div>
+          <div class="footer__links"><span class="footer__muted">Pravno</span><a href="/privacy-policy.html">Pravila privatnosti</a>{isPriceListPublishable() && <a href="/cjenik">Cjenik i način obračuna</a>}</div>
         </div>
         <div class="footer__bottom">{new Date().getFullYear()} Blending Lab. Sva prava pridržana.</div>
       </div>

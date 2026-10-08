@@ -1,5 +1,6 @@
 ---
 import { img } from "../lib/assets.js";
+import { isPriceListPublishable } from "../data/service-price-list.js";
 ---
 
 <footer class="footer">
@@ -18,6 +19,7 @@ import { img } from "../lib/assets.js";
         <span class="footer__muted">Legal</span>
         <a href="privacy-policy.html">Privacy policy</a>
         <a href="terms.html">Terms and Conditions</a>
+        {isPriceListPublishable() && <a href="/cjenik">Service price list</a>}
       </div>
     </div>
     <div class="footer__bottom">2026 Blending Lab. All rights reserved.</div>
