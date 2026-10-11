@@ -74,10 +74,10 @@ export function pricingAnswer(message) {
     const reference = currentPriceList.services.find((service) => service.unit === "sat");
     if (!reference) return null;
     const value = new Intl.NumberFormat("en-IE").format(reference.price);
-    return `The published hourly reference for design and development is €${value}/hour. Project fees are scoped separately; Karlo proposes the suitable fee and billing model once the work is clear. The hourly reference does not determine a fixed project quote. Published price list: https://www.blending-lab.com/cjenik`;
+    return `The published hourly reference for design and development is €${value}/hour. Project fees are scoped separately; I propose the suitable fee and billing model once the work is clear. The hourly reference does not determine a fixed project quote. Published price list: https://www.blending-lab.com/cjenik`;
   }
   if (/\b(?:retainer|monthly|ongoing)\b/i.test(message) && /\b(?:price|pricing|rate|rates|cost|costs|budget|charge|much)\b/i.test(message)) {
-    return "The monthly plan reference is €2,000/month for approximately 20 hours a week. This applies to global and Croatian clients. Karlo needs to confirm availability, scope and terms; this isn't a booking or binding quote.";
+    return "The monthly plan reference is €2,000/month for approximately 20 hours a week. This applies to global and Croatian clients. I need to confirm availability, scope and terms; this isn't a booking or binding quote.";
   }
   return null;
 }

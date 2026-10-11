@@ -109,7 +109,8 @@ test("pricing market uses a stated location, never language or audience", () => 
   assert.equal(global.brief.market, "global");
   const unknown = chat("We need a landing page for a global audience. Design only.");
   assert.equal(unknown.brief.market, null);
-  assert.equal(unknown.messages.at(-1).question, "market");
+  assert.equal(unknown.messages.at(-1).question, null);
+  assert.match(unknown.messages.at(-1).content, /call/);
 });
 
 test("brief extraction schema rejects invalid decisions and keeps monetary output server-owned", () => {

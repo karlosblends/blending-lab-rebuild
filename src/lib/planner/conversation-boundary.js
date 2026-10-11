@@ -26,7 +26,7 @@ export function nextAction(turn, visitorMessage) {
   if (contact || questionnaire) return contact && questionnaire ? "both" : contact ? "contact" : "questionnaire";
   // Controls accompany a genuine offered next step, never a discovery question.
   if (!turn.brief.goal || !turn.brief.engagement || turn.question) return "none";
-  const offer = /\b(?:would you like|want to|we can|you can|shall we|let's)\b/i.test(turn.reply);
+  const offer = /\b(?:would you like|want to|we can|you can|shall we|let's|how about|I suggest|I'd suggest|I'd love|I can)\b/i.test(turn.reply);
   if (!offer) return "none";
   const offersQuestions = /\b(?:questionnaire|estimator|few questions|guided questions)\b/i.test(turn.reply);
   const offersContact = /\b(?:call|meeting|send.{0,20}(?:project|brief)|submit|contact form)\b/i.test(turn.reply);

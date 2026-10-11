@@ -1,5 +1,6 @@
 import { blankBrief, knowledge, engagements, questionKeys } from "./knowledge.js";
 import { conversationPolicy } from "./conversation-policy.js";
+import { closingGuidance } from "./conversation-flow.js";
 export { demoTurn } from "./demo-engine.js";
 import { demoTurn } from "./demo-engine.js";
 import { obviousOffTopic, boundaryTurn } from "./conversation-boundary.js";
@@ -123,7 +124,7 @@ export async function openAITurn(conversation, config, fetcher = fetch) {
   // The Webflow service is a standalone build. Design-and-build belongs to the website service.
   if (brief.engagement === "webflow" && brief.needs_development === true) brief = { ...brief, delivery_preference: "existing_design_build" };
   const response = await structuredResponse(conversation, config, fetcher,
-    `${systemPrompt(brief)}\nThe CURRENT BRIEF has already been extracted from the conversation. Write only reply and question. Use these established facts to answer and ask at most ONE useful follow-up; do not repeat answered or explicitly undecided fields. If budget or timeline is "Not decided", do not ask for it again. question must describe the follow-up actually present in reply, or be null. Speak naturally in first person and use "we" for Blending Lab's work. Keep the extracted structure internal; do not write a project report.`,
+    `${systemPrompt(brief)}\nThe CURRENT BRIEF has already been extracted from the conversation. Write only reply and question. ${closingGuidance(conversation, brief)} Use established facts and never repeat answered or explicitly undecided fields. question describes a discovery question actually asked; a call invitation uses question=null. Use I/my for Karlo's work; we/our only means Karlo and the visitor collaborating. Keep the extracted structure internal; do not write a project report.`,
     replySchema, "project_planner_reply", 1000, signal);
   if (!response) return boundaryTurn(conversation);
   // Reply generation has no authority to overwrite the extracted project facts.

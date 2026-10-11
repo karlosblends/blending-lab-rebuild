@@ -1,4 +1,5 @@
 import { blankBrief, knowledge, nextQuestion } from "./knowledge.js";
+import { meetingReady } from "./conversation-flow.js";
 
 const undecided = /not decided|isn't decided|is not decided|don't know|do not know|unsure|not sure|haven't decided|no budget yet|rather not|prefer not|skip/i;
 const questions = {
@@ -17,12 +18,12 @@ function faq(text, brief) {
   if (match && /example|work|experience|case study|tell me|have you|portfolio/i.test(text)) {
     return answer(brief, `${match.fact} You can read the case study at ${match.url}.`);
   }
-  if (/guarantee|guaranteed|promise.*(?:sales|conversion)/i.test(text)) return answer(brief, "Karlo can work on the pages and flows that affect conversion, but a sales increase can't be guaranteed. It also depends on the offer, traffic and what happens after someone enquires.");
-  if (/how.*(?:pricing|price)|how much|what.*cost|(?:monthly|retainer).*rate|what.*(?:budget|charge)|hourly|satnica|po satu/i.test(text)) return answer(brief, "Karlo proposes the fee and billing model once the scope is clear. Project fees are scoped separately from the published hourly reference. Ongoing support has a confirmed monthly reference and defined capacity; project ranges still need his review.");
-  if (/how long|turnaround|available|start.*(?:tomorrow|next week)/i.test(text)) return answer(brief, "Timing depends on the first phase, the feedback needed and Karlo's availability. A launch date is useful context, but it needs a feasibility check before anyone promises delivery.");
+  if (/guarantee|guaranteed|promise.*(?:sales|conversion)/i.test(text)) return answer(brief, "I can work on the pages and flows that affect conversion, but a sales increase can't be guaranteed. It also depends on the offer, traffic and what happens after someone enquires.");
+  if (/how.*(?:pricing|price)|how much|what.*cost|(?:monthly|retainer).*rate|what.*(?:budget|charge)|hourly|satnica|po satu/i.test(text)) return answer(brief, "I propose the fee and billing model once the scope is clear. Project fees are scoped separately from the published hourly reference. Ongoing support has a confirmed monthly reference and defined capacity; project ranges still need my review.");
+  if (/how long|turnaround|available|start.*(?:tomorrow|next week)/i.test(text)) return answer(brief, "Timing depends on the first phase, the feedback needed and my availability. A launch date is useful context, but it needs a feasibility check before anyone promises delivery.");
   if (/project or.*(?:monthly|retainer)|difference.*(?:project|retainer)|how.*monthly.*work/i.test(text)) return answer(brief, "A project works well when there is a defined outcome. Monthly support makes more sense when your team has a continuing backlog and ships regularly. A focused paid pilot can help you test that working relationship first.");
-  if (/\b(?:can|do|does|will)\b.*(?:you|karlo|blending lab).*\b(?:build|develop|webflow|backend)\b/i.test(text)) return answer(brief, "Karlo can help with design-only work, complete websites, standalone Webflow development and UI components. Backend logic, infrastructure and complex integrations need a review of who will own that work.");
-  if (/paid pilot|free.*(?:pilot|trial|redesign)|what.*pilot/i.test(text) && !/we (?:want|need)|let'?s|start with/i.test(text)) return answer(brief, "The pilot is a focused, paid piece of work before a possible monthly partnership. Its scope, fee and timing need agreeing with Karlo; it isn't an unlimited trial or a required first step.");
+  if (/\b(?:can|do|does|will)\b.*(?:you|karlo|blending lab).*\b(?:build|develop|webflow|backend)\b/i.test(text)) return answer(brief, "I can help with design-only work, complete websites, standalone Webflow development and UI components. Backend logic, infrastructure and complex integrations need a review of who will own that work.");
+  if (/paid pilot|free.*(?:pilot|trial|redesign)|what.*pilot/i.test(text) && !/we (?:want|need)|let'?s|start with/i.test(text)) return answer(brief, "The pilot is a focused, paid piece of work before a possible monthly partnership. Its scope, fee and timing need agreeing with me; it isn't an unlimited trial or a required first step.");
   if (/\b(?:email|contact|book|meeting|send.*karlo|talk to karlo|speak to karlo)\b/i.test(text)) return answer(brief, "Use 'Send project to Karlo' below to add your contact details. The brief and full conversation will be included, so you won't need to explain it again. You can also email karlo@blending-lab.com directly.");
   return null;
 }
@@ -39,7 +40,7 @@ export function demoTurn(conversation) {
   if (information) return information;
   if (/\b(?:only|just)\s+(?:a )?(?:logo|bookkeeping|ads management|legal advice)\b/i.test(latest)) {
     b.fit = "outside_scope";
-    return answer(b, "That falls outside the product and website work this planner covers. Karlo would need to confirm whether he can help or point you towards someone else.");
+    return answer(b, "That falls outside the product and website work this planner covers. I would need to review whether I can help or point you towards someone else.");
   }
   const wantsSummary = /summari[sz]e|show.*plan|final summary|enough questions/i.test(latest);
   const shortUncertain = undecided.test(latest) && latest.length < 120;
@@ -111,19 +112,20 @@ export function demoTurn(conversation) {
   if (/\b(january|february|march|april|may|june|july|august|september|october|november|december|asap|next month|\d+ (?:weeks?|months?)|deadline|no rush|timing.*flexible)\b/.test(lower) || priorQuestion === "timeline" && !wantsSummary) b.timeline = shortUncertain ? "Not decided" : latest.slice(0, 600);
   if (/[€$£]|\b(?:budget|\d+[,.]?\d*\s?k\b|euros?)\b/.test(lower) || priorQuestion === "budget" && !wantsSummary) b.budget = undecided.test(latest) ? "Not decided" : latest.slice(0, 600);
   if (/no budget yet|budget.*(?:not decided|isn't decided|is not decided|don't know|unsure)/.test(lower)) b.budget = "Not decided";
-  if (/no deadline|timing.*not decided/.test(lower)) b.timeline = "Not decided";
+  if (/no deadline|(?:timing|timeline).*(?:not decided|isn't decided|is not decided)/.test(lower)) b.timeline = "Not decided";
   if (/\b(multiple roles|many screens|complex|20 pages|multilingual|integrations)\b/.test(lower)) b.complexity = "expanded";
   else if (/only (?:one|a)|just (?:one|a)|single (?:page|flow)|reduce.*scope/.test(lower)) b.complexity = "focused";
   else if (b.scope && b.complexity === "unknown") b.complexity = "focused";
   if (b.engagement === "discovery" && b.goal && !b.scope) b.scope = "Clarify the first useful phase before agreeing a wider scope";
+  if (!wantsSummary && meetingReady(b)) return answer(b, "I can help with that.\n\nWould you like to get on a quick call so we can work through the scope and price? Use 'Send project to Karlo' to leave your details; this conversation will be included.");
   const next = wantsSummary ? null : nextQuestion(b);
   let opening = "";
   if (userMessages.length === 1 && b.working_model === "ongoing") opening = "That sounds closer to ongoing design support than a single redesign. ";
-  else if (userMessages.length === 1 && b.engagement === "webflow") opening = "Karlo can help with the Webflow build from your existing designs or agreed site changes. ";
+  else if (userMessages.length === 1 && b.engagement === "webflow") opening = "I can help with the Webflow build from your existing designs or agreed site changes. ";
   else if (userMessages.length === 1 && b.engagement === "components") opening = "That can be a focused piece of work without redesigning the whole product. ";
   else if (userMessages.length === 1 && b.engagement === "product" && b.scope) opening = "The dashboard could be a useful place to start, especially if the existing screens have drifted apart. ";
-  else if (b.technical_review) opening = "The design can be scoped, but implementation needs a review of the stack and engineering responsibilities with Karlo. ";
+  else if (b.technical_review) opening = "The design can be scoped, but implementation needs a review of the stack and engineering responsibilities with me. ";
   if (undecided.test(latest) && priorQuestion === "budget") opening = "That's fine. The budget can stay open while we work out a useful first phase. ";
   if (next === "goal" && /messy|redesign/.test(lower)) return answer(b, "A complete redesign may be more than you need. What's the main thing people struggle to do in the current product?", "goal");
-  return answer(b, next ? opening + questions[next] : opening + "We have enough for a starting scope. Karlo can review the open decisions before agreeing price and timing.", next);
+  return answer(b, next ? opening + questions[next] : opening + "We have enough for a starting scope. I can review the open decisions before agreeing price and timing.", next);
 }
