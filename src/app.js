@@ -427,7 +427,6 @@ function homePage() {
     ${largeText()}
     ${projectsSection()}
     ${workWays()}
-    ${faqSection()}
     ${contactSection()}
     ${footer()}`;
 }
@@ -625,7 +624,6 @@ function croHomePage() {
       ["presention-chart.svg", "Poslovni fokus", "Dizajn ne postoji sam za sebe, već podržava prodaju, povjerenje i rast."],
       ["Webflow.svg", "Brza izvedba", "Webflow omogućuje kvalitetan launch i lakše održavanje nakon njega."],
     ])}
-    ${faqSection(faqs, "Često postavljana pitanja")}
     ${contactSection({ croatian: true })}
     ${footer()}`;
 }
