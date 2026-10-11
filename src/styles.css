@@ -1874,6 +1874,13 @@ textarea {
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.case-lightbox__counter {
+  margin-right: auto;
+  padding-inline: 0.5rem;
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+}
+
 .case-lightbox__close {
   width: 2.5rem;
   height: 2.5rem;
@@ -1886,7 +1893,51 @@ textarea {
   line-height: 1;
 }
 
+.case-lightbox__stage {
+  position: relative;
+}
+
+.case-lightbox__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--radius-s);
+  color: var(--alabaster);
+  background: rgba(15, 15, 15, 0.88);
+  cursor: pointer;
+}
+
+.case-lightbox__nav[hidden] {
+  display: none;
+}
+
+.case-lightbox__nav--prev {
+  left: clamp(0.5rem, 2vw, 1.5rem);
+}
+
+.case-lightbox__nav--next {
+  right: clamp(0.5rem, 2vw, 1.5rem);
+}
+
+.case-lightbox__nav:hover,
+.case-lightbox__close:hover {
+  background: #333;
+}
+
+.case-lightbox__nav:focus-visible,
+.case-lightbox__close:focus-visible {
+  outline: 2px solid var(--alabaster);
+  outline-offset: 3px;
+}
+
 .case-lightbox__image {
+  display: block;
   max-height: calc(92vh - 3.5rem);
   width: 100%;
   object-fit: contain;
