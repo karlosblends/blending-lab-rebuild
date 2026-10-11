@@ -232,6 +232,8 @@ const privacyPage = () => `
         <p>Information entered into that estimator may be processed to generate an indicative project estimate and, where applicable, to support a subsequent inquiry.</p>
         <p>Estimates generated through the website are indicative only and are not binding quotations.</p>
         <p>The current Blending Lab website embeds the estimator but does not itself store estimator information in this codebase.</p>
+        <p>The conversational project planner is a separate experience at /planner. It saves individual messages and a structured project brief. In the live planner, messages and the brief are sent to OpenAI to generate replies. A private session cookie allows the conversation to resume on the same browser for up to seven days; expiry of the cookie does not itself delete saved records.</p>
+        <p>When you choose to send a project to Karlo, your name, email, optional company or website, brief and full conversation are saved with the enquiry. The live service uses Supabase for storage and Resend to notify Karlo by email. A local development demo uses local storage and scripted replies instead. The planner page does not load Google Analytics or PostHog session recording. Please avoid sharing confidential or sensitive information in the conversation. Contact <a href="mailto:karlo@blending-lab.com">karlo@blending-lab.com</a> about your planner data.</p>
 
         <h2>8. Analytics and cookies</h2>
         <p>The website uses Google Analytics and PostHog Cloud EU (project 268451, hosted at <a href="https://eu.i.posthog.com">eu.i.posthog.com</a>) to understand how the website is used and to improve it. Depending on your consent and how you use the website, these services may collect pageviews, clicks, navigation, browser and device information, pseudonymous identifiers, other technical data, and session-replay data.</p>
@@ -248,6 +250,9 @@ const privacyPage = () => `
           <li>Formspree for contact form processing</li>
           <li>Lovable for the embedded project estimator application</li>
           <li>Sanity for project content management where the website is configured to use it</li>
+          <li>OpenAI for conversational project-planner replies</li>
+          <li>Supabase for planner conversations, messages and enquiries</li>
+          <li>Resend for planner enquiry email notifications</li>
           <li>email, domain, and business software providers used to manage inquiries</li>
         </ul>
         <p>These providers may process limited personal information on behalf of Blending Lab where necessary to provide their services.</p>
@@ -602,8 +607,7 @@ const placeholderPage = () => {
         title="A design engineer for your product and the site around it."
         headingClass="hero__heading-gradient"
         lead="Product UX and interfaces, designed and hand-coded for production. One person, no handoff."
-        primary={{ label: "Let's talk", href: "contact.html" }}
-        secondary={{ label: "Free Audit", href: "try-for-free.html" }}
+        planner
         media={{ image: "IMG-9214-from-Lightroom-1.jpg" }}
       />
       <Fragment set:html={brands()} />

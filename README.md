@@ -70,6 +70,10 @@ The exporter generates fresh public document IDs. Do not rerun this import again
 
 Only add credentialed CORS origins for Studio or authenticated browser requests on domains you control. Static Astro builds fetch content server-side and do not need frontend CORS access.
 
+## Project planner
+
+The conversational planner is at `/planner`, linked from the main navigation. It includes a chat-only interface, a saved structured brief, sourced business knowledge and rules-based commercial references. Visitors can submit their contact details in the chat; the saved brief and full conversation are included in the enquiry notification. Development without credentials uses labelled scripted replies; production requires OpenAI, Supabase and Resend. Unapproved project estimates are disabled by default. See [setup and architecture](docs/project-planner.md). Run `npm run test:planner` for the backend flow checks.
+
 ## Notes
 
 The Webflow interaction file is not used by the Astro build. Important interactions are preserved with maintainable browser-native code: sticky glass navigation, mobile menu, FAQ accordion, reveal-on-scroll blur/fade, glowing CTA treatment, hover lifts, contact form confirmation, and a before/after slider.

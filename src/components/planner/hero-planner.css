@@ -1,0 +1,75 @@
+.project-planner.planner-launch[data-theme][data-accent] {
+  display: block;
+  width: min(100%, 640px);
+  height: auto;
+  padding: 0;
+  margin: 16px auto 0;
+  text-align: left;
+  --surface: #1b1b1b;
+  --border: #414141;
+  --text-sm: 16px;
+}
+.planner-hero-composer { padding: 0; border: 0; }
+.planner-hero-composer > div:last-child > div { padding: 8px 10px 8px 2px; border-radius: 28px; border-color: transparent; }
+.planner-launch .planner-launch-hint { margin: 12px 0 0; color: #999; text-align: center; font-size: 13px; line-height: 1.5; }
+.project-planner.planner-modal[data-theme][data-accent] {
+  display: flex;
+  flex-direction: column;
+  width: min(880px, calc(100vw - 48px));
+  height: min(740px, calc(100dvh - 64px));
+  min-height: 0;
+  max-height: calc(100dvh - 64px);
+  padding: 0;
+  margin: auto;
+  overflow: hidden;
+  border: 1px solid #3c3c3c;
+  border-radius: 24px;
+  background: #101010;
+  box-shadow: 0 24px 100px #0008;
+  text-align: left;
+}
+.planner-modal > div:first-child { flex-shrink: 0; align-items: center; padding: 16px 20px; }
+.planner-modal h2 { font-size: 16px; font-weight: 500; }
+.planner-modal > div:nth-child(2) { flex: 1; min-height: 0; padding: 0; }
+.planner-modal-body { position: relative; width: 100%; height: 100%; }
+.planner-modal-frame { display: block; width: 100%; height: 100%; border: 0; background: #101010; }
+.planner-modal-loading { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 16px; color: #aaa; font-size: 14px; }
+.planner-modal-loading a { text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 600px) {
+  .project-planner.planner-modal[data-theme][data-accent] { width: calc(100vw - 16px); height: calc(100dvh - 24px); max-height: calc(100dvh - 24px); border-radius: 18px; }
+  .planner-modal > div:first-child { padding: 12px 16px; }
+  .planner-launch .planner-launch-hint { font-size: 12px; padding-inline: 12px; }
+}
+
+/* The mask preserves the Arc input surface and exposes only the perimeter. */
+.planner-input-glow {
+  position: relative;
+  isolation: isolate;
+  border-radius: 28px;
+  --planner-glow-angle: 0deg;
+  --planner-border-gradient: conic-gradient(from calc(var(--planner-glow-angle) - 40deg),
+    #f45f26 0deg, #d8784e 35deg, #c98970 65deg, #b66e71 115deg,
+    #795567 165deg, #563d36 215deg, #a44b30 270deg, #fc4f1c 325deg, #f45f26 360deg);
+}
+.planner-input-glow-border,
+.planner-input-glow-halo {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: var(--planner-border-gradient);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+}
+.planner-input-glow-border { z-index: 1; opacity: .68; transition: opacity 200ms ease; }
+.planner-input-glow-halo { z-index: -1; inset: -2px; padding: 4px; filter: blur(10px); opacity: .25; transition: opacity 200ms ease; }
+.planner-input-glow:hover .planner-input-glow-border,
+.planner-input-glow:focus-within .planner-input-glow-border { opacity: .85; }
+.planner-input-glow:hover .planner-input-glow-halo,
+.planner-input-glow:focus-within .planner-input-glow-halo { opacity: .4; }
+@media (prefers-reduced-motion: reduce) {
+  .planner-input-glow-border, .planner-input-glow-halo { transition: none; }
+}

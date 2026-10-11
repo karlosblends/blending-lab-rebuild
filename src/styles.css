@@ -152,6 +152,10 @@ p {
   will-change: width, min-height, padding, background-color, border-color;
 }
 
+.nav.is-collapsed .nav__bar {
+  backdrop-filter: none;
+}
+
 .nav__links, .nav__right {
   display: flex;
   align-items: center;
@@ -931,7 +935,11 @@ p {
 
 .faq-list {
   display: grid;
-  gap: 0.75rem;
+  gap: 0;
+}
+
+.faq-list > .faq-item:not(.open):not(:last-child) {
+  padding-bottom: 0.75rem;
 }
 
 .faq-question {
@@ -989,7 +997,7 @@ p {
 
 .faq-item.open .faq-answer {
   grid-template-rows: 1fr;
-  margin-top: 1.35rem;
+  margin-block: 1.35rem;
 }
 
 .faq-item.open .faq-question {
@@ -3337,5 +3345,16 @@ body.reveal-animations-ready .hero__media.reveal.in {
   .button--flip:hover .button--flip__track,
   .button--flip:active .button--flip__track {
     transform: none;
+  }
+}
+
+/* Anchor the desktop logo independently of the shrinking menu columns. */
+@media (min-width: 992px) {
+  .nav--logo-anchored .nav__bar { overflow: visible; }
+  .nav--logo-anchored .nav__logo {
+    position: absolute;
+    left: calc(50% + var(--nav-logo-offset, 0px));
+    top: 50%;
+    transform: translate(-50%, -50%);
   }
 }

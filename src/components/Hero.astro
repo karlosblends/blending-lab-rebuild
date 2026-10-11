@@ -1,7 +1,11 @@
 ---
 import { img, vid } from "../lib/assets.js";
+import HeroPlanner from "./planner/HeroPlanner.jsx";
+import "./arc/foundation.css";
+import "./planner/planner.css";
+import "./planner/hero-planner.css";
 
-const { title, lead, primary, secondary, media, eyebrow, headingClass = "" } = Astro.props;
+const { title, lead, primary, secondary, media, eyebrow, headingClass = "", planner = false } = Astro.props;
 ---
 
 <main class="hero">
@@ -10,10 +14,10 @@ const { title, lead, primary, secondary, media, eyebrow, headingClass = "" } = A
       {eyebrow && <div class="eyebrow"><span class="pulse"></span>{eyebrow}</div>}
       <h1 class={headingClass} set:html={title} />
       <p class="hero__lead">{lead}</p>
-      <div class="button-row">
+      {planner ? <><HeroPlanner client:load /><noscript><a class="button" href="/planner">Tell me about your project</a></noscript></> : <div class="button-row">
         {primary && <a class="glow-button" href={primary.href} target={primary.external ? "_blank" : undefined} rel={primary.external ? "noreferrer" : undefined}><span>{primary.label}</span></a>}
         {secondary && <a class:list={[secondary.text ? "button button--text" : "button button--ghost"]} href={secondary.href} target={secondary.external ? "_blank" : undefined} rel={secondary.external ? "noreferrer" : undefined}>{secondary.label}</a>}
-      </div>
+      </div>}
     </div>
     {
       media && (
