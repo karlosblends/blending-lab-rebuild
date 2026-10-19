@@ -1,7 +1,7 @@
 export const portfolioProfile = {
   name: "Karlo Osman",
   role: "Product designer & design engineer",
-  status: "Available for selected collaborations",
+  status: "Product thinking. Hands-on making.",
   bio: "I design products and websites, then build the frontend so the good decisions survive contact with production.",
   location: "Zagreb, Croatia",
   timezone: "Europe/Zagreb",
@@ -19,14 +19,14 @@ export const portfolioEntries = [
     summary: "The customer journey and operating system behind an EV warranty business, designed across two and a half years.",
     tags: ["Product design", "Design system", "Embedded"],
     media: [
-      "projects/xcare/cover.png",
       "projects/xcare/claims-queue.png",
       "projects/xcare/quote-form-landing.png",
+      "projects/xcare/claim-detail.png",
     ],
   },
   {
     slug: "visit-sibenik",
-    format: "wide",
+    format: "standard",
     summary: "A tourism website rebuilt as destination infrastructure—four languages, connected content, and a CMS made to hold a whole city.",
     tags: ["Destination platform", "Webflow", "Multilingual CMS"],
     media: [
@@ -59,7 +59,7 @@ export const portfolioEntries = [
   },
   {
     slug: "ny-lon",
-    format: "wide",
+    format: "standard",
     summary: "A psychology practice shaped by New York and London, translated into an editorial website with a pulse.",
     tags: ["Art direction", "Webflow", "Motion"],
     media: [

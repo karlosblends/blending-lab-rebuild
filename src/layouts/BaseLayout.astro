@@ -472,7 +472,6 @@ const bodyClass = [project ? "project-detail-page" : "", suppliedBodyClass].filt
           width: expanded ? expandedWidth() : collapsedWidth(),
           minHeight: desktopQuery.matches ? desktopNavHeight : expanded ? 64 : 56,
           padding: expanded ? (desktopQuery.matches ? "10px 12px" : "8px 12px") : "4px 10px",
-          marginLeft: "0px",
           backgroundColor: expanded ? "rgba(16, 16, 16, 0.78)" : "rgba(16, 16, 16, 0)",
           borderColor: expanded ? "rgb(48, 48, 48)" : "rgba(48, 48, 48, 0)",
         });
@@ -530,12 +529,10 @@ const bodyClass = [project ? "project-detail-page" : "", suppliedBodyClass].filt
             backgroundColor: values.backgroundColor,
             borderColor: values.borderColor,
           };
-          if (desktopQuery.matches) {
-            navBar.style.marginLeft = "";
-          } else {
-            shellAnimation.marginLeft = values.marginLeft;
-            shellAnimation.marginRight = "auto";
-          }
+          // Alignment must reset synchronously when crossing the mobile breakpoint.
+          // Animating margins leaves the mobile value behind on the desktop shell.
+          navBar.style.marginLeft = "auto";
+          navBar.style.marginRight = "auto";
           if (expanded) setNavGrid(true);
           animations.push(
             animate(

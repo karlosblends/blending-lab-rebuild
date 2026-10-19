@@ -6,64 +6,61 @@ import { img } from "../../lib/assets.js";
 <PortfolioLayout active="about">
   <main class="karlo-about" id="karlo-content">
     <section class="karlo-about__hero">
-      <h1>One person, all the way through.</h1>
-      <div class="karlo-about__lead">
-        <p>I’m Karlo. I work where product thinking, visual design and frontend meet.</p>
-        <p>I like complicated products, unusually specific businesses and teams that care whether the final two percent actually makes it into production.</p>
+      <div class="karlo-about__intro">
+        <h1>Hey, I’m Karlo.</h1>
+        <p class="karlo-about__lead">I’m a product designer and design engineer based in Zagreb, Croatia. I run Blending Lab, my independent design practice.</p>
+        <p class="karlo-about__intro-copy">My work ranges from software for an EV warranty business to websites for cities and psychology practices. Some projects I design with a team; others I design and build myself.</p>
+        <a class="karlo-about__text-link" href="mailto:hello@blending-lab.com">Say hello <span aria-hidden="true">↗</span></a>
+      </div>
+      <figure class="karlo-about__portrait">
+        <img src={img("About-me-p-1080.webp")} srcset={`${img("About-me-p-500.webp")} 500w, ${img("About-me-p-800.webp")} 800w, ${img("About-me-p-1080.webp")} 1080w`} sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 900px) 36vw, 28vw" width="1080" height="1620" alt="Karlo smiling, holding his laptop" fetchpriority="high" />
+      </figure>
+    </section>
+
+    <section class="karlo-about__section" aria-labelledby="karlo-background">
+      <h2 id="karlo-background">How I got here</h2>
+      <div class="karlo-about__copy">
+        <p>I started in advertising, thinking that was my path. Over time, I moved into design, and eventually into building the frontend too.</p>
+        <p>My work has covered product flows, interfaces, design systems and websites. Depending on the project, I work alongside developers or handle the frontend myself.</p>
       </div>
     </section>
 
-    <figure class="karlo-about__portrait">
-      <img src={img("karlo-landscape-office.png")} width="1536" height="1024" alt="Karlo Osman at his workspace" />
-    </figure>
-
-    <section class="karlo-about__sections">
-      <p class="karlo-about__label">The short version</p>
-      <div class="karlo-about__copy">
-        <h2>I design the interface, then stay around long enough to make it behave.</h2>
-        <p>I started in advertising and moved toward design because I wanted to shape the thing people actually use, not only the message around it. Eventually mockups stopped feeling like a satisfying finish line, so I learned to build the frontend too.</p>
-        <p>Today I work directly with founders and product teams across product UX, websites, design systems and production-ready interface code. When heavier engineering is involved, I leave behind clean components and fewer mysteries.</p>
+    <section class="karlo-about__section" aria-labelledby="karlo-work-context">
+      <div class="karlo-about__section-heading">
+        <h2 id="karlo-work-context">A few ways I work</h2>
+        <p>The role changes with the project.</p>
       </div>
-    </section>
-
-    <section class="karlo-about__sections">
-      <p class="karlo-about__label">A loose timeline</p>
-      <dl class="karlo-about__timeline">
-        <div>
-          <dt>First</dt>
-          <dd>Advertising taught me how positioning, attention and business constraints shape every design decision.</dd>
-        </div>
-        <div>
-          <dt>Then</dt>
-          <dd>Product and web design gave me larger systems to untangle—and made the handoff problem impossible to ignore.</dd>
-        </div>
-        <div>
-          <dt>Now</dt>
-          <dd>I combine product design with frontend implementation through Blending Lab, my independent practice.</dd>
-        </div>
-      </dl>
-    </section>
-
-    <section class="karlo-about__sections">
-      <p class="karlo-about__label">Useful around</p>
-      <div class="karlo-about__copy">
-        <h2>From the first confusing flow to the component that ships.</h2>
-        <ul class="karlo-about__capabilities">
-          <li>Product strategy</li>
-          <li>UX and information architecture</li>
-          <li>Interface design</li>
-          <li>Design systems</li>
-          <li>Frontend development</li>
-          <li>Webflow development</li>
-          <li>Art direction</li>
-          <li>Motion direction</li>
-        </ul>
+      <div class="karlo-about__work-list">
+        <article class="karlo-about__work">
+          <header>
+            <h3><a href="/karlo/xcare">XCare <span aria-hidden="true">↗</span></a></h3>
+            <p>Embedded product designer · 2.5 years, ongoing</p>
+          </header>
+          <p>I designed the purchase flow, admin platform, customer portal and marketing site with a developer and a project manager. The work involved both the people buying coverage and the team handling their claims.</p>
+        </article>
+        <article class="karlo-about__work">
+          <header>
+            <h3><a href="/karlo/aspromised">AsPromised <span aria-hidden="true">↗</span></a></h3>
+            <p>Solo product · Design and frontend</p>
+          </header>
+          <p>I took this one from the idea to a live, paid tool. I designed the interface, built the frontend and set up the payment flow. It checks where a landing page stops delivering on the promise of its ad.</p>
+        </article>
+        <article class="karlo-about__work">
+          <header>
+            <h3><a href="/karlo/visit-sibenik">Visit Šibenik <span aria-hidden="true">↗</span></a></h3>
+            <p>Design and Webflow development · At MOA’TI</p>
+          </header>
+          <p>A tourism website in four languages, with connected content and a CMS for the city’s destinations, events and places to stay. I handled the design and Webflow build.</p>
+        </article>
       </div>
     </section>
 
     <section class="karlo-about__cta">
-      <h2>Have something complicated?</h2>
-      <a href="mailto:hello@blending-lab.com">Put it in my inbox</a>
+      <div>
+        <h2>Let’s talk.</h2>
+        <p>If you’re putting a design team together, I’d be happy to hear what you’re working on.</p>
+      </div>
+      <a class="karlo-about__text-link" href="mailto:hello@blending-lab.com">hello@blending-lab.com <span aria-hidden="true">↗</span></a>
     </section>
   </main>
 </PortfolioLayout>

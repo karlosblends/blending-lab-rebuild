@@ -11,19 +11,21 @@ import { portfolioProfile } from "../../data/portfolio.js";
       <span class="karlo-identity__role">{portfolioProfile.role}</span>
     </a>
 
-    <p class="karlo-status"><span aria-hidden="true"></span>{portfolioProfile.status}</p>
     <p class="karlo-profile__bio">{portfolioProfile.bio}</p>
 
     <nav class="karlo-socials" aria-label="Contact and social links">
-      <a href={`mailto:${portfolioProfile.email}`}>Email</a>
+      <a href={`mailto:${portfolioProfile.email}`}>Email me</a>
       {portfolioProfile.links.map((link) => <a href={link.href} target="_blank" rel="noreferrer">{link.label}</a>)}
     </nav>
 
     <p class="karlo-practice">Blending Lab is my independent practice.</p>
+    <button class="karlo-copy-email" type="button" data-copy-email={portfolioProfile.email}><span data-copy-label>Copy email address</span><span aria-hidden="true">⧉</span></button>
+    <span class="karlo-copy-feedback" role="status" aria-live="polite" data-copy-feedback></span>
   </div>
 
   <div class="karlo-profile__bottom">
     <span>{portfolioProfile.location}</span>
     <span><time data-karlo-time data-timezone={portfolioProfile.timezone}>--:--</time> local time</span>
+    <button class="karlo-theme-toggle" type="button" data-karlo-theme aria-label="Switch to dark appearance" aria-pressed="false"><span data-theme-label>Dark mode</span><span aria-hidden="true">◐</span></button>
   </div>
 </aside>

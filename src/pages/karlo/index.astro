@@ -9,9 +9,9 @@ const projects = getPortfolioProjects(await getProjects());
 
 <PortfolioLayout active="work">
   <main class="karlo-work" id="karlo-content">
-    <header class="karlo-work__intro">
-      <h1>Work that made it to the screen.</h1>
-      <p>Selected product systems, websites and experiments—designed with the business in mind, then carried close enough to code that the details survived.</p>
+    <header class="karlo-selected-heading" id="selected-work">
+      <h1>Selected work</h1>
+      <p>Product design, websites, and the frontend behind them.</p>
     </header>
     <PortfolioGrid projects={projects} />
     <footer class="karlo-footer-note">

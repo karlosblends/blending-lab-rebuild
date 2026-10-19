@@ -1128,16 +1128,10 @@ textarea {
 }
 
 .footer {
-  padding: 3rem 5% 2rem;
-}
-
-.footer__inner {
-  width: min(100%, var(--container));
-  margin: 0 auto;
-  border: 1px solid var(--onyx);
-  border-radius: var(--radius-l);
+  margin-top: 3rem;
+  padding-block: 3.5rem 2rem;
+  border-top: 1px solid var(--onyx);
   background: var(--charcoal);
-  padding: 3.5rem 6rem 2rem;
 }
 
 .footer__grid {
@@ -1187,7 +1181,6 @@ textarea {
 }
 
 .footer__bottom {
-  border-top: 1px solid var(--onyx);
   margin-top: 3rem;
   padding-top: 1rem;
   color: var(--gray);
@@ -3000,8 +2993,8 @@ body.reveal-animations-ready .hero__media.reveal.in {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .footer__inner {
-    padding: 2rem;
+  .footer {
+    padding-block: 2rem;
   }
 
   .footer__grid {
@@ -3316,8 +3309,8 @@ body.reveal-animations-ready .hero__media.reveal.in {
     padding-inline: 1rem;
   }
 
-  .footer__inner {
-    padding: 1.5rem;
+  .footer {
+    padding-block: 1.5rem;
   }
 
   .about-container {

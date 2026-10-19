@@ -23,7 +23,14 @@ const {
   bodyClass="karlo-portfolio-page"
   seoOverride={{ title, description, ogTitle: title, url: canonical }}
 >
-  <a class="karlo-skip-link" href="#karlo-content">Skip to work</a>
+  <script is:inline>
+    try {
+      document.body.dataset.karloTheme = localStorage.getItem("karlo-theme") === "dark" ? "dark" : "light";
+    } catch {
+      document.body.dataset.karloTheme = "light";
+    }
+  </script>
+  <a class="karlo-skip-link" href="#karlo-content">Skip to content</a>
   <div class="karlo-shell">
     <ProfileRail />
     <div class="karlo-content-column">
@@ -33,6 +40,38 @@ const {
   </div>
 
   <script>
+    const themeButton = document.querySelector<HTMLButtonElement>("button[data-karlo-theme]");
+    const setTheme = (dark: boolean) => {
+      document.body.dataset.karloTheme = dark ? "dark" : "light";
+      themeButton?.setAttribute("aria-pressed", String(dark));
+      themeButton?.setAttribute("aria-label", `Switch to ${dark ? "light" : "dark"} appearance`);
+      const label = themeButton?.querySelector("[data-theme-label]");
+      if (label) label.textContent = dark ? "Light mode" : "Dark mode";
+    };
+    try { setTheme(localStorage.getItem("karlo-theme") === "dark"); } catch { setTheme(false); }
+    themeButton?.addEventListener("click", () => {
+      const dark = document.body.dataset.karloTheme !== "dark";
+      setTheme(dark);
+      try { localStorage.setItem("karlo-theme", dark ? "dark" : "light"); } catch {}
+    });
+    const copyButton = document.querySelector<HTMLButtonElement>("[data-copy-email]");
+    let copyReset: number;
+    copyButton?.addEventListener("click", async () => {
+      const feedback = document.querySelector("[data-copy-feedback]");
+      const label = copyButton.querySelector("[data-copy-label]");
+      try {
+        await navigator.clipboard.writeText(copyButton.dataset.copyEmail || "");
+        if (label) label.textContent = "Email copied";
+        if (feedback) feedback.textContent = "Email address copied to clipboard.";
+      } catch {
+        if (feedback) feedback.textContent = copyButton.dataset.copyEmail || "";
+      }
+      clearTimeout(copyReset);
+      copyReset = window.setTimeout(() => {
+        if (label) label.textContent = "Copy email address";
+        if (feedback) feedback.textContent = "";
+      }, 2400);
+    });
     const timeNodes = document.querySelectorAll("[data-karlo-time]");
     const updateLocalTime = () => {
       timeNodes.forEach((node) => {
@@ -53,33 +92,77 @@ const {
 
     document.querySelectorAll("[data-preview-card]").forEach((card) => {
       const frames = Array.from(card.querySelectorAll(".karlo-project__frame"));
-      const counter = card.querySelector("[data-preview-index]");
+      const surface = card.querySelector<HTMLElement>("[data-preview-surface]");
+      const controls = Array.from(card.querySelectorAll<HTMLButtonElement>("[data-preview-select]"));
+      card.setAttribute("data-preview-ready", "true");
       let activeIndex = 0;
+      let requestedIndex = 0;
+      let manuallySelected = false;
+      let hoverTimer: number;
+      let hoverIndex = -1;
+      let surfaceLeft = 0;
+      let surfaceWidth = 1;
 
       const ensureFrame = (frame) => {
         if (!(frame instanceof HTMLImageElement) || frame.src) return;
         const source = frame.dataset.previewSrc;
-        if (source) frame.src = source;
+        if (source) {
+          frame.loading = "eager";
+          frame.src = source;
+        }
       };
 
-      const setFrame = (index) => {
+      const setFrame = async (index) => {
         const nextIndex = Math.max(0, Math.min(frames.length - 1, index));
+        requestedIndex = nextIndex;
         if (nextIndex === activeIndex) return;
-        ensureFrame(frames[nextIndex]);
+        const nextFrame = frames[nextIndex];
+        ensureFrame(nextFrame);
+        if (nextFrame instanceof HTMLImageElement) {
+          try { await nextFrame.decode(); } catch { return; }
+        }
+        if (requestedIndex !== nextIndex) return;
         frames[activeIndex]?.classList.remove("is-active");
         frames[nextIndex]?.classList.add("is-active");
         activeIndex = nextIndex;
-        if (counter) counter.textContent = String(activeIndex + 1).padStart(2, "0");
+        controls.forEach((button, index) => button.setAttribute("aria-pressed", String(index === activeIndex)));
       };
 
-      if (hoverCapable.matches && frames.length > 1) {
-        card.addEventListener("pointerenter", () => ensureFrame(frames[1]));
-        card.addEventListener("pointermove", (event) => {
-          const rect = card.getBoundingClientRect();
-          const progress = (event.clientX - rect.left) / Math.max(rect.width, 1);
-          setFrame(Math.min(frames.length - 1, Math.floor(progress * frames.length)));
+      controls.forEach((button, index) => button.addEventListener("click", () => {
+        manuallySelected = true;
+        clearTimeout(hoverTimer);
+        setFrame(index);
+      }));
+
+      controls.forEach((button, index) => button.addEventListener("keydown", (event) => {
+        if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+        event.preventDefault();
+        const next = (index + (event.key === "ArrowRight" ? 1 : -1) + controls.length) % controls.length;
+        controls[next]?.focus();
+        controls[next]?.click();
+      }));
+
+      if (hoverCapable.matches && !reduceMotion.matches && frames.length > 1 && surface) {
+        surface.addEventListener("pointerenter", () => {
+          const rect = surface.getBoundingClientRect();
+          surfaceLeft = rect.left;
+          surfaceWidth = Math.max(rect.width, 1);
+          frames.forEach(ensureFrame);
         });
-        card.addEventListener("pointerleave", () => setFrame(0));
+        surface.addEventListener("pointermove", (event) => {
+          if (manuallySelected || card.contains(document.activeElement) || reduceMotion.matches) return;
+          const progress = (event.clientX - surfaceLeft) / surfaceWidth;
+          const index = Math.max(0, Math.min(frames.length - 1, Math.floor(progress * frames.length)));
+          if (index === hoverIndex) return;
+          hoverIndex = index;
+          clearTimeout(hoverTimer);
+          hoverTimer = window.setTimeout(() => setFrame(index), 180);
+        });
+        surface.addEventListener("pointerleave", () => {
+          clearTimeout(hoverTimer);
+          hoverIndex = -1;
+          if (!manuallySelected) setFrame(0);
+        });
       }
 
       if (!reduceMotion.matches && hoverCapable.matches) {

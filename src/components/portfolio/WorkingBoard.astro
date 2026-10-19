@@ -1,0 +1,34 @@
+---
+import { img } from "../../lib/assets.js";
+---
+
+<section class="karlo-board-section" aria-labelledby="board-title">
+  <header class="karlo-board-heading">
+    <div>
+      <p class="karlo-eyebrow">Karlo’s working notes · No. 01</p>
+      <h1 id="board-title">A few things on my mind.</h1>
+    </div>
+    <p>Products, pixels, and the space between.<br />A small look at how I work.</p>
+  </header>
+  <div class="karlo-board">
+    <a class="karlo-artifact karlo-artifact--product" href="/karlo/xcare">
+      <span class="karlo-artifact__label">01 / Making complex things clear</span>
+      <img src={img("projects/xcare/claims-queue.png")} alt="XCare claims queue interface" width="900" height="600" />
+      <span class="karlo-artifact__caption">Inside the operating system <span aria-hidden="true">↗</span></span>
+    </a>
+    <details class="karlo-artifact karlo-artifact--note">
+      <summary><span class="karlo-artifact__label">A working principle</span><span class="karlo-note-text">The last 2%<br />is part of<br /><em>the work.</em></span><span class="karlo-artifact__caption">A note to myself <span aria-hidden="true">+</span></span></summary>
+      <p>How it responds. What happens when the text wraps. The state nobody put in the mockup. I like staying close enough to the build to work those things out.</p>
+    </details>
+    <a class="karlo-artifact karlo-artifact--portrait" href="/karlo/about">
+      <img src={img("karlo-landscape-office.png")} alt="Karlo outside his office" width="1536" height="1024" />
+      <span class="karlo-artifact__caption">The person behind the pixels <span aria-hidden="true">↗</span></span>
+    </a>
+    <a class="karlo-artifact karlo-artifact--build" href="/karlo/aspromised">
+      <span class="karlo-artifact__label">02 / From idea to something real</span>
+      <img src={img("projects/aspromised/gallery-01.png")} alt="AsPromised product interface" width="900" height="600" />
+      <span class="karlo-artifact__caption">Designed it. Built it. Shipped it. <span aria-hidden="true">↗</span></span>
+    </a>
+  </div>
+  <div class="karlo-board-foot"><span>Selected fragments from my practice</span><a href="#selected-work">Take a closer look at the work <span aria-hidden="true">↓</span></a></div>
+</section>

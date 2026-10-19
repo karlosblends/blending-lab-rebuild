@@ -2,8 +2,8 @@
 import { img } from "../lib/assets.js";
 ---
 
-<footer class="footer">
-  <div class="footer__inner">
+<footer id="footer" class="footer footer--ember">
+  <div class="container footer__inner">
     <div class="footer__grid">
       <div>
         <img class="footer__logo" src={img("Blending Lab Logo.jpg")} alt="Blending Lab" />
@@ -23,3 +23,94 @@ import { img } from "../lib/assets.js";
     <div class="footer__bottom">2026 Blending Lab. All rights reserved.</div>
   </div>
 </footer>
+
+<style>
+  .footer--ember {
+    /* Keep the light below the content, with room for its warm edge to breathe. */
+    --footer-glow-height: clamp(18rem, 30vw, 28rem);
+    --footer-glow-core: oklch(0.7 0.145 47);
+    --footer-glow-orange: oklch(0.635 0.16 43);
+    --footer-glow-rust: oklch(0.513 0.158 38.068);
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding-bottom: clamp(7rem, 10vw, 10rem);
+  }
+
+  .footer--ember::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    pointer-events: none;
+    inset: auto -4rem -1rem;
+    height: var(--footer-glow-height);
+    /* Separate light sources give the edge a molten, irregular contour. */
+    background:
+      radial-gradient(ellipse 22% 48% at 83% 94%,
+        var(--footer-glow-core) 0% 10%,
+        var(--footer-glow-orange) 35%,
+        oklch(0.513 0.158 38.068 / 0.55) 66%,
+        oklch(0.513 0.158 38.068 / 0) 100%),
+      radial-gradient(ellipse 38% 28% at 42% 100%,
+        var(--footer-glow-orange) 0% 12%,
+        oklch(0.513 0.158 38.068 / 0.85) 43%,
+        oklch(0.513 0.158 38.068 / 0) 100%),
+      radial-gradient(ellipse 65% 66% at 66% 110%,
+        var(--footer-glow-rust) 12%,
+        oklch(0.324 0.089 40.575 / 0.7) 48%,
+        oklch(0.324 0.089 40.575 / 0) 100%);
+    filter: blur(16px);
+    transform-origin: 65% 100%;
+    animation:
+      footer-ember-flow 12s cubic-bezier(0.45, 0, 0.55, 1) infinite,
+      footer-ember-breathe 8.5s ease-in-out infinite;
+  }
+
+  @keyframes footer-ember-flow {
+    0%, 100% {
+      transform: translate(0, 0) scale(1, 1);
+    }
+
+    30% {
+      transform: translate(-8%, -0.15rem) scale(1.07, 1.025);
+    }
+
+    65% {
+      transform: translate(7%, 0.1rem) scale(1.025, 0.99);
+    }
+  }
+
+  @keyframes footer-ember-breathe {
+    0%, 100% {
+      opacity: 0.88;
+    }
+
+    50% {
+      opacity: 0.96;
+    }
+  }
+
+  .footer--ember .footer__inner {
+    position: relative;
+  }
+
+  @media (max-width: 767px) {
+    .footer--ember {
+      --footer-glow-height: 18rem;
+      padding-bottom: 7rem;
+    }
+
+    .footer--ember::before {
+      /* Overscan keeps the hot spot soft when the viewport gets narrow. */
+      inset-inline: -10rem;
+      bottom: -1rem;
+      filter: blur(18px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .footer--ember::before {
+      animation: none;
+    }
+  }
+</style>
