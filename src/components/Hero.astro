@@ -1,6 +1,8 @@
 ---
 import { img, vid } from "../lib/assets.js";
 import HeroPlanner from "./planner/HeroPlanner.jsx";
+import TextReveal from "./TextReveal.astro";
+import "../text-reveal.css";
 import "./arc/foundation.css";
 import "./planner/planner.css";
 import "./planner/hero-planner.css";
@@ -10,9 +12,9 @@ const { title, lead, primary, secondary, media, eyebrow, headingClass = "", plan
 
 <main class="hero">
   <div class="container--medium">
-    <div class="hero__content reveal">
+    <div class="hero__content">
       {eyebrow && <div class="eyebrow"><span class="pulse"></span>{eyebrow}</div>}
-      <h1 class={headingClass} set:html={title} />
+      <TextReveal html={title} class={headingClass} />
       <p class="hero__lead">{lead}</p>
       {planner ? <><HeroPlanner client:load /><noscript><a class="button" href="/planner">Tell me about your project</a></noscript></> : <div class="button-row">
         {primary && <a class="glow-button" href={primary.href} target={primary.external ? "_blank" : undefined} rel={primary.external ? "noreferrer" : undefined}><span>{primary.label}</span></a>}

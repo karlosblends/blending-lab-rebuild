@@ -58,6 +58,9 @@ const bodyClass = [project ? "project-detail-page" : "", suppliedBodyClass].filt
     </div>
     <script>
       import { animate, hover } from "motion";
+      import { initTextReveals } from "../lib/text-reveal.js";
+
+      initTextReveals();
 
       document.addEventListener("click", (event) => {
         const target = event.target;
