@@ -179,7 +179,7 @@ function nav(active) {
     [pricingHref, "Pricing"],
     ["design.html", "Design"],
   ];
-  const mobileLinks = [...links, ["contact.html", "Discuss your project"]];
+  const mobileLinks = [...links, ["contact.html", "Contact"]];
   return `
     <nav class="nav" data-nav>
       <div class="nav__bar">
@@ -192,7 +192,7 @@ function nav(active) {
         <a class="nav__logo" href="index.html" aria-label="Blending Lab home"><img src="${img("Blending Lab Logo.jpg")}" alt="Blending Lab"></a>
         <div class="nav__right">
           <a class="nav__link ${active === "design.html" ? "active" : ""}" href="design.html">Design</a>
-          <a class="button" href="contact.html">Discuss your project</a>
+          <a class="button" href="contact.html">Contact</a>
         </div>
         <button class="nav__toggle" type="button" aria-label="Open menu" aria-expanded="false" data-nav-toggle><span></span></button>
         <div class="nav__mobile-menu">
