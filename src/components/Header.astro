@@ -8,7 +8,7 @@ const links = [
   [pricingHref, "Pricing"],
   ["about.html", "About"],
 ];
-const mobileLinks = [...links, ["/planner", "Plan a project"], ["contact.html", "Contact"]];
+const mobileLinks = [...links, ["/planner", "Plan a project"], ["contact.html", "Discuss your project"]];
 ---
 
 <nav class="nav" data-nav>
@@ -27,7 +27,7 @@ const mobileLinks = [...links, ["/planner", "Plan a project"], ["contact.html", 
     </a>
     <div class="nav__right">
       <a class:list={["nav__link", active === "about.html" && "active"]} href="about.html">About</a>
-      <a class="button" href="contact.html">Contact</a>
+      <a class="button" href="contact.html">Discuss your project</a>
     </div>
     <button class="nav__toggle" type="button" aria-label="Open menu" aria-expanded="false" data-nav-toggle><span></span></button>
     <div class="nav__mobile-menu">

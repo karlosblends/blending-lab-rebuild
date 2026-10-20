@@ -179,7 +179,7 @@ function nav(active) {
     [pricingHref, "Pricing"],
     ["design.html", "Design"],
   ];
-  const mobileLinks = [...links, ["contact.html", "Contact"]];
+  const mobileLinks = [...links, ["contact.html", "Discuss your project"]];
   return `
     <nav class="nav" data-nav>
       <div class="nav__bar">
@@ -192,7 +192,7 @@ function nav(active) {
         <a class="nav__logo" href="index.html" aria-label="Blending Lab home"><img src="${img("Blending Lab Logo.jpg")}" alt="Blending Lab"></a>
         <div class="nav__right">
           <a class="nav__link ${active === "design.html" ? "active" : ""}" href="design.html">Design</a>
-          <a class="button" href="contact.html">Contact</a>
+          <a class="button" href="contact.html">Discuss your project</a>
         </div>
         <button class="nav__toggle" type="button" aria-label="Open menu" aria-expanded="false" data-nav-toggle><span></span></button>
         <div class="nav__mobile-menu">
@@ -384,7 +384,7 @@ function contactSection({ croatian = false } = {}) {
                 <div class="field--full"><label>${croatian ? "Poruka" : "Message"}</label><textarea name="message" required placeholder="${croatian ? "Podijelite što vam je na umu..." : "Share the idea, product, or challenge you’re working on…"}"></textarea></div>
               </div>
               <p class="form-note" data-form-status role="status" aria-live="polite"></p>
-              <div class="button-row" style="justify-content:flex-start"><button class="button" type="submit">Submit</button></div>
+              <div class="button-row" style="justify-content:flex-start"><button class="button" type="submit">Send your message</button></div>
             </form>
           </div>
         </div>
@@ -601,7 +601,7 @@ function tryFreePage() {
     ${hero({
       title: "Get one screen redesigned for free.",
       lead: "Share your context, I’ll redesign it and send it back. No commitment.",
-      primary: { label: "Start free redesign", href: "contact.html" },
+      primary: { label: "Request a free redesign", href: "contact.html" },
     })}
     <section class="section"><div class="container"><div class="section-title reveal"><h2>Before & After</h2></div><div class="before-after reveal" data-before-after><img src="${img("Image_before.jpg")}" alt="Before"><img class="after" src="${img("Image_after.jpg")}" alt="After"><input type="range" min="0" max="100" value="50" aria-label="Before after slider"></div></div></section>
     ${projectsSection({ all: true, heading: "Other projects", intro: "" })}
