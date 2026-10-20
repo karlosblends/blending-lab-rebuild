@@ -8,9 +8,19 @@
   --surface: #1b1b1b;
   --border: #414141;
   --text-sm: 16px;
+  --planner-input-radius: 28px;
+  --planner-input-inset: 0px;
 }
-.planner-hero-composer { padding: 0; border: 0; }
-.planner-hero-composer > div:last-child > div { padding: 8px 10px 8px 2px; border-radius: 28px; border-color: transparent; }
+.planner-launch .planner-hero-composer {
+  padding: var(--planner-input-inset);
+  border: 0;
+}
+.planner-launch .planner-hero-composer > div:last-child > div {
+  padding: 8px 10px 8px 2px;
+  /* Concentric corners: inner radius equals outer radius minus the inset. */
+  border-radius: calc(var(--planner-input-radius) - var(--planner-input-inset));
+  border-color: transparent;
+}
 .planner-launch .planner-launch-hint { margin: 12px 0 0; color: #999; text-align: center; font-size: 13px; line-height: 1.5; }
 .project-planner.planner-modal[data-theme][data-accent] {
   display: flex;
@@ -45,7 +55,7 @@
 .planner-input-glow {
   position: relative;
   isolation: isolate;
-  border-radius: 28px;
+  border-radius: var(--planner-input-radius, 28px);
   --planner-glow-angle: 0deg;
   --planner-border-gradient: conic-gradient(from calc(var(--planner-glow-angle) - 40deg),
     #f45f26 0deg, #d8784e 35deg, #c98970 65deg, #b66e71 115deg,
