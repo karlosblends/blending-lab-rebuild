@@ -42,6 +42,7 @@
 .offer-form { margin-top: 2rem; }
 .offer-form input, .offer-form textarea { font-size: 16px; }
 .offer-form .muted { font-size: .8rem; font-weight: 400; }
+.offer-page :is(.oq-submit, .offer-form button[type="submit"]) { font-size: 1rem; line-height: 1.25; font-weight: 600; min-height: 3.25rem; justify-content: center; }
 .offer-honeypot { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
 .offer-privacy { font-size: .75rem; color: var(--gray); margin-top: 1rem; }
 .offer-privacy a { text-decoration: underline; text-underline-offset: 3px; }

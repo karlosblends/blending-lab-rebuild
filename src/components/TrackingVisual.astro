@@ -1,7 +1,7 @@
 ---
 import { MousePointer2, RotateCcw, ArrowUpRight, Check } from "lucide-react";
 import ExampleBusinessMark from "./ExampleBusinessMark.astro";
-import AirConditioningScene from "./AirConditioningScene.astro";
+import BusinessPlaceholderVisual from "./BusinessPlaceholderVisual.astro";
 import { getServiceExample } from "../data/service-example";
 const { lang = "hr" } = Astro.props;
 const demo = getServiceExample(lang);
@@ -16,7 +16,7 @@ const d = demo.dashboard;
         <span class="tv-heading">{d.clickTitle}</span>
         <span class="tv-map">
           <span class="tv-map-title">{demo.headline}</span>
-          <span class="tv-map-image"><AirConditioningScene idPrefix="tracking-ac" /></span>
+          <span class="tv-map-image"><BusinessPlaceholderVisual  /></span>
           <span class="tv-map-cta">{demo.cta}<ArrowUpRight size={11} /></span>
           <span class="tv-hotspot tv-hotspot-image"></span>
           <span class="tv-hotspot tv-hotspot-cta"></span>
