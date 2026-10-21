@@ -1,0 +1,95 @@
+---
+import { MousePointer2, RotateCcw, ArrowUpRight, Check } from "lucide-react";
+import ExampleBusinessMark from "./ExampleBusinessMark.astro";
+import AirConditioningScene from "./AirConditioningScene.astro";
+import { getServiceExample } from "../data/service-example";
+const { lang = "hr" } = Astro.props;
+const demo = getServiceExample(lang);
+const d = demo.dashboard;
+---
+<button class="tv-art" type="button" data-tracking-art aria-label={demo.trackingLabel}>
+  <span class="tv-scene" aria-hidden="true">
+    <span class="tv-panel">
+      <span class="tv-header"><ExampleBusinessMark size={18} /><span>{demo.name}</span><span class="tv-demo">{demo.demo}</span></span>
+      <span class="tv-tabs"><span class="tv-tab-click">{d.clicks}</span><span class="tv-tab-results">{d.enquiries}</span><span class="tv-tab-marker"></span></span>
+      <span class="tv-click-view">
+        <span class="tv-heading">{d.clickTitle}</span>
+        <span class="tv-map">
+          <span class="tv-map-title">{demo.headline}</span>
+          <span class="tv-map-image"><AirConditioningScene idPrefix="tracking-ac" /></span>
+          <span class="tv-map-cta">{demo.cta}<ArrowUpRight size={11} /></span>
+          <span class="tv-hotspot tv-hotspot-image"></span>
+          <span class="tv-hotspot tv-hotspot-cta"></span>
+          <span class="tv-click-tag">{d.clickCount}</span>
+        </span>
+        <span class="tv-click-metrics"><span class="tv-click-metric"><strong>18</strong><span>{d.clickLabel}</span></span><span class="tv-reach-metric"><strong>62<span>%</span></strong><span>{d.reachLabel}</span></span></span>
+      </span>
+      <span class="tv-results-view">
+        <span class="tv-heading">{d.funnelTitle}</span>
+        <span class="tv-funnel">
+          <span class="tv-row tv-row-visits"><span>{d.visits}</span><strong>100</strong><span class="tv-track"><span class="tv-bar tv-bar-visits"></span></span></span>
+          <span class="tv-row tv-row-reached"><span>{d.reached}</span><strong>62</strong><span class="tv-track"><span class="tv-bar tv-bar-reached"></span></span></span>
+          <span class="tv-row tv-row-sent"><span>{d.sent}</span><strong>8</strong><span class="tv-track"><span class="tv-bar tv-bar-sent"></span></span></span>
+        </span>
+        <span class="tv-exit"><strong>92<span>%</span></strong><span>{d.left}</span></span>
+        <span class="tv-attribution"><Check size={12} /><span>{d.ads}</span></span>
+      </span>
+      <span class="tv-pointer"><MousePointer2 size={18} fill="var(--alabaster)" stroke="var(--charcoal)" strokeWidth={1.5} /></span>
+    </span>
+    <span class="tv-replay"><RotateCcw size={13} /></span>
+  </span>
+</button>
+<script>
+  import { initTrackingVisuals } from "../scripts/tracking-visual";
+  initTrackingVisuals();
+</script>
+<style>
+  .tv-art { display: block; position: relative; width: 100%; height: 356px; margin: 1.75rem 0 0; padding: 0; border: 0; border-radius: var(--radius-m); background: transparent; color: var(--alabaster); font: inherit; text-align: left; cursor: pointer; container-type: inline-size; isolation: isolate; -webkit-tap-highlight-color: transparent; }
+  .tv-scene { position: absolute; inset: 0; display: block; overflow: hidden; border-radius: inherit; }
+  .tv-panel { position: absolute; top: 10px; left: 4px; right: 4px; height: 326px; overflow: hidden; border: 1px solid rgb(255 255 255 / .1); border-radius: 12px; background: linear-gradient(145deg, #242424, #1b1b1b 60%); box-shadow: 0 14px 24px -14px rgb(0 0 0 / .6); }
+  .tv-header { display: flex; align-items: center; gap: 7px; padding: 12px 13px 0; font-size: 11px; font-weight: 500; }
+  .tv-demo { margin-left: auto; font-size: 9px; color: var(--gray); font-weight: 400; }
+  .tv-tabs { position: absolute; top: 43px; left: 13px; right: 13px; height: 27px; display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid #3b3b3b; font-size: 11px; text-align: center; }
+  .tv-tab-results { color: var(--gray); }
+  .tv-tab-marker { position: absolute; left: 0; bottom: -1px; width: 50%; height: 2px; background: var(--flamingo); }
+  .tv-click-view, .tv-results-view { position: absolute; top: 85px; left: 13px; right: 13px; bottom: 12px; display: block; }
+  .tv-results-view { opacity: 0; }
+  .tv-heading { display: block; font-size: 12px; line-height: 1.3; font-weight: 500; letter-spacing: -.015em; }
+  .tv-map { position: absolute; top: 27px; left: 0; right: 0; height: 140px; border-radius: 6px; background: #252525; border: 1px solid #3c3c3c; overflow: hidden; }
+  .tv-map-title { position: absolute; top: 9px; left: 10px; right: 10px; font-size: 12px; line-height: 1.2; font-weight: 500; }
+  .tv-map-image { position: absolute; top: 43px; left: 10px; right: 10px; height: 44px; overflow: hidden; border-radius: 3px; opacity: .6; }
+  .tv-map-cta { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); width: 122px; max-width: calc(100% - 20px); height: 26px; display: flex; align-items: center; justify-content: center; gap: 7px; border: 1px solid #65615c; border-radius: 4px; font-size: 10px; }
+  .tv-hotspot { position: absolute; border-radius: 50%; background: radial-gradient(circle, #ffd79b 0 12%, #f45f26cc 24%, #f45f2666 40%, #f45f2600 70%); }
+  .tv-hotspot-cta { width: 60px; height: 60px; left: calc(50% - 12px); top: 86px; }
+  .tv-hotspot-image { width: 32px; height: 32px; left: 22%; top: 55px; opacity: .45; }
+  .tv-click-tag { position: absolute; right: 8px; top: 75px; padding: 4px 6px; border-radius: 4px; background: #35302a; border: 1px solid #685342; color: #f4d1b4; font-size: 10px; line-height: 1.2; box-shadow: 0 3px 8px #0004; }
+  .tv-click-metrics { position: absolute; top: 179px; left: 0; right: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .tv-click-metrics > span { display: block; }
+  .tv-click-metrics strong, .tv-exit > strong { display: block; font-size: 25px; line-height: 1.1; font-weight: 450; letter-spacing: -.035em; font-variant-numeric: tabular-nums; }
+  .tv-click-metrics strong > span, .tv-exit strong > span { font-size: 14px; margin-left: 1px; color: var(--gray); }
+  .tv-click-metrics > span > span { display: block; margin-top: 5px; font-size: 9px; line-height: 1.25; color: var(--alto); }
+  .tv-funnel { position: absolute; top: 31px; left: 0; right: 0; display: grid; gap: 13px; }
+  .tv-row { position: relative; display: grid; grid-template-columns: 1fr auto; gap: 7px; font-size: 11px; line-height: 1.2; color: var(--alto); }
+  .tv-row > strong { color: var(--alabaster); font-weight: 500; font-variant-numeric: tabular-nums; }
+  .tv-track { display: block; grid-column: 1 / -1; height: 5px; background: #333; border-radius: 3px; overflow: hidden; }
+  .tv-bar { display: block; height: 100%; border-radius: inherit; transform-origin: left; }
+  .tv-bar-visits { width: 100%; background: #86817c; }
+  .tv-bar-reached { width: 62%; background: var(--flamingo); }
+  .tv-bar-sent { width: 8%; background: #56b987; }
+  .tv-exit { position: absolute; top: 163px; left: 0; right: 0; display: flex; align-items: center; gap: 10px; padding-top: 11px; border-top: 1px solid #383838; }
+  .tv-exit > span { color: var(--alto); font-size: 11px; line-height: 1.2; }
+  .tv-attribution { position: absolute; bottom: 0; left: 0; right: 0; display: flex; align-items: center; gap: 5px; color: #8fc5a7; font-size: 10px; line-height: 1.3; }
+  .tv-attribution > svg { flex-shrink: 0; }
+  .tv-pointer { position: absolute; top: 51px; left: 75%; opacity: 0; pointer-events: none; filter: drop-shadow(0 2px 2px #0006); }
+  .tv-replay { position: absolute; bottom: 0; right: 5px; display: grid; place-items: center; height: 20px; width: 24px; color: var(--gray); opacity: 0; }
+  .tv-art[data-playback="complete"] .tv-replay { opacity: 1; }
+  .tv-art:disabled { cursor: default; }
+  @container (max-width: 210px) {
+    .tv-heading { font-size: 11px; } .tv-exit { gap: 7px; } .tv-exit > span { font-size: 10px; }
+    .tv-attribution { font-size: 9px; } .tv-click-metrics { gap: 8px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tv-click-view { opacity: 0; } .tv-results-view { opacity: 1; }
+    .tv-tab-marker { transform: translateX(100%); } .tv-tab-click { color: var(--gray); } .tv-tab-results { color: var(--alabaster); }
+  }
+</style>

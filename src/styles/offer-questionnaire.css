@@ -1,0 +1,66 @@
+/* The interactive deck inherits Blending Lab's type and palette. */
+.offer-questionnaire {
+  --surface: var(--almost-black);
+  --surface-raised: var(--cod-gray);
+  --surface-muted: var(--onyx);
+  --foreground: var(--alabaster);
+  --text-secondary: var(--alto);
+  --text-muted: var(--gray);
+  --border: var(--onyx);
+  --accent: var(--alabaster);
+  --accent-strong: var(--alto);
+  --accent-foreground: var(--charcoal);
+  --success: var(--alto);
+  --focus-outline: var(--alto);
+  --space-2: .5rem; --space-3: .75rem; --space-4: 1rem; --space-5: 1.25rem; --space-6: 1.5rem;
+  --radius-surface: var(--radius-l); --radius-control: 999px; --radius-pill: 999px;
+  --control-height-md: 3rem;
+  --font-body: "Satoshi Variable", sans-serif;
+  --text-sm: .9375rem; --text-base: 1rem; --tracking-body: 0; --leading-body: 1.5;
+  --duration-fast: 160ms; --ease-standard: cubic-bezier(.22, 1, .36, 1);
+  --shadow-floating: 0 16px 40px rgb(0 0 0 / .2);
+  /* Same light colors as the main site's ember footer. */
+  --oq-glow-core: oklch(.7 .145 47);
+  --oq-glow-orange: oklch(.635 .16 43);
+  --oq-glow-rust: oklch(.513 .158 38.068);
+  max-width: 46rem;
+  margin-inline: auto;
+}
+.offer-questionnaire :is(button, input, a, [tabindex]):focus-visible { outline: 2px solid var(--alto); outline-offset: 4px; }
+.offer-questionnaire [aria-roledescription]:focus-visible { outline: none; }
+.oq-card-content { position: relative; isolation: isolate; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; height: 100%; padding: 2rem 2.5rem 3rem; text-align: center; }
+.oq-card-content::before { content: ""; z-index: -1; position: absolute; inset: auto -2rem -2rem; height: 10rem; pointer-events: none; background: radial-gradient(ellipse 32% 52% at 80% 94%, var(--oq-glow-core) 0% 10%, var(--oq-glow-orange) 35%, transparent 100%), radial-gradient(ellipse 50% 40% at 40% 100%, var(--oq-glow-orange) 0% 12%, transparent 100%), radial-gradient(ellipse 70% 70% at 66% 110%, var(--oq-glow-rust) 12%, transparent 100%); filter: blur(12px); opacity: .8; }
+.offer-doodle { width: 6.5rem; height: 6.5rem; flex: none; color: var(--alabaster); }
+.oq-card-content h3, .oq-finished h3 { font-size: clamp(1.5rem, 3vw, 1.875rem); line-height: 1.2; font-weight: 500; letter-spacing: -.025em; max-width: 21ch; }
+.oq-card-content p, .oq-finished > p { font-size: 1rem; line-height: 1.5; color: var(--alto); max-width: 34ch; }
+.oq-finished { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+.oq-finished .button { margin-top: .5rem; }
+.oq-enquiry { margin: 2.5rem auto 0; max-width: 42rem; text-align: center; }
+.oq-sentence { font-size: clamp(1.5rem, 3.5vw, 2rem); line-height: 1.45; font-weight: 500; letter-spacing: -.02em; text-wrap: pretty; }
+.oq-stem, .oq-placeholder { color: var(--gray); }
+.oq-phrase { display: inline; color: var(--alabaster); }
+.oq-form { max-width: 36rem; margin: 1.75rem auto 0; text-align: left; }
+.oq-form label { display: block; margin-bottom: .75rem; font-size: .9375rem; color: var(--alto); }
+.oq-form-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.oq-form-row > div { min-width: 0; }
+.oq-form-row input { min-width: 0; width: 100%; min-height: 48px; font: inherit; font-size: 1rem; padding: .75rem 1rem; border: 1px solid var(--onyx); border-radius: var(--radius-m); background: var(--almost-black); color: var(--alabaster); }
+.oq-submit { width: 100%; margin-top: 1rem; }
+.oq-privacy { margin-top: .75rem; color: var(--gray); font-size: .75rem; line-height: 1.5; }
+.oq-privacy a { text-decoration: underline; text-underline-offset: 3px; }
+.oq-status:not(:empty) { margin-top: 1rem; color: var(--alto); font-size: .9375rem; line-height: 1.5; }
+.oq-submit:disabled, .oq-restart:disabled { cursor: wait; opacity: .65; }
+.oq-text-button { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; min-height: 44px; padding: .5rem; border: 0; background: none; color: var(--gray); font: inherit; cursor: pointer; }
+.oq-text-button:hover { color: var(--alabaster); }
+.oq-restart { display: flex; margin: 1rem auto 0; }
+.oq-result { margin-top: 1.5rem; }
+.oq-result p { color: var(--alabaster); font-size: 1.125rem; }
+.oq-result > span { display: block; margin: .5rem auto; color: var(--gray); max-width: 42ch; line-height: 1.5; }
+#prepoznajete-li { overflow: clip; }
+@media (max-width: 767px) {
+  .oq-card-content { padding: 1.5rem 1.5rem 2.5rem; }
+  .oq-card-content h3 { font-size: 1.625rem; }
+  .oq-card-content p { font-size: .9375rem; }
+  .oq-enquiry { margin-top: 2rem; }
+  .oq-form-row { grid-template-columns: 1fr; }
+  .oq-form-row input { min-height: 48px; }
+}

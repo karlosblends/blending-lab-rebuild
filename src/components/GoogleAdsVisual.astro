@@ -1,0 +1,120 @@
+---
+import { Search, Phone, PhoneOff, RotateCcw, MousePointer2, UserRound, Check } from "lucide-react";
+import ExampleBusinessMark from "./ExampleBusinessMark.astro";
+import { getServiceExample } from "../data/service-example";
+const { lang = "hr" } = Astro.props;
+const demo = getServiceExample(lang);
+---
+<button class="ga-art" type="button" data-google-ads-art aria-label={lang === "hr" ? "Ponovi ilustraciju: Google pretraga postaje poziv potencijalnog klijenta." : "Replay illustration: a Google search becomes a potential client's call."}>
+  <span class="ga-scene" aria-hidden="true">
+    <span class="ga-search"><Search size={15} /><span class="ga-query">{demo.search.split("").map(char => <span class="ga-char">{char === " " ? "\u00a0" : char}</span>)}</span></span>
+    <span class="ga-fragments"><span></span><span></span><span></span></span>
+    <span class="ga-panel">
+      <span class="ga-ad-content">
+        <span class="ga-sponsored">{demo.sponsored}</span>
+        <span class="ga-business"><ExampleBusinessMark /><span><strong>{demo.name}</strong><span>{demo.domain}</span></span></span>
+        <span class="ga-ad-title">{demo.adHeadline}</span>
+        <span class="ga-description">{demo.adDescription}<span class="ga-description-extra">{demo.adExtra}</span></span>
+      </span>
+      <span class="ga-call-asset"></span>
+      <span class="ga-call-label">{demo.call}</span>
+      <span class="ga-incoming">
+        <span class="ga-status">{demo.incoming}</span>
+        <span class="ga-avatar"><UserRound size={25} strokeWidth={1.25} /></span>
+        <span class="ga-person">{demo.caller}</span>
+        <span class="ga-origin">{demo.source}</span>
+        <span class="ga-decline"><PhoneOff size={18} /></span>
+      </span>
+      <span class="ga-connected">
+        <span class="ga-connected-label">{demo.connected}</span>
+        <span class="ga-timer"><span class="ga-time-one">00:01</span><span class="ga-time-two">00:02</span><span class="ga-time-three">00:03</span></span>
+        <span class="ga-wave">{Array.from({length: 9}, () => <span></span>)}</span>
+        <span class="ga-connected-origin">{demo.source}</span>
+      </span>
+      <span class="ga-ring ga-ring-one"></span><span class="ga-ring ga-ring-two"></span>
+      <span class="ga-accept"></span>
+      <span class="ga-phone"><Phone size={17} strokeWidth={1.8} /></span>
+    </span>
+    <span class="ga-pointer"><MousePointer2 size={19} fill="var(--alabaster)" stroke="var(--charcoal)" strokeWidth={1.5} /></span>
+    <span class="ga-static-outcome"><Check size={13} />{demo.connected}<span>{demo.source}</span></span>
+    <span class="ga-replay"><RotateCcw size={13} /></span>
+  </span>
+</button>
+
+<script>
+  import { initGoogleAdsVisuals } from "../scripts/google-ads-visual";
+  initGoogleAdsVisuals();
+</script>
+
+<style>
+  .ga-art {
+    --ga-surface: #1b1b1b;
+    --ga-edge: rgb(255 255 255 / .1);
+    --ga-answer: #56b987;
+    display: block; position: relative; width: 100%; height: 356px; margin: 1.75rem 0 0;
+    padding: 0; border: 0; border-radius: var(--radius-m); background: transparent;
+    color: var(--alabaster); font: inherit; text-align: left; cursor: pointer;
+    container-type: inline-size; isolation: isolate; -webkit-tap-highlight-color: transparent;
+  }
+  .ga-scene { position: absolute; inset: 0; display: block; overflow: hidden; border-radius: inherit; }
+  .ga-search { position: absolute; top: 10px; left: 4px; right: 4px; height: 36px; padding: 0 12px; display: flex; align-items: center; gap: 9px; border: 1px solid var(--ga-edge); border-radius: 20px; background: linear-gradient(180deg, #242424, #1d1d1d); box-shadow: 0 4px 10px rgb(0 0 0 / .12); }
+  .ga-search > svg { color: var(--gray); flex-shrink: 0; }
+  .ga-query { font-size: 12px; font-weight: 450; white-space: nowrap; overflow: hidden; letter-spacing: -.025em; }
+  .ga-char { display: inline-block; }
+  .ga-panel { display: block; position: absolute; top: 62px; left: 4px; width: calc(100% - 8px); height: 254px; overflow: hidden; border: 1px solid var(--ga-edge); border-radius: 12px; background: linear-gradient(145deg, #242424, var(--ga-surface) 60%); box-shadow: 0 1px 0 rgb(255 255 255 / .025) inset, 0 14px 24px -14px rgb(0 0 0 / .6); }
+  .ga-ad-content { display: block; padding: 15px 16px 0; }
+  .ga-sponsored { display: block; margin-bottom: 11px; color: var(--alto); font-size: 10px; font-weight: 550; line-height: 1; }
+  .ga-business { display: flex; align-items: center; gap: 8px; }
+  .ga-business strong { display: block; font-size: 12px; line-height: 1.35; font-weight: 550; }
+  .ga-business > span > span { display: block; font-size: 10px; color: var(--gray); line-height: 1.3; }
+  .ga-ad-title { display: block; margin-top: 13px; color: var(--flamingo); font-size: 18px; line-height: 1.18; font-weight: 550; letter-spacing: -.025em; text-wrap: pretty; }
+  .ga-description { display: block; margin-top: 9px; font-size: 12px; line-height: 1.5; color: var(--alto); }
+  .ga-call-asset { position: absolute; left: 16px; top: 205px; width: 174px; height: 33px; border: 1px solid rgb(255 255 255 / .13); border-radius: 20px; background: #292929; box-shadow: 0 1px 0 rgb(255 255 255 / .035) inset; }
+  .ga-call-label { position: absolute; top: 214px; left: 52px; font-size: 11px; line-height: 15px; font-weight: 500; white-space: nowrap; }
+  .ga-phone { position: absolute; top: 213px; left: 27px; width: 17px; height: 17px; display: grid; place-items: center; color: var(--alabaster); }
+  .ga-fragments { position: absolute; top: 327px; left: 20px; right: 20px; display: grid; gap: 6px; opacity: .16; }
+  .ga-fragments span { height: 4px; border-radius: 2px; background: var(--gray); width: 68%; }
+  .ga-fragments span:nth-child(2) { width: 88%; opacity: .5; }
+  .ga-fragments span:nth-child(3) { width: 48%; opacity: .3; }
+  .ga-incoming, .ga-connected { position: absolute; inset: 0; display: block; opacity: 0; text-align: center; pointer-events: none; }
+  .ga-status { position: absolute; top: 22px; left: 0; right: 0; font-size: 11px; color: var(--alto); }
+  .ga-avatar { display: grid; place-items: center; position: absolute; top: 49px; left: calc(50% - 25px); width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(140deg, #383838, #252525); border: 1px solid var(--ga-edge); color: var(--alto); }
+  .ga-person { position: absolute; top: 114px; left: 0; right: 0; font-size: 18px; letter-spacing: -.025em; font-weight: 500; }
+  .ga-origin { position: absolute; top: 144px; left: 0; right: 0; font-size: 11px; color: var(--gray); }
+  .ga-decline { position: absolute; top: 200px; left: calc(50% - 58px); display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; color: var(--alto); background: #333; border: 1px solid var(--ga-edge); }
+  .ga-accept, .ga-ring { position: absolute; top: 200px; left: calc(50% + 14px); width: 44px; height: 44px; border-radius: 50%; background: var(--ga-answer); opacity: 0; }
+  .ga-ring { background: none; border: 1px solid var(--ga-answer); }
+  .ga-connected-label { display: block; margin-top: 52px; font-size: 13px; color: var(--alto); }
+  .ga-timer { display: block; position: relative; margin-top: 12px; height: 42px; font-size: 32px; line-height: 42px; font-weight: 450; font-variant-numeric: tabular-nums; letter-spacing: -.04em; }
+  .ga-timer > span { position: absolute; inset: 0; opacity: 0; }
+  .ga-wave { position: absolute; top: 136px; left: 0; right: 0; height: 22px; display: flex; align-items: center; justify-content: center; gap: 4px; }
+  .ga-wave > span { display: block; width: 3px; height: 20px; border-radius: 2px; background: var(--ga-answer); transform: scaleY(.2); }
+  .ga-connected-origin { position: absolute; top: 172px; left: 0; right: 0; color: var(--gray); font-size: 10px; }
+  .ga-pointer { position: absolute; top: 266px; left: 220px; opacity: 0; filter: drop-shadow(0 2px 2px rgb(0 0 0 / .3)); pointer-events: none; }
+  .ga-replay { position: absolute; bottom: 5px; right: 5px; display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; color: var(--gray); opacity: 0; }
+  .ga-art[data-playback="complete"] .ga-replay { opacity: 1; }
+  .ga-static-outcome { display: none; position: absolute; top: 329px; left: 8px; right: 8px; align-items: center; gap: 5px; color: var(--ga-answer); font-size: 10px; line-height: 18px; white-space: nowrap; }
+  .ga-static-outcome > span { margin-left: auto; color: var(--gray); font-size: 9px; }
+  .ga-art:disabled { cursor: default; }
+  .ga-art[data-playback="complete"] .ga-panel { width: min(204px, calc(100% - 8px)) !important; left: 50% !important; transform: translateX(-50%) !important; }
+  .ga-art[data-playback="complete"] .ga-phone { left: calc(50% - 8.5px) !important; }
+  .ga-art[data-playback="complete"] .ga-accept { left: calc(50% - 22px); transform: none !important; }
+  @container (max-width: 265px) {
+    .ga-description-extra { display: none; }
+    .ga-ad-title { font-size: 17px; }
+    .ga-ad-content { padding-inline: 13px; }
+    .ga-query { font-size: 11px; }
+  }
+  @container (max-width: 210px) {
+    .ga-description { display: none; }
+    .ga-search { padding-inline: 9px; gap: 6px; }
+    .ga-call-asset { left: 10px; width: calc(100% - 20px); }
+    .ga-phone { left: 21px; }
+    .ga-call-label { left: 46px; }
+    .ga-static-outcome > span { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ga-static-outcome { display: flex; }
+    .ga-fragments { display: none; }
+  }
+</style>

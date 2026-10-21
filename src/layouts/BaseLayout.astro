@@ -4,7 +4,7 @@ import { getSeo } from "../data/seo.js";
 import { img } from "../lib/assets.js";
 import PostHog from "../components/posthog.astro";
 
-const { page = "index.html", project, seoOverride = {}, bodyClass: suppliedBodyClass = "", analyticsEnabled = true } = Astro.props;
+const { page = "index.html", project, seoOverride = {}, bodyClass: suppliedBodyClass = "", analyticsEnabled = true, lang = "en" } = Astro.props;
 const meta = { ...getSeo(page, project), ...seoOverride };
 const title = meta.title || "Blending Lab";
 const description = meta.description || "";
@@ -13,7 +13,7 @@ const bodyClass = [project ? "project-detail-page" : "", suppliedBodyClass].filt
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <script
       is:inline
@@ -51,6 +51,7 @@ const bodyClass = [project ? "project-detail-page" : "", suppliedBodyClass].filt
     <link rel="icon" href={img("favicon.png")} />
     <link rel="apple-touch-icon" href={img("webclip.png")} />
     {analyticsEnabled && <PostHog />}
+    <slot name="head" />
   </head>
   <body class={bodyClass}>
     <div class="page">

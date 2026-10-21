@@ -1,0 +1,86 @@
+---
+import { ArrowUpRight, Check, LockKeyhole, MousePointer2, RotateCcw } from "lucide-react";
+import ExampleBusinessMark from "./ExampleBusinessMark.astro";
+import AirConditioningScene from "./AirConditioningScene.astro";
+import { getServiceExample } from "../data/service-example";
+const { lang = "hr" } = Astro.props;
+const demo = getServiceExample(lang);
+const description = lang === "hr"
+  ? "Ilustracija: landing stranica vodi posjetitelja do poslanog upita."
+  : "Illustration: a landing page guides a visitor to a sent enquiry.";
+---
+<button class="lp-art" type="button" data-landing-page-art aria-label={`${lang === "hr" ? "Ponovi. " : "Replay. "}${description}`} data-static-label={description}>
+  <span class="lp-scene" aria-hidden="true">
+    <span class="lp-browser">
+      <span class="lp-chrome"><ExampleBusinessMark size={16} /><span>{demo.domain}</span><LockKeyhole size={10} strokeWidth={1.5} /></span>
+      <span class="lp-viewport">
+        <span class="lp-track">
+          <span class="lp-page">
+            <span class="lp-outline"><span></span><span></span><span></span><span></span></span>
+            <span class="lp-heading">{demo.headline}</span>
+            <span class="lp-description">{demo.tagline}</span>
+            <span class="lp-image"><AirConditioningScene /></span>
+            <span class="lp-cta">{demo.cta}<ArrowUpRight size={13} /></span>
+          </span>
+          <span class="lp-contact">
+            <span class="lp-form-title">{demo.formTitle}</span>
+            <span class="lp-field lp-name"><span class="lp-label">{demo.nameLabel}</span><span class="lp-value">{demo.customer}</span></span>
+            <span class="lp-field lp-email"><span class="lp-label">{demo.emailLabel}</span><span class="lp-value">{demo.email}</span></span>
+            <span class="lp-field lp-message"><span class="lp-label">{demo.messageLabel}</span><span class="lp-value">{demo.message.split(" ").map(word => <span class="lp-word">{word}{" "}</span>)}</span></span>
+            <span class="lp-submit"><span class="lp-submit-label">{demo.send}<ArrowUpRight size={13} /></span><span class="lp-check"><Check size={22} strokeWidth={1.7} /></span></span>
+            <span class="lp-confirmation"><span>{demo.sent}</span><span>{demo.reply}</span></span>
+          </span>
+        </span>
+      </span>
+    </span>
+    <span class="lp-pointer"><MousePointer2 size={19} fill="var(--alabaster)" stroke="var(--charcoal)" strokeWidth={1.5} /></span>
+    <span class="lp-static-outcome"><Check size={13} />{demo.sent}</span>
+    <span class="lp-replay"><RotateCcw size={13} /></span>
+  </span>
+</button>
+<script>
+  import { initLandingPageVisuals } from "../scripts/landing-page-visual";
+  initLandingPageVisuals();
+</script>
+<style>
+  .lp-art { display: block; position: relative; width: 100%; height: 356px; margin: 1.75rem 0 0; padding: 0; border: 0; border-radius: var(--radius-m); background: transparent; color: var(--alabaster); font: inherit; text-align: left; cursor: pointer; container-type: inline-size; isolation: isolate; -webkit-tap-highlight-color: transparent; }
+  .lp-scene { position: absolute; inset: 0; display: block; overflow: hidden; border-radius: inherit; }
+  .lp-browser { position: absolute; top: 10px; left: 4px; right: 4px; height: 326px; overflow: hidden; border: 1px solid rgb(255 255 255 / .1); border-radius: 12px; background: #1b1b1b; box-shadow: 0 14px 24px -14px rgb(0 0 0 / .6); }
+  .lp-chrome { display: flex; align-items: center; gap: 7px; height: 32px; padding: 0 12px; border-bottom: 1px solid rgb(255 255 255 / .08); background: #242424; font-size: 10px; color: var(--alto); }
+  .lp-chrome > svg:last-child { margin-left: auto; color: var(--gray); }
+  .lp-viewport { display: block; height: 292px; overflow: hidden; }
+  .lp-track { display: block; }
+  .lp-page, .lp-contact { display: block; position: relative; height: 292px; padding: 16px; }
+  .lp-page { display: flex; flex-direction: column; align-items: stretch; }
+  .lp-heading { display: block; font-size: 21px; line-height: 1.12; font-weight: 550; letter-spacing: -.035em; text-wrap: pretty; }
+  .lp-description { display: block; margin-top: 8px; font-size: 11px; line-height: 1.4; color: var(--alto); }
+  .lp-image { display: block; flex: 1; min-height: 0; margin: 14px 0 12px; overflow: hidden; border-radius: 5px; background: #292929; }
+  .lp-cta { display: flex; align-items: center; justify-content: center; gap: 12px; flex-shrink: 0; height: 30px; width: 114px; align-self: center; border-radius: 5px; background: var(--flamingo); font-size: 11px; line-height: 1; font-weight: 550; }
+  .lp-outline { display: none; position: absolute; inset: 16px; pointer-events: none; }
+  .lp-outline > span { position: absolute; left: 0; right: 0; border: 1px solid #363636; border-radius: 4px; }
+  .lp-outline > span:nth-child(1) { top: 0; height: 48px; right: 12%; }
+  .lp-outline > span:nth-child(2) { top: 60px; height: 10px; right: 22%; }
+  .lp-outline > span:nth-child(3) { top: 90px; bottom: 42px; }
+  .lp-outline > span:nth-child(4) { bottom: 0; height: 30px; width: 114px; left: calc(50% - 57px); }
+  .lp-art[data-playback="playing"] .lp-outline, .lp-art[data-playback="paused"] .lp-outline { display: block; }
+  .lp-form-title { display: block; font-size: 20px; line-height: 24px; font-weight: 500; letter-spacing: -.025em; }
+  .lp-field { position: absolute; left: 16px; right: 16px; height: 40px; border: 1px solid #383838; border-radius: 5px; background: #222; overflow: hidden; }
+  .lp-name { top: 53px; } .lp-email { top: 102px; } .lp-message { top: 151px; height: 65px; }
+  .lp-label { position: absolute; left: 9px; top: 5px; font-size: 9px; line-height: 12px; color: var(--gray); }
+  .lp-value { display: block; position: absolute; left: 9px; right: 9px; top: 20px; font-size: 12px; line-height: 15px; color: var(--alabaster); }
+  .lp-word { display: inline-block; white-space: pre; }
+  .lp-submit { position: absolute; top: 246px; left: 50%; margin-left: -64px; width: 128px; height: 30px; border-radius: 5px; background: var(--flamingo); }
+  .lp-submit-label { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 9px; font-size: 11px; font-weight: 550; white-space: nowrap; }
+  .lp-check { position: absolute; inset: 0; display: grid; place-items: center; color: #56b987; opacity: 0; }
+  .lp-confirmation { position: absolute; top: 139px; left: 12px; right: 12px; text-align: center; opacity: 0; }
+  .lp-confirmation > span:first-child { display: block; font-size: 21px; font-weight: 500; letter-spacing: -.035em; }
+  .lp-confirmation > span:last-child { display: block; margin-top: 9px; color: var(--alto); font-size: 12px; }
+  .lp-pointer { position: absolute; top: 305px; left: 50%; opacity: 0; pointer-events: none; filter: drop-shadow(0 2px 2px rgb(0 0 0 / .3)); }
+  .lp-replay { position: absolute; right: 5px; bottom: 0; display: grid; place-items: center; height: 20px; width: 24px; color: var(--gray); opacity: 0; }
+  .lp-art[data-playback="complete"] .lp-replay { opacity: 1; }
+  .lp-static-outcome { position: absolute; left: 8px; bottom: 0; display: none; align-items: center; gap: 5px; height: 18px; font-size: 10px; color: #56b987; }
+  .lp-art:disabled { cursor: default; }
+  @container (max-width: 265px) { .lp-heading { font-size: 19px; } .lp-page, .lp-contact { padding-inline: 13px; } .lp-description { font-size: 10px; } }
+  @container (max-width: 210px) { .lp-heading { font-size: 18px; } .lp-description { display: none; } .lp-image { margin-top: 12px; } .lp-field { left: 12px; right: 12px; } }
+  @media (prefers-reduced-motion: reduce) { .lp-static-outcome { display: flex; } }
+</style>

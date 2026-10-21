@@ -1,14 +1,14 @@
 ---
 import { img } from "../lib/assets.js";
 
-const { active = "index.html" } = Astro.props;
-const pricingHref = active === "index.html" ? "#work-ways" : "index.html#work-ways";
+const { active = "index.html", contactHref = "/contact.html" } = Astro.props;
+const pricingHref = active === "index.html" ? "#work-ways" : "/index.html#work-ways";
 const links = [
-  ["projects.html", "Projects"],
+  ["/projects.html", "Projects"],
   [pricingHref, "Pricing"],
-  ["about.html", "About"],
+  ["/about.html", "About"],
 ];
-const mobileLinks = [...links, ["/planner", "Plan a project"], ["contact.html", "Contact"]];
+const mobileLinks = [...links, ["/planner", "Plan a project"], [contactHref, "Contact"]];
 ---
 
 <nav class="nav" data-nav>
@@ -16,24 +16,24 @@ const mobileLinks = [...links, ["/planner", "Plan a project"], ["contact.html", 
     <div class="nav__links">
       {
         links.slice(0, 2).map(([href, label]) => (
-          <a class:list={["nav__link", active === href && "active"]} href={href}>
+          <a class:list={["nav__link", active === href.replace(/^\//, "") && "active"]} href={href}>
             {label}
           </a>
         ))
       }
     </div>
-    <a class="nav__logo" href="index.html" aria-label="Blending Lab home">
+    <a class="nav__logo" href="/index.html" aria-label="Blending Lab home">
       <img src={img("Blending Lab Logo.jpg")} alt="Blending Lab" />
     </a>
     <div class="nav__right">
-      <a class:list={["nav__link", active === "about.html" && "active"]} href="about.html">About</a>
-      <a class="button" href="contact.html">Contact</a>
+      <a class:list={["nav__link", active === "about.html" && "active"]} href="/about.html">About</a>
+      <a class="button" href={contactHref}>Contact</a>
     </div>
     <button class="nav__toggle" type="button" aria-label="Open menu" aria-expanded="false" data-nav-toggle><span></span></button>
     <div class="nav__mobile-menu">
       {
         mobileLinks.map(([href, label]) => (
-          <a class:list={["nav__link", active === href && "active"]} href={href}>
+          <a class:list={["nav__link", active === href.replace(/^\//, "") && "active"]} href={href}>
             {label}
           </a>
         ))

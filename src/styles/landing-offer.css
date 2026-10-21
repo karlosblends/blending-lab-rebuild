@@ -1,0 +1,92 @@
+/* Offer-specific composition; typography, surfaces and controls use the site system. */
+.offer-page :is(a, button, input, textarea, summary):focus-visible { outline: 2px solid var(--alto); outline-offset: 4px; }
+.offer-page :is(input, textarea):focus { border-color: var(--alto); }
+.offer-skip { position: fixed; top: -100px; left: 16px; z-index: 200; background: var(--alabaster); color: var(--charcoal); padding: 16px; }
+.offer-skip:focus { top: 16px; }
+.offer-page .hero h1 { font-size: clamp(2.5rem, 5vw, 4rem); max-width: 24ch; }
+.offer-page .hero__lead { max-width: 48rem; }
+.offer-page .hero__content { gap: 1.5rem; }
+.offer-page .offer-hero { padding-bottom: 2rem; }
+.offer-hero-layout { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, .9fr); align-items: center; gap: 3rem; }
+.offer-hero-layout .hero__content { margin: 0; min-width: 0; text-align: left; justify-items: start; }
+.offer-hero-layout .button-row { justify-content: flex-start; }
+.offer-hero-portrait { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: 40% center; border-radius: var(--radius-m); }
+.offer-feature-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.offer-feature-grid .feature-item { padding: 2rem; }
+.offer-feature-grid h2 { font-size: 1.5rem; line-height: 1.3; margin-bottom: 1rem; }
+.offer-feature-grid p { color: var(--alto); line-height: 1.6; }
+.offer-case { display: grid; grid-template-columns: .75fr 1.25fr; gap: 3rem; align-items: center; }
+.offer-case h2 { font-size: clamp(1.75rem, 3vw, 2.5rem); }
+.offer-case p { margin-top: 1.5rem; line-height: 1.6; }
+.offer-case .button { margin-top: 1.5rem; }
+.offer-case-preview { width: 100%; max-width: 640px; justify-self: end; }
+.offer-case-preview h3 { margin: 0 0 1rem; font-size: 1.25rem; line-height: 1.3; }
+.offer-case-image { border: 1px solid var(--onyx); padding: 0; border-radius: var(--radius-m); background: var(--cod-gray); overflow: hidden; display: block; cursor: pointer; width: 100%; max-width: 640px; justify-self: end; }
+.offer-case-image img { display: block; width: 100%; height: auto; }
+.offer-case-image:hover { border-color: var(--gray); }
+.offer-problems { max-width: 58rem; }
+.offer-problems .section-title { margin-bottom: 2rem; }
+.offer-about { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 4rem; }
+.offer-about > img { width: 100%; height: auto; aspect-ratio: 1.2; object-fit: cover; object-position: 50% 35%; border-radius: var(--radius-m); }
+.offer-about p { margin-top: 1.5rem; line-height: 1.6; }
+.offer-faq { gap: 2rem 3rem; }
+.offer-faq > h2 { margin: 0; }
+.offer-faq-item { margin-bottom: .75rem; }
+.offer-faq-item summary { display: flex; justify-content: space-between; align-items: center; gap: 1rem; list-style: none; border: 1px solid var(--onyx); border-radius: var(--radius-l); padding: 1.25rem 1.5rem; cursor: pointer; font-size: 1.25rem; line-height: 1.3; font-weight: 500; }
+.offer-faq-item summary svg { flex-shrink: 0; }
+.offer-faq-item[open] summary { background: var(--almost-black); }
+
+.offer-faq-item p { margin: 1.5rem; line-height: 1.6; }
+.offer-contact-email > a { font-size: 1.2rem; }
+.offer-contact-email p { margin-top: 1rem; color: var(--gray); max-width: 24rem; }
+.offer-form { margin-top: 2rem; }
+.offer-form input, .offer-form textarea { font-size: 16px; }
+.offer-form .muted { font-size: .8rem; font-weight: 400; }
+.offer-honeypot { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.offer-privacy { font-size: .75rem; color: var(--gray); margin-top: 1rem; }
+.offer-privacy a { text-decoration: underline; text-underline-offset: 3px; }
+.offer-language { display: flex; justify-content: flex-end; gap: 1.5rem; color: var(--gray); }
+.offer-language a { padding-block: .75rem; }
+.offer-language [aria-current] { color: var(--alabaster); }
+@media (max-width: 991px) {
+  .offer-hero-layout { gap: 2rem; }
+  .offer-case { gap: 2rem; }
+  .offer-faq { gap: 1.5rem; }
+  .offer-about { gap: 2rem; }
+  .offer-feature-grid .feature-item { padding: 1.5rem; }
+  .offer-page .contact-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 767px) {
+  .offer-page .offer-hero-layout { grid-template-columns: 1fr; width: min(100% - 2.5rem, 72rem); }
+  .offer-hero-portrait { aspect-ratio: 3 / 2; }
+  .offer-feature-grid, .offer-case, .offer-about { grid-template-columns: 1fr; }
+  .offer-page .hero h1 { font-size: clamp(2.25rem, 8vw, 3rem); }
+  .offer-page .hero__lead { font-size: 1.1rem; line-height: 1.5; }
+  .offer-page .hero__content { gap: 1rem; }
+  .offer-case-preview, .offer-case-image { justify-self: start; }
+  .offer-faq-item summary { font-size: 1.1rem; }
+  .offer-page .form-grid { grid-template-columns: 1fr; }
+  .offer-page .form-card { padding: 1.5rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html:has(.offer-page) { scroll-behavior: auto; }
+  .offer-page *, .offer-page *::before, .offer-page *::after { animation: none !important; transition: none !important; }
+}
+
+/* UIArc timing, adapted to the site's controls.
+   https://uiarc.dev/r/accordion.json · https://uiarc.dev/r/arc-motion-tokens.json */
+.offer-faq-item summary, .offer-case-image {
+  transition: background-color 160ms cubic-bezier(.22, 1, .36, 1), border-color 160ms cubic-bezier(.22, 1, .36, 1);
+}
+.offer-case-link svg { transition: transform 240ms cubic-bezier(.16, 1, .3, 1); }
+@media (hover: hover) and (pointer: fine) {
+  .offer-case-link:hover svg { transform: translate(2px, -2px); }
+  .offer-faq-item summary:hover { background: var(--almost-black); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .offer-faq-item[open] summary svg { transform: rotate(45deg) !important; }
+  .offer-faq-item:not([open]) summary svg { transform: none !important; }
+}
+
+.offer-faq summary::-webkit-details-marker { display: none; }
