@@ -1,5 +1,5 @@
 import { track } from "../lib/analytics.js";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { ArrowUpRight, RotateCcw } from "lucide-react";
 import CardStack, { type CardDecision } from "./arc/card-stack/card-stack";
@@ -18,12 +18,44 @@ export default function OfferQuestionnaire({ lang = "hr" }: { lang?: "hr" | "en"
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [generation, setGeneration] = useState(0);
+  const root = useRef<HTMLDivElement>(null);
+  const answerState = useRef<Record<string, CardDecision>>({});
+  const started = useRef(false);
+  const completed = useRef(false);
+  const metadata = { form_id: "questionnaire", questionnaire_version: "offer_v1", cards_total: questions.length };
   const reduced = useReducedMotion();
   const needs = selectedNeeds(questions, answers);
   const complete = Object.keys(answers).length === questions.length;
   const sentence = needsSentence(needs, lang);
 
-  const reset = () => { setAnswers({}); setSent(false); setError(""); };
+  const reset = () => {
+    track("questionnaire_restart", { ...metadata, cards_answered: Object.keys(answerState.current).length });
+    answerState.current = {}; started.current = false; completed.current = false;
+    setAnswers({}); setSent(false); setError("");
+  };
+
+  // A card is shown only when the current card is at least half visible.
+  // No historical interactions are replayed when consent is granted later.
+  useEffect(() => {
+    const card = root.current?.querySelector('[data-top]');
+    if (!card) return;
+    const position = Object.keys(answers).length;
+    const item = questions[position];
+    if (!item) return;
+    let recorded = false;
+    const record = () => {
+      const rect = card.getBoundingClientRect();
+      const visibleHeight = Math.min(rect.bottom, innerHeight) - Math.max(rect.top, 0);
+      if (!recorded && document.visibilityState === 'visible' && rect.height > 0 && visibleHeight / rect.height >= .5) {
+        recorded = Boolean(track("questionnaire_card_view", { ...metadata, card_id: item.id, card_position: position + 1, cards_answered: position }));
+      }
+    };
+    const observer = new IntersectionObserver(record, { threshold: [.5] });
+    observer.observe(card);
+    window.addEventListener('bl:consent', record);
+    document.addEventListener('visibilitychange', record);
+    return () => { observer.disconnect(); window.removeEventListener('bl:consent', record); document.removeEventListener('visibilitychange', record); };
+  }, [answers, generation, questions]);
   const restart = () => { reset(); setGeneration(value => value + 1); };
 
   const submit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -39,12 +71,12 @@ export default function OfferQuestionnaire({ lang = "hr" }: { lang?: "hr" | "en"
         signal: AbortSignal.timeout(20000),
       });
       if (!response.ok) throw new Error("Submission failed");
-      track("generate_lead", { form_id: "questionnaire" });
+      track("generate_lead", { ...metadata, cards_answered: Object.keys(answerState.current).length });
       setSent(true);
       setName("");
       setEmail("");
     } catch {
-      track("form_error", { form_id: "questionnaire" });
+      track("form_error", { ...metadata, error_type: "submission" });
       setError(hr ? "Upit nije poslan. Pokušajte ponovno ili mi pišite na karlo@blending-lab.com." : "Your enquiry wasn’t sent. Please try again or email karlo@blending-lab.com.");
     } finally {
       submitting.current = false;
@@ -52,7 +84,7 @@ export default function OfferQuestionnaire({ lang = "hr" }: { lang?: "hr" | "en"
     }
   };
 
-  return <div className="offer-questionnaire">
+  return <div className="offer-questionnaire" ref={root}>
     <CardStack
       key={generation}
       items={questions}
@@ -61,10 +93,19 @@ export default function OfferQuestionnaire({ lang = "hr" }: { lang?: "hr" | "en"
       locale={lang}
       label={hr ? "Prepoznajete li ove situacije?" : "Do these situations sound familiar?"}
       labels={{ left: hr ? "Da, to je to" : "Yes, that’s me", right: hr ? "Ne, nije u tome problem" : "No, that’s not the problem" }}
-      onDecide={(item, decision) => { if (!Object.keys(answers).length) track("questionnaire_start"); if (!answers[item.id] && Object.keys(answers).length === questions.length - 1) track("questionnaire_complete"); setAnswers(previous => ({ ...previous, [item.id]: decision })); setSent(false); }}
-      onUndo={item => {
-        setAnswers(previous => { const next = { ...previous }; delete next[item.id]; return next; });
-        setSent(false);
+      onDecide={(item, decision) => {
+        if (!started.current) started.current = Boolean(track("questionnaire_start", metadata));
+        const next = { ...answerState.current, [item.id]: decision };
+        answerState.current = next;
+        const count = Object.keys(next).length;
+        track("questionnaire_answer", { ...metadata, card_id: item.id, card_position: questions.indexOf(item) + 1, answer: decision === "left" ? "yes" : "no", cards_answered: count });
+        if (count === questions.length && !completed.current) completed.current = Boolean(track("questionnaire_complete", { ...metadata, cards_answered: count }));
+        setAnswers(next); setSent(false);
+      }}
+      onUndo={(item, decision) => {
+        const next = { ...answerState.current }; delete next[item.id]; answerState.current = next;
+        track("questionnaire_undo", { ...metadata, card_id: item.id, card_position: questions.indexOf(item) + 1, answer: decision === "left" ? "yes" : "no", cards_answered: Object.keys(next).length });
+        setAnswers(next); setSent(false);
       }}
       onReset={reset}
       renderCard={item => <div className="oq-card-content">

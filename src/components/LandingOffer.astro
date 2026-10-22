@@ -142,7 +142,7 @@ const path = lang === "hr" ? "/landing-stranice" : "/landing-pages";
           status.classList.add("is-success");
           form.reset();
         } catch {
-          track("form_error", { form_id: "landing_contact" });
+          track("form_error", { form_id: "landing_contact", error_type: "submission" });
           status.textContent = form.dataset.error!;
           status.classList.add("is-error");
         } finally {

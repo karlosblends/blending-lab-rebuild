@@ -6,20 +6,26 @@
     window.gtag = function () { window.dataLayer.push(arguments); };
     window.gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
     window.gtag('set', 'ads_data_redaction', true);
+    // QA is explicit and lasts only for this page; it cannot silently mark later real visits.
+    const qa = new URLSearchParams(location.search).get('bl_test') === '1';
+    if (qa) window.gtag('set', { traffic_type: 'internal', debug_mode: true });
     window.blEventQueue = [];
     let loaded = false;
     let consent = false;
-    const allowed = new Set(['generate_lead', 'form_start', 'form_error', 'booking_click', 'email_click', 'phone_click', 'portfolio_select', 'estimate_start', 'planner_start', 'questionnaire_start', 'questionnaire_complete', 'cta_click', 'scroll_depth']);
+    const allowed = new Set(['generate_lead', 'form_start', 'form_error', 'booking_click', 'email_click', 'phone_click', 'portfolio_select', 'estimate_start', 'planner_start', 'questionnaire_start', 'questionnaire_complete', 'questionnaire_card_view', 'questionnaire_answer', 'questionnaire_undo', 'questionnaire_restart', 'cta_click', 'scroll_depth']);
     window.blTrack = (event, parameters = {}) => {
-      if (!consent || !allowed.has(event)) return;
+      if (!consent || !allowed.has(event)) return false;
       const safe = {};
-      for (const key of ['form_id', 'link_type', 'placement', 'project_slug', 'percent_scrolled']) {
+      for (const key of ['form_id', 'link_type', 'placement', 'project_slug', 'percent_scrolled', 'card_id', 'card_position', 'answer', 'cards_answered', 'cards_total', 'questionnaire_version', 'error_type']) {
         const value = parameters[key];
         if (typeof value === 'number' || typeof value === 'string' && /^[a-z0-9_/-]{1,80}$/i.test(value)) safe[key] = value;
       }
-      const payload = { name: event, parameters: { ...safe, page_language: document.documentElement.lang || 'en', send_to: measurementId } };
+      if (event === 'generate_lead') safe.enquiries_received = qa ? 0 : 1;
+      if (qa) event = 'qa_' + event;
+      const payload = { name: event, parameters: { ...safe, traffic_kind: qa ? 'test' : 'business', page_language: document.documentElement.lang || 'en', send_to: measurementId } };
       window.blEventQueue.push(payload);
       window.dataLayer.push({ event: 'bl_event', bl_event_name: event, bl_parameters: payload.parameters });
+      return true;
     };
     const update = () => {
       const granted = Boolean(window.Cookiebot?.consent?.statistics);
@@ -28,6 +34,7 @@
       if (!granted) window.blEventQueue.length = 0;
       window['ga-disable-' + measurementId] = !granted;
       window.gtag('consent', 'update', { analytics_storage: granted ? 'granted' : 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
+      window.dispatchEvent(new CustomEvent('bl:consent'));
       if (!granted || loaded) return;
       loaded = true;
       window.dataLayer.push({ 'gtm.start': Date.now(), event: 'gtm.js' });
@@ -46,9 +53,16 @@
   document.addEventListener('focusin', event => {
     const form = event.target instanceof Element ? event.target.closest('[data-contact-form], [data-offer-form], .oq-form') : null;
     if (!form || started.has(form)) return;
-    started.add(form);
-    track('form_start', { form_id: form.matches('.oq-form') ? 'questionnaire' : form.hasAttribute('data-offer-form') ? 'landing_contact' : 'contact' });
+    if (track('form_start', { form_id: form.matches('.oq-form') ? 'questionnaire' : form.hasAttribute('data-offer-form') ? 'landing_contact' : 'contact' })) started.add(form);
   });
+  const invalidForms = new WeakSet();
+  document.addEventListener('invalid', event => {
+    const form = event.target instanceof Element ? event.target.closest('[data-contact-form], [data-offer-form], .oq-form') : null;
+    if (!form || invalidForms.has(form)) return;
+    invalidForms.add(form);
+    track('form_error', { form_id: form.matches('.oq-form') ? 'questionnaire' : form.hasAttribute('data-offer-form') ? 'landing_contact' : 'contact', error_type: 'validation' });
+    setTimeout(() => invalidForms.delete(form), 0);
+  }, true);
   document.addEventListener('click', event => {
     const link = event.target instanceof Element ? event.target.closest('a') : null;
     if (!link) return;
