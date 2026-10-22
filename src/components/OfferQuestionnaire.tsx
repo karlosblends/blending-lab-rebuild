@@ -1,3 +1,4 @@
+import { track } from "../lib/analytics.js";
 import { useRef, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { ArrowUpRight, RotateCcw } from "lucide-react";
@@ -38,10 +39,12 @@ export default function OfferQuestionnaire({ lang = "hr" }: { lang?: "hr" | "en"
         signal: AbortSignal.timeout(20000),
       });
       if (!response.ok) throw new Error("Submission failed");
+      track("generate_lead", { form_id: "questionnaire" });
       setSent(true);
       setName("");
       setEmail("");
     } catch {
+      track("form_error", { form_id: "questionnaire" });
       setError(hr ? "Upit nije poslan. Pokušajte ponovno ili mi pišite na karlo@blending-lab.com." : "Your enquiry wasn’t sent. Please try again or email karlo@blending-lab.com.");
     } finally {
       submitting.current = false;
@@ -58,7 +61,7 @@ export default function OfferQuestionnaire({ lang = "hr" }: { lang?: "hr" | "en"
       locale={lang}
       label={hr ? "Prepoznajete li ove situacije?" : "Do these situations sound familiar?"}
       labels={{ left: hr ? "Da, to je to" : "Yes, that’s me", right: hr ? "Ne, nije u tome problem" : "No, that’s not the problem" }}
-      onDecide={(item, decision) => { setAnswers(previous => ({ ...previous, [item.id]: decision })); setSent(false); }}
+      onDecide={(item, decision) => { if (!Object.keys(answers).length) track("questionnaire_start"); if (!answers[item.id] && Object.keys(answers).length === questions.length - 1) track("questionnaire_complete"); setAnswers(previous => ({ ...previous, [item.id]: decision })); setSent(false); }}
       onUndo={item => {
         setAnswers(previous => { const next = { ...previous }; delete next[item.id]; return next; });
         setSent(false);

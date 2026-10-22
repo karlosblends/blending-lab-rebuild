@@ -17,6 +17,7 @@ const isDevelopment = import.meta.env.DEV;
     }
   } else {
     let posthogInitialized = false;
+    let previousStatisticsConsent = false;
 
     const hasStatisticsConsent = () => Boolean(window.Cookiebot?.consent?.statistics);
 
@@ -84,7 +85,10 @@ const isDevelopment = import.meta.env.DEV;
     };
 
     const updatePostHogConsent = () => {
-      if (hasStatisticsConsent()) {
+      const granted = hasStatisticsConsent();
+      if (granted === previousStatisticsConsent) return;
+      previousStatisticsConsent = granted;
+      if (granted) {
         if (!posthogInitialized) {
           initializePostHog();
         } else {

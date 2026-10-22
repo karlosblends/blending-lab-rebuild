@@ -2,9 +2,10 @@
 import "../styles.css";
 import { getSeo } from "../data/seo.js";
 import { img } from "../lib/assets.js";
+import Analytics from "../components/Analytics.astro";
 import PostHog from "../components/posthog.astro";
 
-const { page = "index.html", project, seoOverride = {}, bodyClass: suppliedBodyClass = "", analyticsEnabled = true, lang = "en" } = Astro.props;
+const { page = "index.html", project, seoOverride = {}, bodyClass: suppliedBodyClass = "", analyticsEnabled = true, posthogEnabled = true, lang = "en" } = Astro.props;
 const meta = { ...getSeo(page, project), ...seoOverride };
 const title = meta.title || "Blending Lab";
 const description = meta.description || "";
@@ -15,6 +16,7 @@ const bodyClass = [project ? "project-detail-page" : "", suppliedBodyClass].filt
 <!doctype html>
 <html lang={lang}>
   <head>
+    {analyticsEnabled && <Analytics />}
     <script
       is:inline
       id="Cookiebot"
@@ -23,16 +25,6 @@ const bodyClass = [project ? "project-detail-page" : "", suppliedBodyClass].filt
       data-blockingmode="auto"
       type="text/javascript"
     ></script>
-    {analyticsEnabled && <script async src="https://www.googletagmanager.com/gtag/js?id=G-V79FTZG2PR"></script>}
-    {analyticsEnabled && <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
-
-      gtag("config", "G-V79FTZG2PR");
-    </script>}
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{title}</title>
@@ -50,7 +42,7 @@ const bodyClass = [project ? "project-detail-page" : "", suppliedBodyClass].filt
     <link rel="preload" href="/assets/fonts/Satoshi-Variable.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="icon" href={img("favicon.png")} />
     <link rel="apple-touch-icon" href={img("webclip.png")} />
-    {analyticsEnabled && <PostHog />}
+    {analyticsEnabled && posthogEnabled && <PostHog />}
     <slot name="head" />
   </head>
   <body class={bodyClass}>
@@ -58,6 +50,7 @@ const bodyClass = [project ? "project-detail-page" : "", suppliedBodyClass].filt
       <slot />
     </div>
     <script>
+      import { track } from "../lib/analytics.js";
       import { animate, hover } from "motion";
       import { initTextReveals } from "../lib/text-reveal.js";
 
@@ -139,6 +132,7 @@ const bodyClass = [project ? "project-detail-page" : "", suppliedBodyClass].filt
 
             if (!response.ok) throw new Error("Form submission failed");
 
+            track("generate_lead", { form_id: "contact" });
             window.posthog?.capture("contact_inquiry_submitted");
             form.reset();
             if (status) {
@@ -146,6 +140,7 @@ const bodyClass = [project ? "project-detail-page" : "", suppliedBodyClass].filt
               status.classList.add("is-success");
             }
           } catch (error) {
+            track("form_error", { form_id: "contact" });
             if (status) {
               status.textContent = "Something went wrong. Please try again or email hello@blending-lab.com.";
               status.classList.add("is-error");

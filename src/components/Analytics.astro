@@ -1,0 +1,72 @@
+<script is:inline data-cookieconsent="ignore">
+  (() => {
+    if (window.parent !== window || !['blending-lab.com', 'www.blending-lab.com'].includes(location.hostname)) return;
+    const measurementId = 'G-835XPCFJM5';
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
+    window.gtag('set', 'ads_data_redaction', true);
+    window.blEventQueue = [];
+    let loaded = false;
+    let consent = false;
+    const allowed = new Set(['generate_lead', 'form_start', 'form_error', 'booking_click', 'email_click', 'phone_click', 'portfolio_select', 'estimate_start', 'planner_start', 'questionnaire_start', 'questionnaire_complete', 'cta_click', 'scroll_depth']);
+    window.blTrack = (event, parameters = {}) => {
+      if (!consent || !allowed.has(event)) return;
+      const safe = {};
+      for (const key of ['form_id', 'link_type', 'placement', 'project_slug', 'percent_scrolled']) {
+        const value = parameters[key];
+        if (typeof value === 'number' || typeof value === 'string' && /^[a-z0-9_/-]{1,80}$/i.test(value)) safe[key] = value;
+      }
+      const payload = { name: event, parameters: { ...safe, page_language: document.documentElement.lang || 'en', send_to: measurementId } };
+      window.blEventQueue.push(payload);
+      window.dataLayer.push({ event: 'bl_event', bl_event_name: event, bl_parameters: payload.parameters });
+    };
+    const update = () => {
+      const granted = Boolean(window.Cookiebot?.consent?.statistics);
+      if (granted === consent && loaded) return;
+      consent = granted;
+      if (!granted) window.blEventQueue.length = 0;
+      window['ga-disable-' + measurementId] = !granted;
+      window.gtag('consent', 'update', { analytics_storage: granted ? 'granted' : 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
+      if (!granted || loaded) return;
+      loaded = true;
+      window.dataLayer.push({ 'gtm.start': Date.now(), event: 'gtm.js' });
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-MLG3VGZR';
+      document.head.appendChild(script);
+    };
+    ['CookiebotOnConsentReady', 'CookiebotOnAccept', 'CookiebotOnDecline'].forEach(name => window.addEventListener(name, update));
+    update();
+  })();
+</script>
+<script>
+  import { track } from '../lib/analytics.js';
+  const started = new WeakSet();
+  document.addEventListener('focusin', event => {
+    const form = event.target instanceof Element ? event.target.closest('[data-contact-form], [data-offer-form], .oq-form') : null;
+    if (!form || started.has(form)) return;
+    started.add(form);
+    track('form_start', { form_id: form.matches('.oq-form') ? 'questionnaire' : form.hasAttribute('data-offer-form') ? 'landing_contact' : 'contact' });
+  });
+  document.addEventListener('click', event => {
+    const link = event.target instanceof Element ? event.target.closest('a') : null;
+    if (!link) return;
+    const url = new URL(link.href, location.href);
+    const placement = link.closest('header') ? 'header' : link.closest('footer') ? 'footer' : 'content';
+    if (url.protocol === 'mailto:') track('email_click', { placement });
+    else if (url.protocol === 'tel:') track('phone_click', { placement });
+    else if (url.hostname === 'calendly.com') track('booking_click', { placement });
+    else if (url.origin === location.origin && url.pathname.startsWith('/estimate')) track('estimate_start', { placement });
+    else if (link.matches('.project-card, .about-project-card')) track('portfolio_select', { project_slug: url.pathname.replace(/\.html$/, ''), placement });
+    else if (link.matches('.button, .glow-button, [data-cta]')) track('cta_click', { placement, link_type: url.origin === location.origin ? 'internal' : 'external' });
+  });
+  const depths = new Set();
+  window.addEventListener('scroll', () => {
+    const available = document.documentElement.scrollHeight - innerHeight;
+    if (available <= 0) return;
+    for (const depth of [25, 50, 75, 90]) if (scrollY / available * 100 >= depth && !depths.has(depth)) {
+      depths.add(depth); track('scroll_depth', { percent_scrolled: depth });
+    }
+  }, { passive: true });
+</script>

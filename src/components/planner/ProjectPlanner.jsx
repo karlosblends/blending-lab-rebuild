@@ -1,3 +1,4 @@
+import { track } from "../../lib/analytics.js";
 import { useEffect, useRef, useState } from "react";
 import { ChatThread, ChatComposer } from "../arc/chat-thread/chat-thread";
 import LeadCapture from "./LeadCapture";
@@ -85,12 +86,13 @@ export default function ProjectPlanner() {
     inFlight.current = true; setSubmitting(true); setLeadError("");
     try {
       const data = await api("lead", contact);
+      if (!conversation.submitted && data.conversation?.submitted && data.conversation.mode !== "demo") track("generate_lead", { form_id: "planner" });
       accept(data); setLeadOpen(false);
     } catch (e) {
       // A network interruption may happen after the server has saved the enquiry.
       try {
         const saved = await api("session");
-        if (saved.conversation?.submitted) { accept(saved); setLeadOpen(false); }
+        if (saved.conversation?.submitted) { if (!conversation.submitted && saved.conversation.mode !== "demo") track("generate_lead", { form_id: "planner" }); accept(saved); setLeadOpen(false); }
         else setLeadError(e.message);
       } catch { setLeadError(e.message); }
     } finally { setSubmitting(false); inFlight.current = false; }
@@ -106,7 +108,7 @@ export default function ProjectPlanner() {
     setRetry(turn);
     let session = fresh || conversation?.submitted ? null : conversation;
     try {
-      if (!session) { const created = await api("session", {}); session = created.conversation; setConversation(session); setMode(session.mode); }
+      if (!session) { const created = await api("session", {}); session = created.conversation; if (session.mode !== "demo") track("planner_start"); setConversation(session); setMode(session.mode); }
       if (!session.messages.some((m) => m.id === turn.message_id)) {
         setConversation({ ...session, messages: [...session.messages, { id: turn.message_id, role: "user", content: turn.message, created_at: turn.created_at }] });
       }

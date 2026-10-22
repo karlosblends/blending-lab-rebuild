@@ -114,6 +114,7 @@ const path = lang === "hr" ? "/landing-stranice" : "/landing-pages";
   </main>
   <HrFooter />
   <script>
+      import { track } from "../lib/analytics.js";
       import { initOfferDisclosures } from "../scripts/offer-disclosures";
       initOfferDisclosures();
 
@@ -136,10 +137,12 @@ const path = lang === "hr" ? "/landing-stranice" : "/landing-pages";
             signal: AbortSignal.timeout(20000),
           });
           if (!response.ok) throw new Error("Submission failed");
+          track("generate_lead", { form_id: "landing_contact" });
           status.textContent = form.dataset.success!;
           status.classList.add("is-success");
           form.reset();
         } catch {
+          track("form_error", { form_id: "landing_contact" });
           status.textContent = form.dataset.error!;
           status.classList.add("is-error");
         } finally {
