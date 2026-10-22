@@ -11,7 +11,7 @@ Configured 22 October 2026 for karlo@blending-lab.com. Supera accounts are separ
 - [Realtime verification](https://analytics.google.com/analytics/web/?authuser=2#/a412976322p560179584/realtime/overview).
 - [Published GTM version 2](https://tagmanager.google.com/?authuser=2#/versions/accounts/6399117309/containers/283071998/versions/2).
 
-The Reports snapshot dashboard shows users, sessions, key events, session key event rate, acquisition sources, channel performance, devices, event names, pages, landing pages and realtime users. Croatia timezone and EUR currency. Event retention set to 14 months.
+The **Blending Lab - Daily performance** overview (report `16180943553`) is now the default Reports snapshot. It shows users, sessions, key events, session key event rate, acquisition sources, channel performance, devices, event names, pages, landing pages and realtime users. The redundant first-user source and revenue-focused acquisition cards were removed. The selected view compares the last 7 complete days with the preceding week. Croatia timezone and EUR currency. Event retention set to 14 months. See [the daily reading guide](daily-check.md).
 
 ## Measurement contract
 
@@ -54,7 +54,8 @@ The first production check reported that `www.blending-lab.com` was not authoriz
 - Build passed; 43 planner tests and 3 consent/parameter tests passed; diff checks passed.
 - Live GA4 Realtime confirmed one test user, two pageviews across initial consent and reload, `first_visit`, `session_start`, `form_start`, and four `scroll_depth` events. Evidence: `output/analytics/realtime-verified.png`.
 - Statistics-only consent enabled the GTM script while preferences and marketing remained denied. Consent persisted across reload. Withdrawal changed statistics back to denied in the live widget; a subsequent reload again contained no GTM script.
-- No fake production lead was submitted. Receipt of `generate_lead` from a successful production enquiry remains to be checked with the next genuine enquiry or an explicitly coordinated test.
+- At the owner's explicit request, one clearly labelled production test enquiry was submitted through `/contact` with reference `BL-GA4-QA-20261022`. The form displayed its success message; GA4 Realtime subsequently confirmed `generate_lead` with event count 1 and key-event count 1. Evidence: `output/analytics/test-lead-verified.png`. This confirms contact form success through GA4 receipt; it does not separately verify inbox delivery or every other enquiry route.
+- A GA4 annotation for 22 October 2026 records the tracking launch and test enquiry. Subtract that one test enquiry from business totals for launch day. A temporary Tag Assistant session was stopped after verification.
 
 ## Remaining integrations
 
@@ -64,4 +65,4 @@ The first production check reported that `www.blending-lab.com` was not authoriz
 - Search Console linking, internal-traffic exclusion and CRM qualified/won lead import are not configured. Internal-traffic exclusion needs the actual public office IP/range; do not guess it.
 - Use consistent campaign UTMs on external promotional links, e.g. `utm_source=linkedin&utm_medium=organic_social&utm_campaign=landing_offer`. Never put private customer details in URL parameters.
 
-The core consent and collection path is operational. Verify the next successful enquiry against its GA4 `generate_lead` event before relying on conversion counts for campaign optimization.
+The core consent, contact submission and GA4 conversion path is verified. Planner, landing-offer and questionnaire conversion handlers are implemented but were not each submitted in production during this check.
