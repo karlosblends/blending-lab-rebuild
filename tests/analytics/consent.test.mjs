@@ -7,7 +7,7 @@ function setup(hostname = 'blending-lab.com', search = '') {
   const listeners = {}, scripts = [];
   const window = { Cookiebot: { consent: { statistics: false } }, dispatchEvent: () => {}, addEventListener: (key, fn) => listeners[key] = fn };
   window.parent = window;
-  const document = { documentElement: { lang: 'hr' }, createElement: () => ({}), head: { appendChild: script => scripts.push(script) } };
+  const document = { addEventListener: () => {}, documentElement: { lang: 'hr' }, createElement: () => ({}), head: { appendChild: script => scripts.push(script) } };
   vm.runInNewContext(source, { window, document, location: { hostname, search }, Set, Date, URLSearchParams, CustomEvent: class { constructor(type) { this.type = type; } } });
   return { window, scripts, listeners };
 }

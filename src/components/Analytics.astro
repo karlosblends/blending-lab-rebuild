@@ -9,12 +9,32 @@
     // QA is explicit and lasts only for this page; it cannot silently mark later real visits.
     const qa = new URLSearchParams(location.search).get('bl_test') === '1';
     if (qa) window.gtag('set', { traffic_type: 'internal', debug_mode: true });
+    // A deliberately opened QA URL exposes only the same categorical payloads
+    // sent to GA, allowing verification without contact data or browser secrets.
+    let diagnostics;
+    const showQA = (message) => {
+      if (!qa) return;
+      const write = () => {
+        if (!diagnostics) {
+          const details = document.createElement('details');
+          details.id = 'bl-analytics-qa';
+          details.style.cssText = 'position:fixed;bottom:12px;right:12px;z-index:2147483000;max-width:440px;max-height:35vh;overflow:auto;background:#fff;color:#111;border:1px solid #aaa;padding:12px;font:12px/1.5 monospace';
+          const summary = document.createElement('summary');
+          summary.textContent = 'Analytics QA — excluded from enquiries';
+          diagnostics = document.createElement('pre');
+          diagnostics.style.whiteSpace = 'pre-wrap';
+          details.append(summary, diagnostics); document.body.appendChild(details);
+        }
+        diagnostics.textContent += message + '\n';
+      };
+      if (document.body) write(); else document.addEventListener('DOMContentLoaded', write, { once: true });
+    };
     window.blEventQueue = [];
     let loaded = false;
     let consent = false;
     const allowed = new Set(['generate_lead', 'form_start', 'form_error', 'booking_click', 'email_click', 'phone_click', 'portfolio_select', 'estimate_start', 'planner_start', 'questionnaire_start', 'questionnaire_complete', 'questionnaire_card_view', 'questionnaire_answer', 'questionnaire_undo', 'questionnaire_restart', 'cta_click', 'scroll_depth']);
     window.blTrack = (event, parameters = {}) => {
-      if (!consent || !allowed.has(event)) return false;
+      if (!consent || !allowed.has(event)) { showQA('Not collected: ' + (allowed.has(event) ? event : 'unknown') + ' (consent required)'); return false; }
       const safe = {};
       for (const key of ['form_id', 'link_type', 'placement', 'project_slug', 'percent_scrolled', 'card_id', 'card_position', 'answer', 'cards_answered', 'cards_total', 'questionnaire_version', 'error_type']) {
         const value = parameters[key];
@@ -23,6 +43,7 @@
       if (event === 'generate_lead') safe.enquiries_received = qa ? 0 : 1;
       if (qa) event = 'qa_' + event;
       const payload = { name: event, parameters: { ...safe, traffic_kind: qa ? 'test' : 'business', page_language: document.documentElement.lang || 'en', send_to: measurementId } };
+      showQA(JSON.stringify(payload));
       window.blEventQueue.push(payload);
       window.dataLayer.push({ event: 'bl_event', bl_event_name: event, bl_parameters: payload.parameters });
       return true;
@@ -31,6 +52,7 @@
       const granted = Boolean(window.Cookiebot?.consent?.statistics);
       if (granted === consent && loaded) return;
       consent = granted;
+      showQA('Statistics consent: ' + (granted ? 'granted' : 'denied'));
       if (!granted) window.blEventQueue.length = 0;
       window['ga-disable-' + measurementId] = !granted;
       window.gtag('consent', 'update', { analytics_storage: granted ? 'granted' : 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
