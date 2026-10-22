@@ -1,4 +1,5 @@
 /* Offer-specific composition; typography, surfaces and controls use the site system. */
+.offer-page::before { content: none; }
 .offer-page :is(a, button, input, textarea, summary):focus-visible { outline: 2px solid var(--alto); outline-offset: 4px; }
 .offer-page :is(input, textarea):focus { border-color: var(--alto); }
 .offer-skip { position: fixed; top: -100px; left: 16px; z-index: 200; background: var(--alabaster); color: var(--charcoal); padding: 16px; }
@@ -7,10 +8,10 @@
 .offer-page .hero__lead { max-width: 48rem; }
 .offer-page .hero__content { gap: 1.5rem; }
 .offer-page .offer-hero { padding-bottom: 2rem; }
-.offer-hero-layout { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, .9fr); align-items: center; gap: 3rem; }
-.offer-hero-layout .hero__content { margin: 0; min-width: 0; text-align: left; justify-items: start; }
-.offer-hero-layout .button-row { justify-content: flex-start; }
-.offer-hero-portrait { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: 40% center; border-radius: var(--radius-m); }
+.offer-hero-layout { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center; gap: clamp(3rem, 6vw, 5rem); }
+.offer-hero-layout .hero__content { margin: 0 auto; min-width: 0; text-align: center; justify-items: center; }
+.offer-hero-layout .button-row { justify-content: center; }
+.offer-hero-portrait { width: min(100%, 54rem); height: clamp(19rem, 31vw, 28rem); object-fit: cover; object-position: 40% center; border-radius: var(--radius-m); }
 .offer-feature-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .offer-feature-grid .feature-item { padding: 2rem; }
 .offer-feature-grid h2 { font-size: 1.5rem; line-height: 1.3; margin-bottom: 1rem; }
@@ -50,7 +51,7 @@
 .offer-language a { padding-block: .75rem; }
 .offer-language [aria-current] { color: var(--alabaster); }
 @media (max-width: 991px) {
-  .offer-hero-layout { gap: 2rem; }
+  .offer-hero-layout { gap: 3rem; }
   .offer-case { gap: 2rem; }
   .offer-faq { gap: 1.5rem; }
   .offer-about { gap: 2rem; }
@@ -59,7 +60,7 @@
 }
 @media (max-width: 767px) {
   .offer-page .offer-hero-layout { grid-template-columns: 1fr; width: min(100% - 2.5rem, 72rem); }
-  .offer-hero-portrait { aspect-ratio: 3 / 2; }
+  .offer-hero-portrait { height: auto; aspect-ratio: 3 / 2; }
   .offer-feature-grid, .offer-case, .offer-about { grid-template-columns: 1fr; }
   .offer-page .hero h1 { font-size: clamp(2.25rem, 8vw, 3rem); }
   .offer-page .hero__lead { font-size: 1.1rem; line-height: 1.5; }
